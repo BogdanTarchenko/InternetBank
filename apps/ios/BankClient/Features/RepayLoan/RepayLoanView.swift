@@ -1,35 +1,16 @@
 import SwiftUI
 
-struct CloseBankAccountView: View {
-    @Bindable var viewModel: CloseBankAccountViewModel
+struct RepayLoanView: View {
+    @Bindable var viewModel: RepayLoanViewModel
 
     var body: some View {
         NavigationStack {
             ScrollView {
                 VStack(spacing: Layout.sectionSpacing) {
-                    balanceCard
-                    if let message = viewModel.errorMessage {
-                        errorBlock(message: message)
-                    }
-                    Button(action: { Task { await viewModel.submit() } }) {
-                        HStack {
-                            if viewModel.isSubmitting {
-                                ProgressView()
-                                    .tint(.white)
-                            } else {
-                                Text(Strings.submitButtonTitle)
-                                    .fontWeight(.semibold)
-                            }
-                        }
-                        .frame(maxWidth: .infinity)
-                        .padding(.vertical, Layout.buttonVerticalPadding)
-                        .background(Appearance.destructive)
-                        .foregroundStyle(.white)
-                        .clipShape(RoundedRectangle(cornerRadius: Layout.buttonCornerRadius))
-                    }
-                    .disabled(viewModel.isSubmitting)
+                    loanCard
+                    formCard
                 }
-                .padding(Layout.screenHorizontalPadding)
+                .padding(.horizontal, Layout.screenHorizontalPadding)
                 .padding(.vertical, Layout.screenVerticalPadding)
             }
             .frame(maxWidth: .infinity, maxHeight: .infinity)
@@ -39,15 +20,57 @@ struct CloseBankAccountView: View {
         }
     }
 
-    private var balanceCard: some View {
+    private var loanCard: some View {
         VStack(alignment: .leading, spacing: Layout.cardContentSpacing) {
-            Text(Strings.balanceLabel)
+            Text(Strings.remainingLabel)
                 .font(.subheadline)
                 .foregroundStyle(.secondary)
-            Text(formatBalance(viewModel.bankAccount.balance, currency: viewModel.bankAccount.currency))
+            Text(formatAmount(viewModel.loan.remainingAmount) + " \(viewModel.loan.currency)")
                 .font(.system(size: Layout.balanceFontSize, weight: .semibold))
         }
         .frame(maxWidth: .infinity, alignment: .leading)
+        .padding(Layout.cardPadding)
+        .background(Color(uiColor: .systemBackground))
+        .clipShape(RoundedRectangle(cornerRadius: Layout.cardCornerRadius))
+        .shadow(color: .black.opacity(Layout.cardShadowOpacity), radius: Layout.cardShadowRadius, x: 0, y: Layout.cardShadowY)
+    }
+
+    private var formCard: some View {
+        VStack(alignment: .leading, spacing: Layout.formSpacing) {
+            Text(Strings.amountLabel)
+                .font(.subheadline)
+                .fontWeight(.medium)
+                .foregroundStyle(.secondary)
+                .padding(.leading, Layout.fieldLabelLeading)
+            TextField(Strings.amountPlaceholder, text: $viewModel.amount)
+                .keyboardType(.decimalPad)
+                .padding(.horizontal, Layout.fieldInnerHorizontal)
+                .padding(.vertical, Layout.fieldInnerVertical)
+                .background(Color(uiColor: .secondarySystemGroupedBackground))
+                .clipShape(RoundedRectangle(cornerRadius: Layout.fieldCornerRadius))
+
+            if let message = viewModel.errorMessage {
+                errorBlock(message: message)
+            }
+
+            Button(action: { Task { await viewModel.submit() } }) {
+                HStack {
+                    if viewModel.isSubmitting {
+                        ProgressView()
+                            .tint(.white)
+                    } else {
+                        Text(Strings.submitButtonTitle)
+                            .fontWeight(.semibold)
+                    }
+                }
+                .frame(maxWidth: .infinity)
+                .padding(.vertical, Layout.buttonVerticalPadding)
+                .background(LinearGradient.appAccent)
+                .foregroundStyle(.white)
+                .clipShape(RoundedRectangle(cornerRadius: Layout.buttonCornerRadius))
+            }
+            .disabled(viewModel.isSubmitting)
+        }
         .padding(Layout.cardPadding)
         .background(Color(uiColor: .systemBackground))
         .clipShape(RoundedRectangle(cornerRadius: Layout.cardCornerRadius))
@@ -73,18 +96,16 @@ struct CloseBankAccountView: View {
         .clipShape(RoundedRectangle(cornerRadius: Layout.errorBlockCornerRadius))
     }
 
-    private func formatBalance(_ balance: Decimal, currency: String) -> String {
+    private func formatAmount(_ amount: Decimal) -> String {
         let formatter = NumberFormatter()
         formatter.numberStyle = .decimal
         formatter.minimumFractionDigits = 2
         formatter.maximumFractionDigits = 2
-        let value = NSDecimalNumber(decimal: balance)
-        let string = formatter.string(from: value) ?? "\(balance)"
-        return "\(string) \(currency)"
+        return formatter.string(from: NSDecimalNumber(decimal: amount)) ?? "\(amount)"
     }
 }
 
-private extension CloseBankAccountView {
+private extension RepayLoanView {
     enum Layout {
         static let screenHorizontalPadding: CGFloat = 16
         static let screenVerticalPadding: CGFloat = 16
@@ -96,6 +117,11 @@ private extension CloseBankAccountView {
         static let cardShadowOpacity: Double = 0.04
         static let cardShadowRadius: CGFloat = 8
         static let cardShadowY: CGFloat = 2
+        static let formSpacing: CGFloat = 16
+        static let fieldLabelLeading: CGFloat = 8
+        static let fieldInnerHorizontal: CGFloat = 8
+        static let fieldInnerVertical: CGFloat = 12
+        static let fieldCornerRadius: CGFloat = 12
         static let errorBlockSpacing: CGFloat = 12
         static let errorStripCornerRadius: CGFloat = 6
         static let errorStripWidth: CGFloat = 4
@@ -109,12 +135,13 @@ private extension CloseBankAccountView {
     }
     enum Appearance {
         static let errorAccent = Color(red: 0.85, green: 0.35, blue: 0.25)
-        static let destructive = Color(red: 0.85, green: 0.35, blue: 0.25)
     }
     enum Strings {
-        static let title = "Закрыть счёт"
-        static let balanceLabel = "Баланс"
-        static let submitButtonTitle = "Закрыть счёт"
+        static let title = "Погасить кредит"
+        static let remainingLabel = "Остаток долга"
+        static let amountLabel = "Сумма"
+        static let amountPlaceholder = "0"
+        static let submitButtonTitle = "Погасить"
         static let errorIconName = "exclamationmark.triangle.fill"
     }
 }
