@@ -20,6 +20,5 @@ services/                  # микросервисы бэкенда (Java, Node
 
 ```bash
 cd apps/ios
-xcodegen generate
-open InternetBanking.xcodeproj
+./generate.sh
 ```
