@@ -3,6 +3,14 @@ import SwiftUI
 final class DependenciesAssembly {
     private let bankAccountCoordinator: BankAccountCoordinator = BankAccountCoordinator()
     private let bankAccountService: IBankAccountService = MockBankAccountService()
+    private let authService: IAuthService = MockAuthService()
+
+    private lazy var loginAssembly = LoginAssembly(
+        authService: authService,
+        coordinator: bankAccountCoordinator
+    )
+
+    private lazy var loginViewModel = loginAssembly.makeViewModel()
 
     private lazy var bankAccountListAssembly = BankAccountListAssembly(
         coordinator: bankAccountCoordinator,
@@ -26,6 +34,7 @@ final class DependenciesAssembly {
     func makeRootView() -> RootView {
         RootView(
             coordinator: bankAccountCoordinator,
+            loginViewModel: loginViewModel,
             openBankAccountViewModelFactory: openBankAccountViewModelFactory,
             closeBankAccountViewModelFactory: closeBankAccountViewModelFactory,
             listViewModel: bankAccountListViewModel
