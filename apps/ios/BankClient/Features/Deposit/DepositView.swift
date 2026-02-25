@@ -1,35 +1,16 @@
 import SwiftUI
 
-struct CloseBankAccountView: View {
-    @Bindable var viewModel: CloseBankAccountViewModel
+struct DepositView: View {
+    @Bindable var viewModel: DepositViewModel
 
     var body: some View {
         NavigationStack {
             ScrollView {
                 VStack(spacing: Layout.sectionSpacing) {
                     balanceCard
-                    if let message = viewModel.errorMessage {
-                        errorBlock(message: message)
-                    }
-                    Button(action: { Task { await viewModel.submit() } }) {
-                        HStack {
-                            if viewModel.isSubmitting {
-                                ProgressView()
-                                    .tint(.white)
-                            } else {
-                                Text(Strings.submitButtonTitle)
-                                    .fontWeight(.semibold)
-                            }
-                        }
-                        .frame(maxWidth: .infinity)
-                        .padding(.vertical, Layout.buttonVerticalPadding)
-                        .background(Appearance.destructive)
-                        .foregroundStyle(.white)
-                        .clipShape(RoundedRectangle(cornerRadius: Layout.buttonCornerRadius))
-                    }
-                    .disabled(viewModel.isSubmitting)
+                    formCard
                 }
-                .padding(Layout.screenHorizontalPadding)
+                .padding(.horizontal, Layout.screenHorizontalPadding)
                 .padding(.vertical, Layout.screenVerticalPadding)
             }
             .frame(maxWidth: .infinity, maxHeight: .infinity)
@@ -48,6 +29,48 @@ struct CloseBankAccountView: View {
                 .font(.system(size: Layout.balanceFontSize, weight: .semibold))
         }
         .frame(maxWidth: .infinity, alignment: .leading)
+        .padding(Layout.cardPadding)
+        .background(Color(uiColor: .systemBackground))
+        .clipShape(RoundedRectangle(cornerRadius: Layout.cardCornerRadius))
+        .shadow(color: .black.opacity(Layout.cardShadowOpacity), radius: Layout.cardShadowRadius, x: 0, y: Layout.cardShadowY)
+    }
+
+    private var formCard: some View {
+        VStack(alignment: .leading, spacing: Layout.formSpacing) {
+            Text(Strings.amountLabel)
+                .font(.subheadline)
+                .fontWeight(.medium)
+                .foregroundStyle(.secondary)
+                .padding(.leading, Layout.fieldLabelLeading)
+            TextField(Strings.amountPlaceholder, text: $viewModel.amount)
+                .keyboardType(.decimalPad)
+                .padding(.horizontal, Layout.fieldInnerHorizontal)
+                .padding(.vertical, Layout.fieldInnerVertical)
+                .background(Color(uiColor: .secondarySystemGroupedBackground))
+                .clipShape(RoundedRectangle(cornerRadius: Layout.fieldCornerRadius))
+
+            if let message = viewModel.errorMessage {
+                errorBlock(message: message)
+            }
+
+            Button(action: { Task { await viewModel.submit() } }) {
+                HStack {
+                    if viewModel.isSubmitting {
+                        ProgressView()
+                            .tint(.white)
+                    } else {
+                        Text(Strings.submitButtonTitle)
+                            .fontWeight(.semibold)
+                    }
+                }
+                .frame(maxWidth: .infinity)
+                .padding(.vertical, Layout.buttonVerticalPadding)
+                .background(LinearGradient.appAccent)
+                .foregroundStyle(.white)
+                .clipShape(RoundedRectangle(cornerRadius: Layout.buttonCornerRadius))
+            }
+            .disabled(viewModel.isSubmitting)
+        }
         .padding(Layout.cardPadding)
         .background(Color(uiColor: .systemBackground))
         .clipShape(RoundedRectangle(cornerRadius: Layout.cardCornerRadius))
@@ -84,7 +107,7 @@ struct CloseBankAccountView: View {
     }
 }
 
-private extension CloseBankAccountView {
+private extension DepositView {
     enum Layout {
         static let screenHorizontalPadding: CGFloat = 16
         static let screenVerticalPadding: CGFloat = 16
@@ -96,6 +119,11 @@ private extension CloseBankAccountView {
         static let cardShadowOpacity: Double = 0.04
         static let cardShadowRadius: CGFloat = 8
         static let cardShadowY: CGFloat = 2
+        static let formSpacing: CGFloat = 16
+        static let fieldLabelLeading: CGFloat = 8
+        static let fieldInnerHorizontal: CGFloat = 8
+        static let fieldInnerVertical: CGFloat = 12
+        static let fieldCornerRadius: CGFloat = 12
         static let errorBlockSpacing: CGFloat = 12
         static let errorStripCornerRadius: CGFloat = 6
         static let errorStripWidth: CGFloat = 4
@@ -109,12 +137,13 @@ private extension CloseBankAccountView {
     }
     enum Appearance {
         static let errorAccent = Color(red: 0.85, green: 0.35, blue: 0.25)
-        static let destructive = Color(red: 0.85, green: 0.35, blue: 0.25)
     }
     enum Strings {
-        static let title = "Закрыть счёт"
+        static let title = "Внести"
         static let balanceLabel = "Баланс"
-        static let submitButtonTitle = "Закрыть счёт"
+        static let amountLabel = "Сумма"
+        static let amountPlaceholder = "0"
+        static let submitButtonTitle = "Внести"
         static let errorIconName = "exclamationmark.triangle.fill"
     }
 }
