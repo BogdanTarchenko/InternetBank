@@ -7,24 +7,97 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1A15BBFD7358E3ECDE1B136E /* CloseBankAccountViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C685528859234A56C3B76D30 /* CloseBankAccountViewModel.swift */; };
 		2FFE3456ABB3EA0AA3CD0B10 /* App.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A100B1CDFF3B08157F33A06 /* App.swift */; };
+		39180738B0ABC647EEFFA250 /* IBankAccountCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11605B701CE42D341349B4FD /* IBankAccountCoordinator.swift */; };
+		51270663AAB202FF985874FD /* CloseBankAccountAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = 541595476ED7B20C5AA2BA81 /* CloseBankAccountAssembly.swift */; };
+		5932A1077C885C9A73D59DB4 /* BankAccountListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 646FCCEB5F7FC227C3F1AA70 /* BankAccountListViewModel.swift */; };
+		69AB7FFA1EA9C57F663D99B1 /* BankAccount.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18F9BF97CECF0C1D15796315 /* BankAccount.swift */; };
+		722807CEBF1AFCFFD9E8B32E /* MockBankAccountService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A0BEEDA0E9B547942919847 /* MockBankAccountService.swift */; };
+		7DEB092E3395452425CEAF0E /* CloseBankAccountView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D8F6784A2CD156904D734A3 /* CloseBankAccountView.swift */; };
+		8C9FB859DFC3294875851106 /* Factory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 698393F9282CD5FE25A64AB4 /* Factory.swift */; };
+		95CCB167FF707351D2D3DE7C /* DependenciesAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E1B6C2EA2A1C9E6B8726E75 /* DependenciesAssembly.swift */; };
+		98A09CDB7A8182B8841E9454 /* OpenBankAccountAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F460E4FE6981BFB0112F1F0 /* OpenBankAccountAssembly.swift */; };
+		A165316B40CED2F3B7DEA81C /* OpenBankAccountViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F02799EF312AC60B98B388EC /* OpenBankAccountViewModel.swift */; };
+		B1764DFC7F383F6EA6DCBC21 /* OpenBankAccountView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84A489A6A917C66B8C46B667 /* OpenBankAccountView.swift */; };
+		B6EAFBDA639650CC9B35C712 /* BankAccountListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20AE24AB15670992FA291227 /* BankAccountListView.swift */; };
+		B87A831456190A3CE1A0C57F /* IBankAccountService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3661A3A9DB9634A38505C198 /* IBankAccountService.swift */; };
+		BF3C43E094DF621B73C103F4 /* BankAccountCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2768EC2990E0AF71177E475 /* BankAccountCoordinator.swift */; };
+		C37DA31F835B795FABC98869 /* BankAccountListAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61CD4C6D63EF1AE3FE77071E /* BankAccountListAssembly.swift */; };
 		EFA16514C78795675CEFD9D9 /* App.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2F140BCCC4C508A58CF74CB /* App.swift */; };
+		FE6332A6A22FB7E6C4F60619 /* RootView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85F605B7002DAD8C2DD0BF11 /* RootView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		0B1DC24A7C9CE5AA95A476FC /* BankEmployee.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = BankEmployee.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		11605B701CE42D341349B4FD /* IBankAccountCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IBankAccountCoordinator.swift; sourceTree = "<group>"; };
+		18F9BF97CECF0C1D15796315 /* BankAccount.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BankAccount.swift; sourceTree = "<group>"; };
+		20AE24AB15670992FA291227 /* BankAccountListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BankAccountListView.swift; sourceTree = "<group>"; };
+		3661A3A9DB9634A38505C198 /* IBankAccountService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IBankAccountService.swift; sourceTree = "<group>"; };
+		541595476ED7B20C5AA2BA81 /* CloseBankAccountAssembly.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CloseBankAccountAssembly.swift; sourceTree = "<group>"; };
+		5D8F6784A2CD156904D734A3 /* CloseBankAccountView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CloseBankAccountView.swift; sourceTree = "<group>"; };
+		61CD4C6D63EF1AE3FE77071E /* BankAccountListAssembly.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BankAccountListAssembly.swift; sourceTree = "<group>"; };
+		646FCCEB5F7FC227C3F1AA70 /* BankAccountListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BankAccountListViewModel.swift; sourceTree = "<group>"; };
+		698393F9282CD5FE25A64AB4 /* Factory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Factory.swift; sourceTree = "<group>"; };
 		75DBB9689C12AE40B1105DD9 /* BankClient.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = BankClient.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		7A0BEEDA0E9B547942919847 /* MockBankAccountService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockBankAccountService.swift; sourceTree = "<group>"; };
+		84A489A6A917C66B8C46B667 /* OpenBankAccountView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenBankAccountView.swift; sourceTree = "<group>"; };
+		85F605B7002DAD8C2DD0BF11 /* RootView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootView.swift; sourceTree = "<group>"; };
+		8E1B6C2EA2A1C9E6B8726E75 /* DependenciesAssembly.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DependenciesAssembly.swift; sourceTree = "<group>"; };
+		8F460E4FE6981BFB0112F1F0 /* OpenBankAccountAssembly.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenBankAccountAssembly.swift; sourceTree = "<group>"; };
 		9A100B1CDFF3B08157F33A06 /* App.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = App.swift; sourceTree = "<group>"; };
 		A2F140BCCC4C508A58CF74CB /* App.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = App.swift; sourceTree = "<group>"; };
+		C685528859234A56C3B76D30 /* CloseBankAccountViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CloseBankAccountViewModel.swift; sourceTree = "<group>"; };
+		E2768EC2990E0AF71177E475 /* BankAccountCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BankAccountCoordinator.swift; sourceTree = "<group>"; };
+		F02799EF312AC60B98B388EC /* OpenBankAccountViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenBankAccountViewModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXGroup section */
+		14041262C6E18A0F05688908 /* Features */ = {
+			isa = PBXGroup;
+			children = (
+				584C430C8C74A16B7032A1C5 /* BankAccountList */,
+				5FA06D7B6B24317923FFC04F /* CloseBankAccount */,
+				32569A89DF32178FB2487EEF /* OpenBankAccount */,
+			);
+			path = Features;
+			sourceTree = "<group>";
+		};
+		178B3F39F99CDFB0444ED6A2 /* Factory */ = {
+			isa = PBXGroup;
+			children = (
+				698393F9282CD5FE25A64AB4 /* Factory.swift */,
+			);
+			path = Factory;
+			sourceTree = "<group>";
+		};
 		20F7754021929EF324EEE4F7 /* BankClient */ = {
 			isa = PBXGroup;
 			children = (
+				9199D84F86D24C50A1341A06 /* Core */,
+				14041262C6E18A0F05688908 /* Features */,
+				9FB17481576A5D70A4C9D9A0 /* Root */,
 				9A100B1CDFF3B08157F33A06 /* App.swift */,
 			);
 			path = BankClient;
+			sourceTree = "<group>";
+		};
+		32569A89DF32178FB2487EEF /* OpenBankAccount */ = {
+			isa = PBXGroup;
+			children = (
+				8F460E4FE6981BFB0112F1F0 /* OpenBankAccountAssembly.swift */,
+				84A489A6A917C66B8C46B667 /* OpenBankAccountView.swift */,
+				F02799EF312AC60B98B388EC /* OpenBankAccountViewModel.swift */,
+			);
+			path = OpenBankAccount;
+			sourceTree = "<group>";
+		};
+		3BA8315E6E0ECBD4B31410D2 /* Infrastructure */ = {
+			isa = PBXGroup;
+			children = (
+				178B3F39F99CDFB0444ED6A2 /* Factory */,
+			);
+			path = Infrastructure;
 			sourceTree = "<group>";
 		};
 		4D61029BB941B68C3B9CEEF7 /* Products */ = {
@@ -36,6 +109,34 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
+		584C430C8C74A16B7032A1C5 /* BankAccountList */ = {
+			isa = PBXGroup;
+			children = (
+				61CD4C6D63EF1AE3FE77071E /* BankAccountListAssembly.swift */,
+				20AE24AB15670992FA291227 /* BankAccountListView.swift */,
+				646FCCEB5F7FC227C3F1AA70 /* BankAccountListViewModel.swift */,
+			);
+			path = BankAccountList;
+			sourceTree = "<group>";
+		};
+		5FA06D7B6B24317923FFC04F /* CloseBankAccount */ = {
+			isa = PBXGroup;
+			children = (
+				541595476ED7B20C5AA2BA81 /* CloseBankAccountAssembly.swift */,
+				5D8F6784A2CD156904D734A3 /* CloseBankAccountView.swift */,
+				C685528859234A56C3B76D30 /* CloseBankAccountViewModel.swift */,
+			);
+			path = CloseBankAccount;
+			sourceTree = "<group>";
+		};
+		8363FA469F9510234A814921 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				18F9BF97CECF0C1D15796315 /* BankAccount.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
 		8BADA53E1BD7DAFA7F2135EA = {
 			isa = PBXGroup;
 			children = (
@@ -43,6 +144,52 @@
 				FEC78251E64FADADF3F7AC7A /* BankEmployee */,
 				4D61029BB941B68C3B9CEEF7 /* Products */,
 			);
+			sourceTree = "<group>";
+		};
+		9199D84F86D24C50A1341A06 /* Core */ = {
+			isa = PBXGroup;
+			children = (
+				DBA04F4FDC5C9D4D2CD1A0DC /* Assembly */,
+				EA922B506066ED7FEC19566D /* Coordinator */,
+				3BA8315E6E0ECBD4B31410D2 /* Infrastructure */,
+				8363FA469F9510234A814921 /* Models */,
+				9A13A1B038ABCC1025A54BB0 /* Services */,
+			);
+			path = Core;
+			sourceTree = "<group>";
+		};
+		9A13A1B038ABCC1025A54BB0 /* Services */ = {
+			isa = PBXGroup;
+			children = (
+				3661A3A9DB9634A38505C198 /* IBankAccountService.swift */,
+				7A0BEEDA0E9B547942919847 /* MockBankAccountService.swift */,
+			);
+			path = Services;
+			sourceTree = "<group>";
+		};
+		9FB17481576A5D70A4C9D9A0 /* Root */ = {
+			isa = PBXGroup;
+			children = (
+				85F605B7002DAD8C2DD0BF11 /* RootView.swift */,
+			);
+			path = Root;
+			sourceTree = "<group>";
+		};
+		DBA04F4FDC5C9D4D2CD1A0DC /* Assembly */ = {
+			isa = PBXGroup;
+			children = (
+				8E1B6C2EA2A1C9E6B8726E75 /* DependenciesAssembly.swift */,
+			);
+			path = Assembly;
+			sourceTree = "<group>";
+		};
+		EA922B506066ED7FEC19566D /* Coordinator */ = {
+			isa = PBXGroup;
+			children = (
+				E2768EC2990E0AF71177E475 /* BankAccountCoordinator.swift */,
+				11605B701CE42D341349B4FD /* IBankAccountCoordinator.swift */,
+			);
+			path = Coordinator;
 			sourceTree = "<group>";
 		};
 		FEC78251E64FADADF3F7AC7A /* BankEmployee */ = {
@@ -127,6 +274,23 @@
 			buildActionMask = 2147483647;
 			files = (
 				2FFE3456ABB3EA0AA3CD0B10 /* App.swift in Sources */,
+				69AB7FFA1EA9C57F663D99B1 /* BankAccount.swift in Sources */,
+				BF3C43E094DF621B73C103F4 /* BankAccountCoordinator.swift in Sources */,
+				C37DA31F835B795FABC98869 /* BankAccountListAssembly.swift in Sources */,
+				B6EAFBDA639650CC9B35C712 /* BankAccountListView.swift in Sources */,
+				5932A1077C885C9A73D59DB4 /* BankAccountListViewModel.swift in Sources */,
+				51270663AAB202FF985874FD /* CloseBankAccountAssembly.swift in Sources */,
+				7DEB092E3395452425CEAF0E /* CloseBankAccountView.swift in Sources */,
+				1A15BBFD7358E3ECDE1B136E /* CloseBankAccountViewModel.swift in Sources */,
+				95CCB167FF707351D2D3DE7C /* DependenciesAssembly.swift in Sources */,
+				8C9FB859DFC3294875851106 /* Factory.swift in Sources */,
+				39180738B0ABC647EEFFA250 /* IBankAccountCoordinator.swift in Sources */,
+				B87A831456190A3CE1A0C57F /* IBankAccountService.swift in Sources */,
+				722807CEBF1AFCFFD9E8B32E /* MockBankAccountService.swift in Sources */,
+				98A09CDB7A8182B8841E9454 /* OpenBankAccountAssembly.swift in Sources */,
+				B1764DFC7F383F6EA6DCBC21 /* OpenBankAccountView.swift in Sources */,
+				A165316B40CED2F3B7DEA81C /* OpenBankAccountViewModel.swift in Sources */,
+				FE6332A6A22FB7E6C4F60619 /* RootView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -266,6 +430,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				DEVELOPMENT_TEAM = BUF892U9LY;
+				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_CFBundleDisplayName = "Банк — Сотрудник";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -284,6 +449,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				DEVELOPMENT_TEAM = BUF892U9LY;
+				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_CFBundleDisplayName = "Банк — Клиент";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -302,6 +468,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				DEVELOPMENT_TEAM = BUF892U9LY;
+				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_CFBundleDisplayName = "Банк — Клиент";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -320,6 +487,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				DEVELOPMENT_TEAM = BUF892U9LY;
+				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_CFBundleDisplayName = "Банк — Сотрудник";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",

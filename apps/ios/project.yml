@@ -11,6 +11,7 @@ settingGroups:
     SWIFT_VERSION: "5.0"
     TARGETED_DEVICE_FAMILY: "1,2"
     DEVELOPMENT_TEAM: BUF892U9LY
+    GENERATE_INFOPLIST_FILE: YES
 targets:
   BankClient:
     type: application
