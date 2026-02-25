@@ -1,0 +1,32 @@
+name: InternetBanking
+options:
+  bundleIdPrefix: tarchenko
+  deploymentTarget:
+    iOS: "18.0"
+  generateEmptyDirectories: true
+  groupSortPosition: top
+  xcodeVersion: "1620"
+settingGroups:
+  shared:
+    SWIFT_VERSION: "5.0"
+    TARGETED_DEVICE_FAMILY: "1,2"
+    DEVELOPMENT_TEAM: BUF892U9LY
+targets:
+  BankClient:
+    type: application
+    platform: iOS
+    sources: [BankClient]
+    settings:
+      groups: [shared]
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: tarchenko.BankClient
+        INFOPLIST_KEY_CFBundleDisplayName: "Банк — Клиент"
+  BankEmployee:
+    type: application
+    platform: iOS
+    sources: [BankEmployee]
+    settings:
+      groups: [shared]
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: tarchenko.BankEmployee
+        INFOPLIST_KEY_CFBundleDisplayName: "Банк — Сотрудник"
