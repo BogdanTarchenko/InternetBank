@@ -1,12 +1,23 @@
 import SwiftUI
 
 struct RootView: View {
-    let coordinator: IBankAccountCoordinator
+    let coordinator: BankAccountCoordinator
+    let loginViewModel: LoginViewModel
     let openBankAccountViewModelFactory: Factory<OpenBankAccountViewModel>
     let closeBankAccountViewModelFactory: ParameterizedFactory<BankAccount, CloseBankAccountViewModel>
     let listViewModel: BankAccountListViewModel
 
     var body: some View {
+        Group {
+            if coordinator.isAuthenticated {
+                mainContent
+            } else {
+                LoginView(viewModel: loginViewModel)
+            }
+        }
+    }
+
+    private var mainContent: some View {
         BankAccountListView(viewModel: listViewModel)
             .sheet(item: Binding(
                 get: { coordinator.sheet },
