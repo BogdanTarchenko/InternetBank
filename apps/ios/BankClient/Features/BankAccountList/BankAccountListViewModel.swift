@@ -5,6 +5,10 @@ final class BankAccountListViewModel {
     var accounts: [BankAccount] = []
     var loans: [Loan] = []
     var isLoading = false
+    var isOpeningAccount = false
+    var isClosingAccountId: UUID?
+    var isTakingLoan = false
+    var isRepayingLoanId: UUID?
     var errorMessage: String?
 
     private let bankAccountService: IBankAccountService
@@ -29,12 +33,28 @@ final class BankAccountListViewModel {
         }
     }
 
-    func openBankAccountTapped() {
-        coordinator.presentOpenBankAccount()
+    func openBankAccount() async {
+        isOpeningAccount = true
+        errorMessage = nil
+        defer { isOpeningAccount = false }
+        do {
+            _ = try await bankAccountService.openAccount()
+            await load()
+        } catch {
+            errorMessage = error.localizedDescription
+        }
     }
 
-    func closeBankAccountTapped(bankAccount: BankAccount) {
-        coordinator.presentCloseBankAccount(bankAccount: bankAccount)
+    func closeBankAccount(bankAccount: BankAccount) async {
+        isClosingAccountId = bankAccount.id
+        errorMessage = nil
+        defer { isClosingAccountId = nil }
+        do {
+            try await bankAccountService.closeAccount(id: bankAccount.id)
+            await load()
+        } catch {
+            errorMessage = error.localizedDescription
+        }
     }
 
     func depositTapped(bankAccount: BankAccount) {
@@ -49,11 +69,32 @@ final class BankAccountListViewModel {
         coordinator.presentTransactionHistory(bankAccount: bankAccount)
     }
 
-    func takeLoanTapped() {
-        coordinator.presentTakeLoan()
+    func takeLoan() async {
+        isTakingLoan = true
+        errorMessage = nil
+        defer { isTakingLoan = false }
+        do {
+            _ = try await bankAccountService.takeLoan(amount: LoanDefaults.amount, currency: LoanDefaults.currency)
+            await load()
+        } catch {
+            errorMessage = error.localizedDescription
+        }
     }
 
-    func repayLoanTapped(loan: Loan) {
-        coordinator.presentRepayLoan(loan: loan)
+    func repayLoan(loan: Loan) async {
+        isRepayingLoanId = loan.id
+        errorMessage = nil
+        defer { isRepayingLoanId = nil }
+        do {
+            try await bankAccountService.repayLoan(loanId: loan.id, amount: loan.remainingAmount)
+            await load()
+        } catch {
+            errorMessage = error.localizedDescription
+        }
     }
+}
+
+private enum LoanDefaults {
+    static let amount: Decimal = 100_000
+    static let currency = "RUB"
 }

@@ -19,18 +19,6 @@ struct TakeLoanView: View {
                         .background(Color(uiColor: .secondarySystemGroupedBackground))
                         .clipShape(RoundedRectangle(cornerRadius: Layout.fieldCornerRadius))
 
-                    Text(Strings.currencyLabel)
-                        .font(.subheadline)
-                        .fontWeight(.medium)
-                        .foregroundStyle(.secondary)
-                        .padding(.leading, Layout.fieldLabelLeading)
-                    Picker("", selection: $viewModel.currency) {
-                        Text("RUB").tag("RUB")
-                        Text("USD").tag("USD")
-                    }
-                    .pickerStyle(.segmented)
-                    .padding(.horizontal, Layout.fieldLabelLeading)
-
                     if let message = viewModel.errorMessage {
                         errorBlock(message: message)
                     }
@@ -119,7 +107,6 @@ private extension TakeLoanView {
         static let title = "Взять кредит"
         static let amountLabel = "Сумма"
         static let amountPlaceholder = "0"
-        static let currencyLabel = "Валюта"
         static let submitButtonTitle = "Оформить"
         static let errorIconName = "exclamationmark.triangle.fill"
     }

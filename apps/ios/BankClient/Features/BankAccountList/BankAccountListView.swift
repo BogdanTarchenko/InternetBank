@@ -18,6 +18,7 @@ struct BankAccountListView: View {
                 .tag(1)
         }
         .tabViewStyle(.automatic)
+        .tint(Color.appAccent)
         .frame(maxWidth: .infinity, maxHeight: .infinity)
         .background(Color(uiColor: .systemGroupedBackground))
         .task { await viewModel.load() }
@@ -169,14 +170,20 @@ struct BankAccountListView: View {
     }
 
     private var emptyLoansState: some View {
-        Text(Strings.loansEmptyTitle)
-            .font(.subheadline)
-            .foregroundStyle(.secondary)
-            .frame(maxWidth: .infinity)
-            .padding(Layout.emptyStatePadding)
-            .background(Color(uiColor: .systemBackground))
-            .clipShape(RoundedRectangle(cornerRadius: Layout.cardCornerRadius))
-            .shadow(color: .black.opacity(Layout.cardShadowOpacity), radius: Layout.cardShadowRadius, x: 0, y: Layout.cardShadowY)
+        VStack(spacing: Layout.emptyStateSpacing) {
+            Image(systemName: Strings.loansEmptyStateIconName)
+                .font(.system(size: Layout.emptyStateIconSize))
+                .foregroundStyle(.secondary)
+            Text(Strings.loansEmptyTitle)
+                .font(.subheadline)
+                .foregroundStyle(.secondary)
+                .multilineTextAlignment(.center)
+        }
+        .frame(maxWidth: .infinity)
+        .padding(Layout.emptyStatePadding)
+        .background(Color(uiColor: .systemBackground))
+        .clipShape(RoundedRectangle(cornerRadius: Layout.cardCornerRadius))
+        .shadow(color: .black.opacity(Layout.cardShadowOpacity), radius: Layout.cardShadowRadius, x: 0, y: Layout.cardShadowY)
     }
 
     private func accountCard(_ account: BankAccount) -> some View {
@@ -190,41 +197,61 @@ struct BankAccountListView: View {
                         .font(.system(size: Layout.balanceFontSize, weight: .semibold))
                 }
                 .frame(maxWidth: .infinity, alignment: .leading)
-                Button(action: { viewModel.closeBankAccountTapped(bankAccount: account) }) {
-                    Image(systemName: Strings.closeAccountIconName)
-                        .font(.system(size: Layout.closeIconSize))
-                        .foregroundStyle(Appearance.errorAccent)
+                Button(action: { Task { await viewModel.closeBankAccount(bankAccount: account) } }) {
+                    Group {
+                        if viewModel.isClosingAccountId == account.id {
+                            ProgressView()
+                                .scaleEffect(0.8)
+                                .tint(Appearance.errorAccent)
+                        } else {
+                            Image(systemName: Strings.closeAccountIconName)
+                                .font(.system(size: Layout.closeIconSize))
+                                .foregroundStyle(Appearance.errorAccent)
+                        }
+                    }
                 }
+                .disabled(viewModel.isClosingAccountId == account.id)
             }
             HStack(spacing: Layout.actionButtonSpacing) {
                 Button(action: { viewModel.depositTapped(bankAccount: account) }) {
-                    Label(Strings.depositButtonTitle, systemImage: Strings.depositButtonIconName)
-                        .font(.subheadline)
-                        .frame(maxWidth: .infinity)
-                        .padding(.vertical, Layout.actionButtonVerticalPadding)
-                        .background(Color(uiColor: .secondarySystemGroupedBackground))
-                        .clipShape(RoundedRectangle(cornerRadius: Layout.actionButtonCornerRadius))
+                    HStack(spacing: 6) {
+                        Image(systemName: Strings.depositButtonIconName)
+                        Text(Strings.depositButtonTitle)
+                    }
+                    .font(.subheadline)
+                    .frame(maxWidth: .infinity)
+                    .padding(.vertical, Layout.actionButtonVerticalPadding)
+                    .background(Color(uiColor: .secondarySystemGroupedBackground))
+                    .clipShape(RoundedRectangle(cornerRadius: Layout.actionButtonCornerRadius))
                 }
                 .buttonStyle(.plain)
                 Button(action: { viewModel.withdrawTapped(bankAccount: account) }) {
-                    Label(Strings.withdrawButtonTitle, systemImage: Strings.withdrawButtonIconName)
-                        .font(.subheadline)
-                        .frame(maxWidth: .infinity)
-                        .padding(.vertical, Layout.actionButtonVerticalPadding)
-                        .background(Color(uiColor: .secondarySystemGroupedBackground))
-                        .clipShape(RoundedRectangle(cornerRadius: Layout.actionButtonCornerRadius))
+                    HStack(spacing: 6) {
+                        Image(systemName: Strings.withdrawButtonIconName)
+                        Text(Strings.withdrawButtonTitle)
+                    }
+                    .font(.subheadline)
+                    .frame(maxWidth: .infinity)
+                    .padding(.vertical, Layout.actionButtonVerticalPadding)
+                    .background(Color(uiColor: .secondarySystemGroupedBackground))
+                    .clipShape(RoundedRectangle(cornerRadius: Layout.actionButtonCornerRadius))
                 }
                 .buttonStyle(.plain)
                 Button(action: { viewModel.transactionHistoryTapped(bankAccount: account) }) {
-                    Label(Strings.historyButtonTitle, systemImage: Strings.historyButtonIconName)
-                        .font(.subheadline)
-                        .frame(maxWidth: .infinity)
-                        .padding(.vertical, Layout.actionButtonVerticalPadding)
-                        .background(Color(uiColor: .secondarySystemGroupedBackground))
-                        .clipShape(RoundedRectangle(cornerRadius: Layout.actionButtonCornerRadius))
+                    HStack(spacing: 6) {
+                        Image(systemName: Strings.historyButtonIconName)
+                        Text(Strings.historyButtonTitle)
+                    }
+                    .font(.subheadline)
+                    .frame(maxWidth: .infinity)
+                    .padding(.vertical, Layout.actionButtonVerticalPadding)
+                    .background(Color(uiColor: .secondarySystemGroupedBackground))
+                    .clipShape(RoundedRectangle(cornerRadius: Layout.actionButtonCornerRadius))
                 }
                 .buttonStyle(.plain)
             }
+            .frame(maxWidth: .infinity, alignment: .leading)
+            .padding(.leading, Layout.actionButtonLeadingCompensation)
         }
         .padding(Layout.cardPadding)
         .background(Color(uiColor: .systemBackground))
@@ -233,7 +260,7 @@ struct BankAccountListView: View {
     }
 
     private func loanCard(_ loan: Loan) -> some View {
-        HStack {
+        VStack(alignment: .leading, spacing: Layout.accountCardInnerSpacing) {
             VStack(alignment: .leading, spacing: Layout.cardContentSpacing) {
                 Text(Strings.loanRemainingLabel)
                     .font(.subheadline)
@@ -242,17 +269,30 @@ struct BankAccountListView: View {
                     .font(.system(size: Layout.balanceFontSize, weight: .semibold))
             }
             .frame(maxWidth: .infinity, alignment: .leading)
-            Button(action: { viewModel.repayLoanTapped(loan: loan) }) {
-                Text(Strings.repayLoanButtonTitle)
-                    .font(.subheadline)
-                    .fontWeight(.medium)
-                    .padding(.horizontal, Layout.repayButtonHorizontalPadding)
+            HStack(spacing: Layout.actionButtonSpacing) {
+                Button(action: { Task { await viewModel.repayLoan(loan: loan) } }) {
+                    Group {
+                        if viewModel.isRepayingLoanId == loan.id {
+                            ProgressView()
+                                .scaleEffect(0.8)
+                        } else {
+                            HStack(spacing: 6) {
+                                Image(systemName: Strings.repayLoanButtonIconName)
+                                Text(Strings.repayLoanButtonTitle)
+                            }
+                            .font(.subheadline)
+                        }
+                    }
+                    .padding(.horizontal, Layout.actionButtonHorizontalPadding)
                     .padding(.vertical, Layout.actionButtonVerticalPadding)
-                    .background(LinearGradient.appAccent)
-                    .foregroundStyle(.white)
+                    .background(Color(uiColor: .secondarySystemGroupedBackground))
                     .clipShape(RoundedRectangle(cornerRadius: Layout.actionButtonCornerRadius))
+                }
+                .buttonStyle(.plain)
+                .disabled(viewModel.isRepayingLoanId == loan.id)
             }
-            .buttonStyle(.plain)
+            .frame(maxWidth: .infinity, alignment: .leading)
+            .padding(.leading, Layout.actionButtonLeadingCompensation)
         }
         .padding(Layout.cardPadding)
         .background(Color(uiColor: .systemBackground))
@@ -261,9 +301,9 @@ struct BankAccountListView: View {
     }
 
     private var openAccountButton: some View {
-        Button(action: { viewModel.openBankAccountTapped() }) {
+        Button(action: { Task { await viewModel.openBankAccount() } }) {
             HStack {
-                if viewModel.isLoading && !viewModel.accounts.isEmpty {
+                if viewModel.isOpeningAccount {
                     ProgressView()
                         .tint(.white)
                 } else {
@@ -278,15 +318,20 @@ struct BankAccountListView: View {
             .foregroundStyle(.white)
             .clipShape(RoundedRectangle(cornerRadius: Layout.buttonCornerRadius))
         }
-        .disabled(viewModel.isLoading)
+        .disabled(viewModel.isOpeningAccount)
     }
 
     private var takeLoanButton: some View {
-        Button(action: { viewModel.takeLoanTapped() }) {
+        Button(action: { Task { await viewModel.takeLoan() } }) {
             HStack {
-                Image(systemName: Strings.takeLoanButtonIconName)
-                Text(Strings.takeLoanButtonTitle)
-                    .fontWeight(.semibold)
+                if viewModel.isTakingLoan {
+                    ProgressView()
+                        .tint(.white)
+                } else {
+                    Image(systemName: Strings.takeLoanButtonIconName)
+                    Text(Strings.takeLoanButtonTitle)
+                        .fontWeight(.semibold)
+                }
             }
             .frame(maxWidth: .infinity)
             .padding(.vertical, Layout.buttonVerticalPadding)
@@ -294,6 +339,7 @@ struct BankAccountListView: View {
             .foregroundStyle(.white)
             .clipShape(RoundedRectangle(cornerRadius: Layout.buttonCornerRadius))
         }
+        .disabled(viewModel.isTakingLoan)
     }
 
     private func formatBalance(_ balance: Decimal, currency: String) -> String {
@@ -341,7 +387,9 @@ private extension BankAccountListView {
         static let buttonCornerRadius: CGFloat = 12
         static let accountCardInnerSpacing: CGFloat = 12
         static let actionButtonSpacing: CGFloat = 8
+        static let actionButtonLeadingCompensation: CGFloat = -16
         static let actionButtonVerticalPadding: CGFloat = 10
+        static let actionButtonHorizontalPadding: CGFloat = 16
         static let actionButtonCornerRadius: CGFloat = 10
         static let repayButtonHorizontalPadding: CGFloat = 16
     }
@@ -368,9 +416,11 @@ private extension BankAccountListView {
         static let withdrawButtonIconName = "arrow.up.circle"
         static let historyButtonTitle = "История"
         static let historyButtonIconName = "list.bullet"
-        static let loansEmptyTitle = "Нет активных кредитов"
+        static let loansEmptyTitle = "Нет активных кредитов.\nНажмите кнопку ниже, чтобы взять кредит"
+        static let loansEmptyStateIconName = "banknote"
         static let loanRemainingLabel = "Остаток"
         static let repayLoanButtonTitle = "Погасить"
+        static let repayLoanButtonIconName = "checkmark.circle"
         static let takeLoanButtonTitle = "Взять кредит"
         static let takeLoanButtonIconName = "banknote"
     }
