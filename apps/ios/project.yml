@@ -36,3 +36,4 @@ targets:
       base:
         PRODUCT_BUNDLE_IDENTIFIER: tarchenko.BankEmployee
         INFOPLIST_KEY_CFBundleDisplayName: "Банк — Сотрудник"
+        INFOPLIST_KEY_UILaunchStoryboardName: LaunchScreen
