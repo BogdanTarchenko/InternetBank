@@ -3,7 +3,6 @@ import Foundation
 @Observable
 final class TakeLoanViewModel {
     var amount: String = ""
-    var currency: String = "RUB"
     var isSubmitting = false
     var errorMessage: String?
 
@@ -26,7 +25,7 @@ final class TakeLoanViewModel {
         errorMessage = nil
         defer { isSubmitting = false }
         do {
-            _ = try await bankAccountService.takeLoan(amount: value, currency: currency)
+            _ = try await bankAccountService.takeLoan(amount: value, currency: "RUB")
             coordinator.dismissSheet()
             onSuccess?()
         } catch {

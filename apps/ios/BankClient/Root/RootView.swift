@@ -3,13 +3,9 @@ import SwiftUI
 struct RootView: View {
     let coordinator: BankAccountCoordinator
     let loginViewModel: LoginViewModel
-    let openBankAccountViewModelFactory: Factory<OpenBankAccountViewModel>
-    let closeBankAccountViewModelFactory: ParameterizedFactory<BankAccount, CloseBankAccountViewModel>
     let depositViewModelFactory: ParameterizedFactory<BankAccount, DepositViewModel>
     let withdrawViewModelFactory: ParameterizedFactory<BankAccount, WithdrawViewModel>
     let transactionHistoryViewModelFactory: ParameterizedFactory<BankAccount, TransactionHistoryViewModel>
-    let takeLoanViewModelFactory: Factory<TakeLoanViewModel>
-    let repayLoanViewModelFactory: ParameterizedFactory<Loan, RepayLoanViewModel>
     let listViewModel: BankAccountListViewModel
 
     var body: some View {
@@ -40,20 +36,12 @@ struct RootView: View {
     @ViewBuilder
     private func sheetContent(_ sheet: BankAccountCoordinatorSheet) -> some View {
         switch sheet {
-        case .openBankAccount:
-            OpenBankAccountView(viewModel: openBankAccountViewModelFactory.make())
-        case .closeBankAccount(let bankAccount):
-            CloseBankAccountView(viewModel: closeBankAccountViewModelFactory.make(bankAccount))
         case .deposit(let bankAccount):
             DepositView(viewModel: depositViewModelFactory.make(bankAccount))
         case .withdraw(let bankAccount):
             WithdrawView(viewModel: withdrawViewModelFactory.make(bankAccount))
         case .transactionHistory(let bankAccount):
             TransactionHistoryView(viewModel: transactionHistoryViewModelFactory.make(bankAccount))
-        case .takeLoan:
-            TakeLoanView(viewModel: takeLoanViewModelFactory.make())
-        case .repayLoan(let loan):
-            RepayLoanView(viewModel: repayLoanViewModelFactory.make(loan))
         }
     }
 }

@@ -1,5 +1,11 @@
 import SwiftUI
 
+extension Color {
+    static var appAccent: Color {
+        Color(red: 0.22, green: 0.58, blue: 0.65)
+    }
+}
+
 extension LinearGradient {
     static var appAccent: LinearGradient {
         LinearGradient(

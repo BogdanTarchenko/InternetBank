@@ -1,10 +1,7 @@
 import Foundation
 
 final class MockBankAccountService: IBankAccountService {
-    private var accounts: [BankAccount] = [
-        BankAccount(id: UUID(uuidString: "00000000-0000-0000-0000-000000000001")!, balance: 125_000.50, currency: "RUB"),
-        BankAccount(id: UUID(uuidString: "00000000-0000-0000-0000-000000000002")!, balance: 1_500.00, currency: "USD")
-    ]
+    private var accounts: [BankAccount] = []
     private var loans: [Loan] = []
     private var transactionsByAccount: [UUID: [Transaction]] = [:]
 
