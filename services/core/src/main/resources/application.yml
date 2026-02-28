@@ -46,6 +46,7 @@ server:
 security:
   clients:
     demo-client: demo-token
+    credit-service: client-client-api-token
     # client-id: api-token
 
 # Топик событий статуса пользователя

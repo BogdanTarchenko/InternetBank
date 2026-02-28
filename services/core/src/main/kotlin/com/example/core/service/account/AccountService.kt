@@ -72,6 +72,22 @@ class AccountService(
         return accountOperationRepository.findAllByAccountOrderByCreatedAtAsc(account)
     }
 
+    /** Получение счёта по id (для внутреннего/межсервисного API). */
+    @Transactional(readOnly = true)
+    fun getAccountById(accountId: UUID): BankAccount =
+        bankAccountRepository.findById(accountId)
+            .orElseThrow { IllegalArgumentException("Account not found: $accountId") }
+
+    /** Списание средств со счёта по id (межсервисное использование, без проверки userId). */
+    @Transactional
+    fun debit(accountId: UUID, amount: BigDecimal): BankAccount {
+        val account = getAccountById(accountId)
+        account.withdraw(amount)
+        val saved = bankAccountRepository.save(account)
+        createOperation(saved, OperationType.WITHDRAW, amount)
+        return saved
+    }
+
     private fun getUserAccount(userId: String, accountId: UUID): BankAccount {
         val account = bankAccountRepository.findById(accountId)
             .orElseThrow { IllegalArgumentException("Account not found: $accountId") }
