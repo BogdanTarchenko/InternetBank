@@ -7,17 +7,34 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		015C9FE6D8F996A7CF76B662 /* BankAccount.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5D67B913166198E2A2E7098 /* BankAccount.swift */; };
 		04E0566AC25D602D97E3720F /* IBankAccountService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58C606D8161A1C53F9DEFF62 /* IBankAccountService.swift */; };
+		055F6631702D6492BC13D572 /* Client.swift in Sources */ = {isa = PBXBuildFile; fileRef = A94960A4CDD630723FB275F7 /* Client.swift */; };
 		0893CC683FAF0C66FF5A8D20 /* RepayLoanViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB15D5BDE8E32E97FD39E70D /* RepayLoanViewModel.swift */; };
 		0B75920047E6A25A5C6F2810 /* Loan.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20CFA277EF777EAFBEA88A2B /* Loan.swift */; };
+		13BCA1B81A7D62904F9AE330 /* LoanDetailAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DF7A6D2E6B878B5F816E5D0 /* LoanDetailAssembly.swift */; };
+		142B7EBF7386FFC923297135 /* Loan.swift in Sources */ = {isa = PBXBuildFile; fileRef = F38AB721CE5B4D2A7B185277 /* Loan.swift */; };
+		1444DC20E818E5861708AA82 /* LoginField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B69D01438149B4B5315AACB /* LoginField.swift */; };
+		1557F7718A2C5F48485C2B1D /* CreateEmployeeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DAD15C650D583DE669035B4 /* CreateEmployeeView.swift */; };
 		16DB375166DF737CA8070209 /* IAuthService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 62AEE4075333F6C7134D1538 /* IAuthService.swift */; };
+		1978F68A7760F19ED43AA5CC /* Factory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59330A8568D11509DE23E92B /* Factory.swift */; };
 		1A15BBFD7358E3ECDE1B136E /* CloseBankAccountViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C685528859234A56C3B76D30 /* CloseBankAccountViewModel.swift */; };
+		1C332366387D214114A5055C /* TransactionHistoryViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 154D40B00CA2193E505B59CA /* TransactionHistoryViewModel.swift */; };
+		1D99C810A3AB216E5821C23E /* CreateLoanAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE72047655294CB0D5F134D1 /* CreateLoanAssembly.swift */; };
+		2CFE8CFB9002FD53550A7ADE /* CreateLoanView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B74EA6EC6EADEFC1A465D8EA /* CreateLoanView.swift */; };
+		2D0F226F75A2E7A9654E998B /* Transaction.swift in Sources */ = {isa = PBXBuildFile; fileRef = A411F1135AF70D9AC0E9F507 /* Transaction.swift */; };
+		2F871FD2761DC7F093AF9EF6 /* LoanDetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7985D5C9A87B374B816CD1B6 /* LoanDetailViewModel.swift */; };
 		2FFE3456ABB3EA0AA3CD0B10 /* App.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A100B1CDFF3B08157F33A06 /* App.swift */; };
+		35CB242B36A472C3285E1D81 /* DependenciesAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD7276989ED5E3790C383BF4 /* DependenciesAssembly.swift */; };
 		39180738B0ABC647EEFFA250 /* IBankAccountCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11605B701CE42D341349B4FD /* IBankAccountCoordinator.swift */; };
+		394CF063A0C0FC7763E14083 /* TransactionHistoryAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE6638E58D2F7C5AFF2C2D19 /* TransactionHistoryAssembly.swift */; };
 		3994F1C73BAE3FAF8691BBB7 /* WithdrawViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD534156040A8DA43EFB4DFA /* WithdrawViewModel.swift */; };
+		3CB70FAE435FC886C4AC2B49 /* CreateLoanViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5D96266FD3A09077D4BAFC0 /* CreateLoanViewModel.swift */; };
 		3DF78D0235674D570FBB2D81 /* LoginViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4994356300D56E61BC5CEC6B /* LoginViewModel.swift */; };
 		3F2129C5FD5D4FBC256333FD /* MockAuthService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51409AD80DDCA9E518DC3B0F /* MockAuthService.swift */; };
 		44A1FD7E72D0025554DA7FF5 /* DepositView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC6DF93EE7420903BB662B72 /* DepositView.swift */; };
+		4777BD6CF125D4A879FBECC3 /* MockAuthService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13CEBEEE74E56C86028711A6 /* MockAuthService.swift */; };
+		479E06CBB9DE25A79FDD7DCC /* ClientLoansViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6E594F6AC607D924F4F2F44 /* ClientLoansViewModel.swift */; };
 		4A41B79A9833294E7450FF74 /* RepayLoanView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C81867CE9EBE4EAAFE3CF5D /* RepayLoanView.swift */; };
 		51270663AAB202FF985874FD /* CloseBankAccountAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = 541595476ED7B20C5AA2BA81 /* CloseBankAccountAssembly.swift */; };
 		520AAC85BFD1DD6B28D20E61 /* TakeLoanViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B6CA7F756B864F13E1E87B1 /* TakeLoanViewModel.swift */; };
@@ -26,32 +43,61 @@
 		5932A1077C885C9A73D59DB4 /* BankAccountListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 646FCCEB5F7FC227C3F1AA70 /* BankAccountListViewModel.swift */; };
 		59B3774C917D1838972C1E3A /* TakeLoanAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6767A797484B3562A96BE15B /* TakeLoanAssembly.swift */; };
 		5E21A44E3857CDB01B3F5A75 /* DepositAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B915C26453C0654B0B3EB21 /* DepositAssembly.swift */; };
+		612127196C22715F7240285C /* LoanDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44BA7152F39076B1DE0C6608 /* LoanDetailView.swift */; };
+		65758844B89F4456DD946422 /* LoanTariff.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70E14216144745DB77EE3619 /* LoanTariff.swift */; };
+		6665204CA756B7BF7D7AF025 /* ClientLoansView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4077274D2AC3F83D1071E4D5 /* ClientLoansView.swift */; };
 		69AB7FFA1EA9C57F663D99B1 /* BankAccount.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18F9BF97CECF0C1D15796315 /* BankAccount.swift */; };
 		6F64682C0962E37695D30E54 /* TransactionHistoryAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = 714C32F9E1F49090F7DA0AA2 /* TransactionHistoryAssembly.swift */; };
+		7057E539A8FA07D3D2AB5F33 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2EB3EEE7858282BEEF539246 /* LaunchScreen.storyboard */; };
+		72989D5201A572A2F91A77BF /* IEmployeeCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69C9D3122C21FD87D24504F7 /* IEmployeeCoordinator.swift */; };
+		763AD8FE9ABFC79CC3382D81 /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8C52741EC1C71EA031921C4 /* LoginView.swift */; };
+		775B78B26A005F91303DE989 /* IAuthService.swift in Sources */ = {isa = PBXBuildFile; fileRef = E121C2C92CC5F281A4134460 /* IAuthService.swift */; };
+		7A26E33617EDB3AD1D22B79D /* CreateClientAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27D0DFF9DE6981672B48377B /* CreateClientAssembly.swift */; };
 		7DEB092E3395452425CEAF0E /* CloseBankAccountView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D8F6784A2CD156904D734A3 /* CloseBankAccountView.swift */; };
+		85B7951252C020EC56FDE0A5 /* MainListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5E4D675AAD17EFB5C7A296A /* MainListView.swift */; };
 		8C9FB859DFC3294875851106 /* Factory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 698393F9282CD5FE25A64AB4 /* Factory.swift */; };
 		8E9C87F38B33D4292C71AA85 /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD90F1290C1DC7079C2CB5D2 /* LoginView.swift */; };
+		903E0F2EC6201DC03703EEBB /* CreateEmployeeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D82A08C2E7608566066FC81 /* CreateEmployeeViewModel.swift */; };
+		9046EA9E77506B86AA9C04F4 /* IEmployeeService.swift in Sources */ = {isa = PBXBuildFile; fileRef = CCFCF7366DB0F1C6C90EDEA3 /* IEmployeeService.swift */; };
 		95CCB167FF707351D2D3DE7C /* DependenciesAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E1B6C2EA2A1C9E6B8726E75 /* DependenciesAssembly.swift */; };
+		983559C4B06DFB5A1EEAE081 /* LoginValidationError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59F4C3B9F5B414B455EA2873 /* LoginValidationError.swift */; };
+		984CE25BAAC3F1FD00B1D2AD /* CreateTariffView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD4B9D82E69E381B4670D607 /* CreateTariffView.swift */; };
 		98A09CDB7A8182B8841E9454 /* OpenBankAccountAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F460E4FE6981BFB0112F1F0 /* OpenBankAccountAssembly.swift */; };
+		9AE746D6A02FB2608A9A0599 /* MockEmployeeService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D0ACFFECC3B771317AF7E1F /* MockEmployeeService.swift */; };
+		9AF7FE25F80C0C448F5DAAC0 /* CreateTariffAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42BC1DB7A50072A461466727 /* CreateTariffAssembly.swift */; };
 		9F4AB69F19F119DB379126F5 /* TransactionHistoryViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E53333BA65B6453FA4EEA6B /* TransactionHistoryViewModel.swift */; };
 		A165316B40CED2F3B7DEA81C /* OpenBankAccountViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F02799EF312AC60B98B388EC /* OpenBankAccountViewModel.swift */; };
 		A47D368A653CEA4F3523E4B6 /* WithdrawAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6C185A4ECB60B64803B4F5A /* WithdrawAssembly.swift */; };
+		A75B46CBF437E01E68E3F51B /* MainListAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83F9AD7C80845A0E69B34D0A /* MainListAssembly.swift */; };
+		AC01F4515E6E602C4A058A5D /* LoginAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54CBB288ABE472E51F1A6730 /* LoginAssembly.swift */; };
+		AD0DA3C9D164A8C33ED1AB94 /* LoginViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F9DC21A47A55686EF2BD175 /* LoginViewModel.swift */; };
 		B1764DFC7F383F6EA6DCBC21 /* OpenBankAccountView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84A489A6A917C66B8C46B667 /* OpenBankAccountView.swift */; };
+		B2E767D12AD1587223922DF2 /* CreateClientViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88F8B6FAE263A8B295D17FA1 /* CreateClientViewModel.swift */; };
+		B3BA1252E9E6B3D1D940045E /* TransactionHistoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6D41BC6D44D742764E0B105 /* TransactionHistoryView.swift */; };
 		B47C2700017229FACA48D088 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8CD835BC82D2EDCE4EB2126D /* LaunchScreen.storyboard */; };
 		B4DFD7039FFE080BE7E49738 /* MockBankAccountService.swift in Sources */ = {isa = PBXBuildFile; fileRef = E67B5A68C28277A5AFEBF2C2 /* MockBankAccountService.swift */; };
+		B68C69A62AB2A2A2D097996D /* LinearGradient+App.swift in Sources */ = {isa = PBXBuildFile; fileRef = 626B5E33503B2DD39CA70FF0 /* LinearGradient+App.swift */; };
 		B6EAFBDA639650CC9B35C712 /* BankAccountListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20AE24AB15670992FA291227 /* BankAccountListView.swift */; };
 		BF3C43E094DF621B73C103F4 /* BankAccountCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2768EC2990E0AF71177E475 /* BankAccountCoordinator.swift */; };
 		C2595DC9A624531AA91AC5E2 /* TakeLoanView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE7E407FF7A4A2E2444EF097 /* TakeLoanView.swift */; };
 		C37DA31F835B795FABC98869 /* BankAccountListAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61CD4C6D63EF1AE3FE77071E /* BankAccountListAssembly.swift */; };
+		C58A8B593EED6FF243094685 /* RootView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E818CB3F7E3129BE9FD22FEF /* RootView.swift */; };
+		C72E01544E20EE8AAEB10114 /* MainListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BDB242B5405CFC38437F814 /* MainListViewModel.swift */; };
+		CE315B1E3C03CCB65430FC08 /* CreateEmployeeAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7AECCA7A75C6F14376702E2 /* CreateEmployeeAssembly.swift */; };
+		D0FA6A0215787E1A2EB6FD4B /* CreateClientView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6203F5B5723385E1B350677 /* CreateClientView.swift */; };
 		D87353D6B2EE6309CD83DFB4 /* RepayLoanAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = F44852FEB4B3072674EDEE40 /* RepayLoanAssembly.swift */; };
+		D9EC421B5057E59070DFF68C /* EmployeeCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73F0F16B46FC03C0607F55BA /* EmployeeCoordinator.swift */; };
 		DC17A8BF8AA6D7D68ADAD21A /* LoginAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F482C0904AAFA8A7505EBB7 /* LoginAssembly.swift */; };
+		DCCD24A7067F17A5A7E9EB0E /* CreateTariffViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 405C913C8AA7A9378C45BF74 /* CreateTariffViewModel.swift */; };
 		DD5A62A698995787BDCAA0E1 /* LoginField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28D9B042F781B48F5C738C16 /* LoginField.swift */; };
 		DDD238E2708559BFD49F49CA /* LinearGradient+App.swift in Sources */ = {isa = PBXBuildFile; fileRef = E83E0EAE2BC1D4903DD66C41 /* LinearGradient+App.swift */; };
 		DF249AA36D744CC319AAB2BA /* TransactionHistoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E742B3C30210FCFB98AB4B2 /* TransactionHistoryView.swift */; };
 		DFEBB94BE4EF6F287264DC7E /* WithdrawView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 685A666ED8229FEEF2F12F05 /* WithdrawView.swift */; };
+		EB5C45E0691F2F21ADAB7508 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = A6FAC85CB58447511776AF16 /* User.swift */; };
 		EFA16514C78795675CEFD9D9 /* App.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2F140BCCC4C508A58CF74CB /* App.swift */; };
 		F49577C796C6196ED840A876 /* DepositViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E2CA166C3CDA7FC4CC0B5D1 /* DepositViewModel.swift */; };
 		FE6332A6A22FB7E6C4F60619 /* RootView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85F605B7002DAD8C2DD0BF11 /* RootView.swift */; };
+		FF1CEE917AF66D9D07E5D242 /* ClientLoansAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDFA06C3E3DC87F645D1A3A5 /* ClientLoansAssembly.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -60,51 +106,107 @@
 		0E53333BA65B6453FA4EEA6B /* TransactionHistoryViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransactionHistoryViewModel.swift; sourceTree = "<group>"; };
 		0F482C0904AAFA8A7505EBB7 /* LoginAssembly.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginAssembly.swift; sourceTree = "<group>"; };
 		11605B701CE42D341349B4FD /* IBankAccountCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IBankAccountCoordinator.swift; sourceTree = "<group>"; };
+		13CEBEEE74E56C86028711A6 /* MockAuthService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockAuthService.swift; sourceTree = "<group>"; };
+		154D40B00CA2193E505B59CA /* TransactionHistoryViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransactionHistoryViewModel.swift; sourceTree = "<group>"; };
 		18F9BF97CECF0C1D15796315 /* BankAccount.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BankAccount.swift; sourceTree = "<group>"; };
+		1DAD15C650D583DE669035B4 /* CreateEmployeeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateEmployeeView.swift; sourceTree = "<group>"; };
 		20AE24AB15670992FA291227 /* BankAccountListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BankAccountListView.swift; sourceTree = "<group>"; };
 		20CFA277EF777EAFBEA88A2B /* Loan.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Loan.swift; sourceTree = "<group>"; };
+		27D0DFF9DE6981672B48377B /* CreateClientAssembly.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateClientAssembly.swift; sourceTree = "<group>"; };
 		28D9B042F781B48F5C738C16 /* LoginField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginField.swift; sourceTree = "<group>"; };
+		2EB3EEE7858282BEEF539246 /* LaunchScreen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = LaunchScreen.storyboard; sourceTree = "<group>"; };
+		3BDB242B5405CFC38437F814 /* MainListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainListViewModel.swift; sourceTree = "<group>"; };
+		405C913C8AA7A9378C45BF74 /* CreateTariffViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateTariffViewModel.swift; sourceTree = "<group>"; };
+		4077274D2AC3F83D1071E4D5 /* ClientLoansView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClientLoansView.swift; sourceTree = "<group>"; };
+		42BC1DB7A50072A461466727 /* CreateTariffAssembly.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateTariffAssembly.swift; sourceTree = "<group>"; };
+		44BA7152F39076B1DE0C6608 /* LoanDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoanDetailView.swift; sourceTree = "<group>"; };
 		4994356300D56E61BC5CEC6B /* LoginViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewModel.swift; sourceTree = "<group>"; };
 		4B6CA7F756B864F13E1E87B1 /* TakeLoanViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TakeLoanViewModel.swift; sourceTree = "<group>"; };
+		4DF7A6D2E6B878B5F816E5D0 /* LoanDetailAssembly.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoanDetailAssembly.swift; sourceTree = "<group>"; };
 		51409AD80DDCA9E518DC3B0F /* MockAuthService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockAuthService.swift; sourceTree = "<group>"; };
 		541595476ED7B20C5AA2BA81 /* CloseBankAccountAssembly.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CloseBankAccountAssembly.swift; sourceTree = "<group>"; };
 		54C9D70E3ECED0DED6B881EE /* LoginValidationError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginValidationError.swift; sourceTree = "<group>"; };
+		54CBB288ABE472E51F1A6730 /* LoginAssembly.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginAssembly.swift; sourceTree = "<group>"; };
 		58C606D8161A1C53F9DEFF62 /* IBankAccountService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IBankAccountService.swift; sourceTree = "<group>"; };
+		59330A8568D11509DE23E92B /* Factory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Factory.swift; sourceTree = "<group>"; };
+		59F4C3B9F5B414B455EA2873 /* LoginValidationError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginValidationError.swift; sourceTree = "<group>"; };
 		5D8F6784A2CD156904D734A3 /* CloseBankAccountView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CloseBankAccountView.swift; sourceTree = "<group>"; };
 		5E742B3C30210FCFB98AB4B2 /* TransactionHistoryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransactionHistoryView.swift; sourceTree = "<group>"; };
 		61CD4C6D63EF1AE3FE77071E /* BankAccountListAssembly.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BankAccountListAssembly.swift; sourceTree = "<group>"; };
+		626B5E33503B2DD39CA70FF0 /* LinearGradient+App.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "LinearGradient+App.swift"; sourceTree = "<group>"; };
 		62AEE4075333F6C7134D1538 /* IAuthService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IAuthService.swift; sourceTree = "<group>"; };
 		646FCCEB5F7FC227C3F1AA70 /* BankAccountListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BankAccountListViewModel.swift; sourceTree = "<group>"; };
 		6767A797484B3562A96BE15B /* TakeLoanAssembly.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TakeLoanAssembly.swift; sourceTree = "<group>"; };
 		685A666ED8229FEEF2F12F05 /* WithdrawView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WithdrawView.swift; sourceTree = "<group>"; };
 		698393F9282CD5FE25A64AB4 /* Factory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Factory.swift; sourceTree = "<group>"; };
+		69C9D3122C21FD87D24504F7 /* IEmployeeCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IEmployeeCoordinator.swift; sourceTree = "<group>"; };
+		6B69D01438149B4B5315AACB /* LoginField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginField.swift; sourceTree = "<group>"; };
+		6D0ACFFECC3B771317AF7E1F /* MockEmployeeService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockEmployeeService.swift; sourceTree = "<group>"; };
+		6D82A08C2E7608566066FC81 /* CreateEmployeeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateEmployeeViewModel.swift; sourceTree = "<group>"; };
+		70E14216144745DB77EE3619 /* LoanTariff.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoanTariff.swift; sourceTree = "<group>"; };
 		714C32F9E1F49090F7DA0AA2 /* TransactionHistoryAssembly.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransactionHistoryAssembly.swift; sourceTree = "<group>"; };
+		73F0F16B46FC03C0607F55BA /* EmployeeCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmployeeCoordinator.swift; sourceTree = "<group>"; };
 		75DBB9689C12AE40B1105DD9 /* BankClient.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = BankClient.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		7985D5C9A87B374B816CD1B6 /* LoanDetailViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoanDetailViewModel.swift; sourceTree = "<group>"; };
 		7C81867CE9EBE4EAAFE3CF5D /* RepayLoanView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RepayLoanView.swift; sourceTree = "<group>"; };
+		83F9AD7C80845A0E69B34D0A /* MainListAssembly.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainListAssembly.swift; sourceTree = "<group>"; };
 		84A489A6A917C66B8C46B667 /* OpenBankAccountView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenBankAccountView.swift; sourceTree = "<group>"; };
 		85F605B7002DAD8C2DD0BF11 /* RootView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootView.swift; sourceTree = "<group>"; };
+		88F8B6FAE263A8B295D17FA1 /* CreateClientViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateClientViewModel.swift; sourceTree = "<group>"; };
 		8B915C26453C0654B0B3EB21 /* DepositAssembly.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DepositAssembly.swift; sourceTree = "<group>"; };
 		8CD835BC82D2EDCE4EB2126D /* LaunchScreen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = LaunchScreen.storyboard; sourceTree = "<group>"; };
 		8E1B6C2EA2A1C9E6B8726E75 /* DependenciesAssembly.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DependenciesAssembly.swift; sourceTree = "<group>"; };
 		8F460E4FE6981BFB0112F1F0 /* OpenBankAccountAssembly.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenBankAccountAssembly.swift; sourceTree = "<group>"; };
+		8F9DC21A47A55686EF2BD175 /* LoginViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewModel.swift; sourceTree = "<group>"; };
 		9A100B1CDFF3B08157F33A06 /* App.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = App.swift; sourceTree = "<group>"; };
 		A2F140BCCC4C508A58CF74CB /* App.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = App.swift; sourceTree = "<group>"; };
+		A411F1135AF70D9AC0E9F507 /* Transaction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Transaction.swift; sourceTree = "<group>"; };
+		A5D67B913166198E2A2E7098 /* BankAccount.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BankAccount.swift; sourceTree = "<group>"; };
+		A6FAC85CB58447511776AF16 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
+		A94960A4CDD630723FB275F7 /* Client.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Client.swift; sourceTree = "<group>"; };
+		B5D96266FD3A09077D4BAFC0 /* CreateLoanViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateLoanViewModel.swift; sourceTree = "<group>"; };
+		B5E4D675AAD17EFB5C7A296A /* MainListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainListView.swift; sourceTree = "<group>"; };
+		B74EA6EC6EADEFC1A465D8EA /* CreateLoanView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateLoanView.swift; sourceTree = "<group>"; };
 		BC6DF93EE7420903BB662B72 /* DepositView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DepositView.swift; sourceTree = "<group>"; };
+		BD7276989ED5E3790C383BF4 /* DependenciesAssembly.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DependenciesAssembly.swift; sourceTree = "<group>"; };
+		BE72047655294CB0D5F134D1 /* CreateLoanAssembly.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateLoanAssembly.swift; sourceTree = "<group>"; };
 		C685528859234A56C3B76D30 /* CloseBankAccountViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CloseBankAccountViewModel.swift; sourceTree = "<group>"; };
+		CCFCF7366DB0F1C6C90EDEA3 /* IEmployeeService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IEmployeeService.swift; sourceTree = "<group>"; };
+		CD4B9D82E69E381B4670D607 /* CreateTariffView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateTariffView.swift; sourceTree = "<group>"; };
 		CD534156040A8DA43EFB4DFA /* WithdrawViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WithdrawViewModel.swift; sourceTree = "<group>"; };
 		CE7E407FF7A4A2E2444EF097 /* TakeLoanView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TakeLoanView.swift; sourceTree = "<group>"; };
+		D8C52741EC1C71EA031921C4 /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
 		DB15D5BDE8E32E97FD39E70D /* RepayLoanViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RepayLoanViewModel.swift; sourceTree = "<group>"; };
 		DD90F1290C1DC7079C2CB5D2 /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
+		DE6638E58D2F7C5AFF2C2D19 /* TransactionHistoryAssembly.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransactionHistoryAssembly.swift; sourceTree = "<group>"; };
+		E121C2C92CC5F281A4134460 /* IAuthService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IAuthService.swift; sourceTree = "<group>"; };
 		E2768EC2990E0AF71177E475 /* BankAccountCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BankAccountCoordinator.swift; sourceTree = "<group>"; };
 		E67B5A68C28277A5AFEBF2C2 /* MockBankAccountService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockBankAccountService.swift; sourceTree = "<group>"; };
 		E6C185A4ECB60B64803B4F5A /* WithdrawAssembly.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WithdrawAssembly.swift; sourceTree = "<group>"; };
+		E818CB3F7E3129BE9FD22FEF /* RootView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootView.swift; sourceTree = "<group>"; };
 		E83E0EAE2BC1D4903DD66C41 /* LinearGradient+App.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "LinearGradient+App.swift"; sourceTree = "<group>"; };
 		EADFC1989693F861542A36D7 /* Transaction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Transaction.swift; sourceTree = "<group>"; };
+		EDFA06C3E3DC87F645D1A3A5 /* ClientLoansAssembly.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClientLoansAssembly.swift; sourceTree = "<group>"; };
 		F02799EF312AC60B98B388EC /* OpenBankAccountViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenBankAccountViewModel.swift; sourceTree = "<group>"; };
+		F38AB721CE5B4D2A7B185277 /* Loan.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Loan.swift; sourceTree = "<group>"; };
 		F44852FEB4B3072674EDEE40 /* RepayLoanAssembly.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RepayLoanAssembly.swift; sourceTree = "<group>"; };
+		F6203F5B5723385E1B350677 /* CreateClientView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateClientView.swift; sourceTree = "<group>"; };
+		F6D41BC6D44D742764E0B105 /* TransactionHistoryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransactionHistoryView.swift; sourceTree = "<group>"; };
+		F6E594F6AC607D924F4F2F44 /* ClientLoansViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClientLoansViewModel.swift; sourceTree = "<group>"; };
+		F7AECCA7A75C6F14376702E2 /* CreateEmployeeAssembly.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateEmployeeAssembly.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXGroup section */
+		02684DFD2BBAE53218E3A8A0 /* LoanDetail */ = {
+			isa = PBXGroup;
+			children = (
+				4DF7A6D2E6B878B5F816E5D0 /* LoanDetailAssembly.swift */,
+				44BA7152F39076B1DE0C6608 /* LoanDetailView.swift */,
+				7985D5C9A87B374B816CD1B6 /* LoanDetailViewModel.swift */,
+			);
+			path = LoanDetail;
+			sourceTree = "<group>";
+		};
 		105BD1E89695DC8AB9723573 /* Models */ = {
 			isa = PBXGroup;
 			children = (
@@ -138,16 +240,53 @@
 			path = Factory;
 			sourceTree = "<group>";
 		};
+		2078B81826564936F220A424 /* Core */ = {
+			isa = PBXGroup;
+			children = (
+				58CFE99AC01C8358AF5C04BD /* Assembly */,
+				FBD382DDD03D7177A7C6D683 /* Coordinator */,
+				CDFF22B6C14E58164670492A /* Extensions */,
+				6E0CE0F51C97C3C373314007 /* Infrastructure */,
+				EA338A19643F242EDF219857 /* Models */,
+				A1A5D8EE6A6E4206D5BEC078 /* Services */,
+			);
+			path = Core;
+			sourceTree = "<group>";
+		};
 		20F7754021929EF324EEE4F7 /* BankClient */ = {
 			isa = PBXGroup;
 			children = (
 				9199D84F86D24C50A1341A06 /* Core */,
+				31A355818B341EDDCA41DDB2 /* Docs */,
 				14041262C6E18A0F05688908 /* Features */,
 				AB4278E31995BA9BFE569EEB /* Resources */,
 				9FB17481576A5D70A4C9D9A0 /* Root */,
 				9A100B1CDFF3B08157F33A06 /* App.swift */,
 			);
 			path = BankClient;
+			sourceTree = "<group>";
+		};
+		26FAB1BD18BF273439C3F701 /* Features */ = {
+			isa = PBXGroup;
+			children = (
+				A14D6CF961076FBB13C91FAF /* ClientLoans */,
+				74433A4E2C033E416AE072D1 /* CreateClient */,
+				C3D15D92DF48477628ABD059 /* CreateEmployee */,
+				709C1C376D00F2E4D343562A /* CreateLoan */,
+				52F4F131B33704D2C65FAC9E /* CreateTariff */,
+				02684DFD2BBAE53218E3A8A0 /* LoanDetail */,
+				E5FB614EBC2A19DFBD702176 /* Login */,
+				438AE6EDE45B22E9B472B0A0 /* MainList */,
+				DEAE001C4A282A3F703DC8C7 /* TransactionHistory */,
+			);
+			path = Features;
+			sourceTree = "<group>";
+		};
+		31A355818B341EDDCA41DDB2 /* Docs */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Docs;
 			sourceTree = "<group>";
 		};
 		32569A89DF32178FB2487EEF /* OpenBankAccount */ = {
@@ -178,6 +317,16 @@
 			path = Infrastructure;
 			sourceTree = "<group>";
 		};
+		438AE6EDE45B22E9B472B0A0 /* MainList */ = {
+			isa = PBXGroup;
+			children = (
+				83F9AD7C80845A0E69B34D0A /* MainListAssembly.swift */,
+				B5E4D675AAD17EFB5C7A296A /* MainListView.swift */,
+				3BDB242B5405CFC38437F814 /* MainListViewModel.swift */,
+			);
+			path = MainList;
+			sourceTree = "<group>";
+		};
 		4D61029BB941B68C3B9CEEF7 /* Products */ = {
 			isa = PBXGroup;
 			children = (
@@ -185,6 +334,16 @@
 				0B1DC24A7C9CE5AA95A476FC /* BankEmployee.app */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		52F4F131B33704D2C65FAC9E /* CreateTariff */ = {
+			isa = PBXGroup;
+			children = (
+				42BC1DB7A50072A461466727 /* CreateTariffAssembly.swift */,
+				CD4B9D82E69E381B4670D607 /* CreateTariffView.swift */,
+				405C913C8AA7A9378C45BF74 /* CreateTariffViewModel.swift */,
+			);
+			path = CreateTariff;
 			sourceTree = "<group>";
 		};
 		584C430C8C74A16B7032A1C5 /* BankAccountList */ = {
@@ -195,6 +354,14 @@
 				646FCCEB5F7FC227C3F1AA70 /* BankAccountListViewModel.swift */,
 			);
 			path = BankAccountList;
+			sourceTree = "<group>";
+		};
+		58CFE99AC01C8358AF5C04BD /* Assembly */ = {
+			isa = PBXGroup;
+			children = (
+				BD7276989ED5E3790C383BF4 /* DependenciesAssembly.swift */,
+			);
+			path = Assembly;
 			sourceTree = "<group>";
 		};
 		5FA06D7B6B24317923FFC04F /* CloseBankAccount */ = {
@@ -214,6 +381,34 @@
 				51409AD80DDCA9E518DC3B0F /* MockAuthService.swift */,
 			);
 			path = Auth;
+			sourceTree = "<group>";
+		};
+		6E0CE0F51C97C3C373314007 /* Infrastructure */ = {
+			isa = PBXGroup;
+			children = (
+				EE4E910AAF3E54745F35F46A /* Factory */,
+			);
+			path = Infrastructure;
+			sourceTree = "<group>";
+		};
+		709C1C376D00F2E4D343562A /* CreateLoan */ = {
+			isa = PBXGroup;
+			children = (
+				BE72047655294CB0D5F134D1 /* CreateLoanAssembly.swift */,
+				B74EA6EC6EADEFC1A465D8EA /* CreateLoanView.swift */,
+				B5D96266FD3A09077D4BAFC0 /* CreateLoanViewModel.swift */,
+			);
+			path = CreateLoan;
+			sourceTree = "<group>";
+		};
+		74433A4E2C033E416AE072D1 /* CreateClient */ = {
+			isa = PBXGroup;
+			children = (
+				27D0DFF9DE6981672B48377B /* CreateClientAssembly.swift */,
+				F6203F5B5723385E1B350677 /* CreateClientView.swift */,
+				88F8B6FAE263A8B295D17FA1 /* CreateClientViewModel.swift */,
+			);
+			path = CreateClient;
 			sourceTree = "<group>";
 		};
 		8363FA469F9510234A814921 /* Models */ = {
@@ -268,6 +463,15 @@
 			path = Services;
 			sourceTree = "<group>";
 		};
+		9C98530320DF863D12E2E0B9 /* Auth */ = {
+			isa = PBXGroup;
+			children = (
+				E121C2C92CC5F281A4134460 /* IAuthService.swift */,
+				13CEBEEE74E56C86028711A6 /* MockAuthService.swift */,
+			);
+			path = Auth;
+			sourceTree = "<group>";
+		};
 		9F887ECC107AD1861D6AC3C0 /* BankAccount */ = {
 			isa = PBXGroup;
 			children = (
@@ -283,6 +487,25 @@
 				85F605B7002DAD8C2DD0BF11 /* RootView.swift */,
 			);
 			path = Root;
+			sourceTree = "<group>";
+		};
+		A14D6CF961076FBB13C91FAF /* ClientLoans */ = {
+			isa = PBXGroup;
+			children = (
+				EDFA06C3E3DC87F645D1A3A5 /* ClientLoansAssembly.swift */,
+				4077274D2AC3F83D1071E4D5 /* ClientLoansView.swift */,
+				F6E594F6AC607D924F4F2F44 /* ClientLoansViewModel.swift */,
+			);
+			path = ClientLoans;
+			sourceTree = "<group>";
+		};
+		A1A5D8EE6A6E4206D5BEC078 /* Services */ = {
+			isa = PBXGroup;
+			children = (
+				9C98530320DF863D12E2E0B9 /* Auth */,
+				FB76379C3DF9B3F4FE35C82D /* Employee */,
+			);
+			path = Services;
 			sourceTree = "<group>";
 		};
 		A23505EA686F4B7F9F3DD35D /* Extensions */ = {
@@ -301,6 +524,14 @@
 			path = Resources;
 			sourceTree = "<group>";
 		};
+		BC11140C16168715D6243A79 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				2EB3EEE7858282BEEF539246 /* LaunchScreen.storyboard */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
 		BF6A40CF01128E9E07FBE88E /* TakeLoan */ = {
 			isa = PBXGroup;
 			children = (
@@ -309,6 +540,24 @@
 				4B6CA7F756B864F13E1E87B1 /* TakeLoanViewModel.swift */,
 			);
 			path = TakeLoan;
+			sourceTree = "<group>";
+		};
+		C3D15D92DF48477628ABD059 /* CreateEmployee */ = {
+			isa = PBXGroup;
+			children = (
+				F7AECCA7A75C6F14376702E2 /* CreateEmployeeAssembly.swift */,
+				1DAD15C650D583DE669035B4 /* CreateEmployeeView.swift */,
+				6D82A08C2E7608566066FC81 /* CreateEmployeeViewModel.swift */,
+			);
+			path = CreateEmployee;
+			sourceTree = "<group>";
+		};
+		CDFF22B6C14E58164670492A /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				626B5E33503B2DD39CA70FF0 /* LinearGradient+App.swift */,
+			);
+			path = Extensions;
 			sourceTree = "<group>";
 		};
 		D03E1FA9D08A38C110F8D643 /* Deposit */ = {
@@ -339,6 +588,16 @@
 			path = Assembly;
 			sourceTree = "<group>";
 		};
+		DEAE001C4A282A3F703DC8C7 /* TransactionHistory */ = {
+			isa = PBXGroup;
+			children = (
+				DE6638E58D2F7C5AFF2C2D19 /* TransactionHistoryAssembly.swift */,
+				F6D41BC6D44D742764E0B105 /* TransactionHistoryView.swift */,
+				154D40B00CA2193E505B59CA /* TransactionHistoryViewModel.swift */,
+			);
+			path = TransactionHistory;
+			sourceTree = "<group>";
+		};
 		E0196983197ACF050EBEA543 /* TransactionHistory */ = {
 			isa = PBXGroup;
 			children = (
@@ -347,6 +606,47 @@
 				0E53333BA65B6453FA4EEA6B /* TransactionHistoryViewModel.swift */,
 			);
 			path = TransactionHistory;
+			sourceTree = "<group>";
+		};
+		E2A6E9118E08C310CAFBCBEF /* Root */ = {
+			isa = PBXGroup;
+			children = (
+				E818CB3F7E3129BE9FD22FEF /* RootView.swift */,
+			);
+			path = Root;
+			sourceTree = "<group>";
+		};
+		E5FB614EBC2A19DFBD702176 /* Login */ = {
+			isa = PBXGroup;
+			children = (
+				E824843CB321CCE9B34D1302 /* Models */,
+				54CBB288ABE472E51F1A6730 /* LoginAssembly.swift */,
+				D8C52741EC1C71EA031921C4 /* LoginView.swift */,
+				8F9DC21A47A55686EF2BD175 /* LoginViewModel.swift */,
+			);
+			path = Login;
+			sourceTree = "<group>";
+		};
+		E824843CB321CCE9B34D1302 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				6B69D01438149B4B5315AACB /* LoginField.swift */,
+				59F4C3B9F5B414B455EA2873 /* LoginValidationError.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		EA338A19643F242EDF219857 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				A5D67B913166198E2A2E7098 /* BankAccount.swift */,
+				A94960A4CDD630723FB275F7 /* Client.swift */,
+				F38AB721CE5B4D2A7B185277 /* Loan.swift */,
+				70E14216144745DB77EE3619 /* LoanTariff.swift */,
+				A411F1135AF70D9AC0E9F507 /* Transaction.swift */,
+				A6FAC85CB58447511776AF16 /* User.swift */,
+			);
+			path = Models;
 			sourceTree = "<group>";
 		};
 		EA922B506066ED7FEC19566D /* Coordinator */ = {
@@ -358,9 +658,39 @@
 			path = Coordinator;
 			sourceTree = "<group>";
 		};
+		EE4E910AAF3E54745F35F46A /* Factory */ = {
+			isa = PBXGroup;
+			children = (
+				59330A8568D11509DE23E92B /* Factory.swift */,
+			);
+			path = Factory;
+			sourceTree = "<group>";
+		};
+		FB76379C3DF9B3F4FE35C82D /* Employee */ = {
+			isa = PBXGroup;
+			children = (
+				CCFCF7366DB0F1C6C90EDEA3 /* IEmployeeService.swift */,
+				6D0ACFFECC3B771317AF7E1F /* MockEmployeeService.swift */,
+			);
+			path = Employee;
+			sourceTree = "<group>";
+		};
+		FBD382DDD03D7177A7C6D683 /* Coordinator */ = {
+			isa = PBXGroup;
+			children = (
+				73F0F16B46FC03C0607F55BA /* EmployeeCoordinator.swift */,
+				69C9D3122C21FD87D24504F7 /* IEmployeeCoordinator.swift */,
+			);
+			path = Coordinator;
+			sourceTree = "<group>";
+		};
 		FEC78251E64FADADF3F7AC7A /* BankEmployee */ = {
 			isa = PBXGroup;
 			children = (
+				2078B81826564936F220A424 /* Core */,
+				26FAB1BD18BF273439C3F701 /* Features */,
+				BC11140C16168715D6243A79 /* Resources */,
+				E2A6E9118E08C310CAFBCBEF /* Root */,
 				A2F140BCCC4C508A58CF74CB /* App.swift */,
 			);
 			path = BankEmployee;
@@ -374,6 +704,7 @@
 			buildConfigurationList = DB2267A57CD17C03BA9528CC /* Build configuration list for PBXNativeTarget "BankEmployee" */;
 			buildPhases = (
 				5059BBC072EB594832A04131 /* Sources */,
+				4539479F9EDCF88945FB6CF4 /* Resources */,
 			);
 			buildRules = (
 			);
@@ -436,6 +767,14 @@
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		4539479F9EDCF88945FB6CF4 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				7057E539A8FA07D3D2AB5F33 /* LaunchScreen.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		DE71E7D21F511498EEA12B4B /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -502,6 +841,51 @@
 			buildActionMask = 2147483647;
 			files = (
 				EFA16514C78795675CEFD9D9 /* App.swift in Sources */,
+				015C9FE6D8F996A7CF76B662 /* BankAccount.swift in Sources */,
+				055F6631702D6492BC13D572 /* Client.swift in Sources */,
+				FF1CEE917AF66D9D07E5D242 /* ClientLoansAssembly.swift in Sources */,
+				6665204CA756B7BF7D7AF025 /* ClientLoansView.swift in Sources */,
+				479E06CBB9DE25A79FDD7DCC /* ClientLoansViewModel.swift in Sources */,
+				7A26E33617EDB3AD1D22B79D /* CreateClientAssembly.swift in Sources */,
+				D0FA6A0215787E1A2EB6FD4B /* CreateClientView.swift in Sources */,
+				B2E767D12AD1587223922DF2 /* CreateClientViewModel.swift in Sources */,
+				CE315B1E3C03CCB65430FC08 /* CreateEmployeeAssembly.swift in Sources */,
+				1557F7718A2C5F48485C2B1D /* CreateEmployeeView.swift in Sources */,
+				903E0F2EC6201DC03703EEBB /* CreateEmployeeViewModel.swift in Sources */,
+				1D99C810A3AB216E5821C23E /* CreateLoanAssembly.swift in Sources */,
+				2CFE8CFB9002FD53550A7ADE /* CreateLoanView.swift in Sources */,
+				3CB70FAE435FC886C4AC2B49 /* CreateLoanViewModel.swift in Sources */,
+				9AF7FE25F80C0C448F5DAAC0 /* CreateTariffAssembly.swift in Sources */,
+				984CE25BAAC3F1FD00B1D2AD /* CreateTariffView.swift in Sources */,
+				DCCD24A7067F17A5A7E9EB0E /* CreateTariffViewModel.swift in Sources */,
+				35CB242B36A472C3285E1D81 /* DependenciesAssembly.swift in Sources */,
+				D9EC421B5057E59070DFF68C /* EmployeeCoordinator.swift in Sources */,
+				1978F68A7760F19ED43AA5CC /* Factory.swift in Sources */,
+				775B78B26A005F91303DE989 /* IAuthService.swift in Sources */,
+				72989D5201A572A2F91A77BF /* IEmployeeCoordinator.swift in Sources */,
+				9046EA9E77506B86AA9C04F4 /* IEmployeeService.swift in Sources */,
+				B68C69A62AB2A2A2D097996D /* LinearGradient+App.swift in Sources */,
+				142B7EBF7386FFC923297135 /* Loan.swift in Sources */,
+				13BCA1B81A7D62904F9AE330 /* LoanDetailAssembly.swift in Sources */,
+				612127196C22715F7240285C /* LoanDetailView.swift in Sources */,
+				2F871FD2761DC7F093AF9EF6 /* LoanDetailViewModel.swift in Sources */,
+				65758844B89F4456DD946422 /* LoanTariff.swift in Sources */,
+				AC01F4515E6E602C4A058A5D /* LoginAssembly.swift in Sources */,
+				1444DC20E818E5861708AA82 /* LoginField.swift in Sources */,
+				983559C4B06DFB5A1EEAE081 /* LoginValidationError.swift in Sources */,
+				763AD8FE9ABFC79CC3382D81 /* LoginView.swift in Sources */,
+				AD0DA3C9D164A8C33ED1AB94 /* LoginViewModel.swift in Sources */,
+				A75B46CBF437E01E68E3F51B /* MainListAssembly.swift in Sources */,
+				85B7951252C020EC56FDE0A5 /* MainListView.swift in Sources */,
+				C72E01544E20EE8AAEB10114 /* MainListViewModel.swift in Sources */,
+				4777BD6CF125D4A879FBECC3 /* MockAuthService.swift in Sources */,
+				9AE746D6A02FB2608A9A0599 /* MockEmployeeService.swift in Sources */,
+				C58A8B593EED6FF243094685 /* RootView.swift in Sources */,
+				2D0F226F75A2E7A9654E998B /* Transaction.swift in Sources */,
+				394CF063A0C0FC7763E14083 /* TransactionHistoryAssembly.swift in Sources */,
+				B3BA1252E9E6B3D1D940045E /* TransactionHistoryView.swift in Sources */,
+				1C332366387D214114A5055C /* TransactionHistoryViewModel.swift in Sources */,
+				EB5C45E0691F2F21ADAB7508 /* User.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -635,6 +1019,7 @@
 				DEVELOPMENT_TEAM = BUF892U9LY;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_CFBundleDisplayName = "Банк — Сотрудник";
+				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -694,6 +1079,7 @@
 				DEVELOPMENT_TEAM = BUF892U9LY;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_CFBundleDisplayName = "Банк — Сотрудник";
+				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",

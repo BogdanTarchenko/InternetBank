@@ -2,9 +2,11 @@ import SwiftUI
 
 @main
 struct BankEmployeeApp: App {
+    private let dependenciesAssembly = DependenciesAssembly()
+
     var body: some Scene {
         WindowGroup {
-            EmptyView()
+            dependenciesAssembly.makeRootView()
         }
     }
 }
