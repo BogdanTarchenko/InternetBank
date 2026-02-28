@@ -7,7 +7,7 @@ import com.example.userService.dto.EditUserProfileRequest;
 import com.example.userService.dto.UserDto;
 import com.example.userService.exception.EmailAlreadyExistsException;
 import com.example.userService.exception.UserNotFoundException;
-import com.example.userService.kafka.UserStatusEvent;
+import com.example.userService.integration.kafka.UserStatusEvent;
 import com.example.userService.repository.OutboxEventRepository;
 import com.example.userService.repository.UserRepository;
 import com.example.userService.service.UserDataService;

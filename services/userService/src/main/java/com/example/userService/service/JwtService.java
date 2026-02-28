@@ -8,6 +8,4 @@ public interface JwtService {
     String generateAccessToken(UUID userId, Role role, Long ttl);
     String generateRefreshToken(UUID userId, Long ttl);
     UUID extractUserIdFromToken(String token);
-    Role extractRoleFromToken(String token);
-    void validateToken(String token);
 }
