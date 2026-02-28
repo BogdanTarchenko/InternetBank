@@ -1,0 +1,51 @@
+server:
+  port: 8080
+
+spring:
+  application:
+    name: apiGateway
+
+jwt:
+  secret: b9b53b57953b23858fb6e4340673eee9066336281dc2b7ae3550a9759cef4ded
+
+services:
+  user-service: http://localhost:8081
+  core-service: http://localhost:8082
+  credit-service: http://localhost:8083
+
+gateway:
+  routes:
+    # ─── userService (8081) ──────────────────────────────────────────────────
+    - path: /auth/**
+      target: ${services.user-service}
+      requires-auth: false
+
+    - path: /users/**
+      target: ${services.user-service}
+      requires-auth: true
+
+    # ─── coreService (8082) ──────────────────────────────────────────────────
+    # /core/client/** → http://localhost:8082/client/**
+    - path: /core/client/**
+      target: ${services.core-service}
+      requires-auth: true
+      strip-prefix: /core
+
+    # /core/employee/** → http://localhost:8082/employee/**
+    - path: /core/employee/**
+      target: ${services.core-service}
+      requires-auth: true
+      strip-prefix: /core
+
+    # ─── creditService (8083) ────────────────────────────────────────────────
+    # /credit/client/** → http://localhost:8083/client/**
+    - path: /credit/client/**
+      target: ${services.credit-service}
+      requires-auth: true
+      strip-prefix: /credit
+
+    # /credit/employee/** → http://localhost:8083/employee/**
+    - path: /credit/employee/**
+      target: ${services.credit-service}
+      requires-auth: true
+      strip-prefix: /credit
