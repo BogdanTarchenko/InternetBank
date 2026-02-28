@@ -18,11 +18,6 @@ class RetryProcessor(
     private val handlersByType: Map<RetryType, RetryHandler> =
         handlers.associateBy { it.supportedType }
 
-    /**
-     * Периодически обрабатываем задачи ретрая.
-     * Обработка идет последовательно, задачи упорядочены по sequenceKey и времени создания,
-     * таким образом события по одному ключу идут строго по порядку.
-     */
     @Scheduled(fixedDelayString = "\${retry.processor.fixed-delay-ms:5000}")
     @Transactional
     fun processBatch() {
