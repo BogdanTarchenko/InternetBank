@@ -13,7 +13,7 @@ class ApiClientAuthInterceptor(
         response: HttpServletResponse,
         handler: Any
     ): Boolean {
-        val clientId = request.getHeader("client-id")
+        val clientId = request.getHeader("X-CLIENT-ID") ?: request.getHeader("client-id")
         val token = request.getHeader("X-API-TOKEN")
 
         if (clientId.isNullOrBlank() || token.isNullOrBlank()) {

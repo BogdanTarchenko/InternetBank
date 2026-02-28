@@ -39,7 +39,7 @@ server:
 
 security:
   clients:
-    credit-service: client-client-api-token
+    credit-client: client-client-api-token
 
 user-status:
   topic: user-status
