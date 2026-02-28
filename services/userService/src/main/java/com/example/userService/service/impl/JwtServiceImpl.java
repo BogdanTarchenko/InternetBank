@@ -57,20 +57,6 @@ public class JwtServiceImpl implements JwtService {
         return UUID.fromString(claims.getSubject());
     }
 
-    @Override
-    public Role extractRoleFromToken(String token) {
-        Claims claims = extractClaimsFromToken(token);
-        return Role.valueOf(claims.get(CLAIM_ROLE, String.class));
-    }
-
-    @Override
-    public void validateToken(String token) {
-        Jwts.parser()
-                .verifyWith(getSecretKey())
-                .build()
-                .parse(token);
-    }
-
     private Claims extractClaimsFromToken(String token) {
         return Jwts.parser()
                 .verifyWith(getSecretKey())
