@@ -1,0 +1,116 @@
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: internet-bank-postgres
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./docker/init-dbs.sql:/docker-entrypoint-initdb.d/init-dbs.sql
+    networks:
+      - app-network
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  kafka:
+    image: apache/kafka:3.9.0
+    container_name: internet-bank-kafka
+    environment:
+      KAFKA_NODE_ID: 1
+      KAFKA_PROCESS_ROLES: broker,controller
+      KAFKA_LISTENERS: PLAINTEXT://:9092,CONTROLLER://:9093
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:9092
+      KAFKA_CONTROLLER_LISTENER_NAMES: CONTROLLER
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: CONTROLLER:PLAINTEXT,PLAINTEXT:PLAINTEXT
+      KAFKA_CONTROLLER_QUORUM_VOTERS: 1@kafka:9093
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+      KAFKA_TRANSACTION_STATE_LOG_REPLICATION_FACTOR: 1
+      KAFKA_TRANSACTION_STATE_LOG_MIN_ISR: 1
+    networks:
+      - app-network
+    healthcheck:
+      # Проверка порта брокера (Kafka поднимается дольше, даём start_period)
+      test: ["CMD-SHELL", "nc -z localhost 9092 || exit 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+      start_period: 40s
+
+  kafka-init:
+    image: apache/kafka:3.9.0
+    container_name: internet-bank-kafka-init
+    working_dir: /opt/kafka/bin
+    depends_on:
+      kafka:
+        condition: service_healthy
+    entrypoint: ["/bin/sh", "-c"]
+    command:
+      - |
+        ./kafka-topics.sh --create --if-not-exists --bootstrap-server kafka:9092 \
+          --topic user-status --partitions 1 --replication-factor 1
+        echo "Topic user-status created"
+    networks:
+      - app-network
+    restart: "no"
+
+  core:
+    build:
+      context: ./core
+      dockerfile: Dockerfile
+    container_name: internet-bank-core
+    environment:
+      SPRING_PROFILES_ACTIVE: docker
+      POSTGRES_HOST: postgres
+      POSTGRES_PORT: 5432
+      POSTGRES_DB: core_db
+      POSTGRES_USER: core
+      POSTGRES_PASSWORD: core
+      KAFKA_BOOTSTRAP: kafka:9092
+    depends_on:
+      postgres:
+        condition: service_healthy
+      kafka:
+        condition: service_healthy
+      kafka-init:
+        condition: service_completed_successfully
+    networks:
+      - app-network
+    # Внутренняя сеть: другие сервисы обращаются по http://core:8080
+    ports:
+      - "8080:8080"
+
+  credit:
+    build:
+      context: ./credit
+      dockerfile: Dockerfile
+    container_name: internet-bank-credit
+    environment:
+      SPRING_PROFILES_ACTIVE: docker
+      POSTGRES_HOST: postgres
+      POSTGRES_PORT: 5432
+      POSTGRES_DB: credit_db
+      POSTGRES_USER: credit
+      POSTGRES_PASSWORD: credit
+      KAFKA_BOOTSTRAP: kafka:9092
+    depends_on:
+      postgres:
+        condition: service_healthy
+      kafka:
+        condition: service_healthy
+      kafka-init:
+        condition: service_completed_successfully
+    networks:
+      - app-network
+    ports:
+      - "8081:8081"
+
+networks:
+  app-network:
+    driver: bridge
+
+volumes:
+  postgres_data:

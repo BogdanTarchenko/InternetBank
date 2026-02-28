@@ -46,13 +46,23 @@ data class TakeCreditRequest(
 
     @field:NotNull
     @field:DecimalMin("0", inclusive = false, message = "Amount must be positive")
-    val amount: BigDecimal
+    val amount: BigDecimal,
+
+    /** Id счёта, куда начислить кредитные деньги */
+    @field:NotNull
+    @field:Positive(message = "Account id must be positive")
+    val accountIdToCredit: Long
 )
 
 data class RepayRequest(
     @field:NotNull
     @field:DecimalMin("0", inclusive = false, message = "Amount must be positive")
-    val amount: BigDecimal
+    val amount: BigDecimal,
+
+    /** Id счёта, откуда списать деньги при оплате кредита */
+    @field:NotNull
+    @field:Positive(message = "Account id must be positive")
+    val accountIdToDebit: Long
 )
 
 data class CreditResponse(

@@ -24,4 +24,7 @@ class CreditTariffService(
     @Transactional(readOnly = true)
     fun getTariffById(id: Long): CreditTariff =
         creditTariffRepository.findById(id).orElseThrow { NoSuchElementException("Tariff not found: id=$id") }
+
+    @Transactional(readOnly = true)
+    fun getAllTariffs(): List<CreditTariff> = creditTariffRepository.findAll()
 }
