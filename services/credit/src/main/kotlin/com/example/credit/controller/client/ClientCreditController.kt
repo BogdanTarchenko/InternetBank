@@ -30,7 +30,7 @@ class ClientCreditController(
         @RequestBody @Valid request: RepayRequest
     ): CreditResponse {
         userAccountStatusService.assertUserActive(userId)
-        val credit = creditService.repay(creditId, userId, request.amount)
+        val credit = creditService.repay(creditId, userId, request.amount, request.accountId)
         return credit.toResponse()
     }
 }
