@@ -5,6 +5,8 @@ import com.example.userService.domain.entity.User;
 import com.example.userService.domain.enumeration.Role;
 import com.example.userService.dto.EditUserProfileRequest;
 import com.example.userService.dto.UserDto;
+import com.example.userService.exception.EmailAlreadyExistsException;
+import com.example.userService.exception.UserNotFoundException;
 import com.example.userService.kafka.UserStatusEvent;
 import com.example.userService.repository.OutboxEventRepository;
 import com.example.userService.repository.UserRepository;
@@ -12,7 +14,6 @@ import com.example.userService.service.UserDataService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -28,7 +29,6 @@ import org.springframework.web.server.ResponseStatusException;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
-@Slf4j
 @Service
 @RequiredArgsConstructor
 public class UserDataServiceImpl implements UserDataService {
@@ -45,17 +45,34 @@ public class UserDataServiceImpl implements UserDataService {
     @Transactional
     public void createUser(User user) {
         if (userRepository.existsByEmail(user.getEmail())) {
-            throw new RuntimeException("Email already exists");
+            throw new EmailAlreadyExistsException("Email already exists: " + user.getEmail());
         }
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         userRepository.save(user);
+        publishRegisteredEvent(user.getId());
+    }
+
+    private void publishRegisteredEvent(UUID userId) {
+        UserStatusEvent event = UserStatusEvent.unbanned(userId.toString());
+        try {
+            String payload = objectMapper.writeValueAsString(event);
+            outboxEventRepository.save(OutboxEvent.builder()
+                    .id(UUID.randomUUID())
+                    .topic(userStatusTopic)
+                    .payload(payload)
+                    .createdAt(LocalDateTime.now())
+                    .sent(false)
+                    .build());
+        } catch (JsonProcessingException e) {
+            throw new RuntimeException("Failed to serialize UserStatusEvent", e);
+        }
     }
 
     @Override
     @Transactional(readOnly = true)
     public User findUserByEmail(String email) {
         return userRepository.findByEmail(email)
-                .orElseThrow(() -> new RuntimeException("User not found"));
+                .orElseThrow(() -> new UserNotFoundException("User not found with email: " + email));
     }
 
     @Override
@@ -67,7 +84,7 @@ public class UserDataServiceImpl implements UserDataService {
     @Transactional(readOnly = true)
     public UserDto findUserById(UUID id) {
         var user = userRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("User not found"));
+                .orElseThrow(() -> new UserNotFoundException("User not found with id: " + id));
         return toDto(user);
     }
 
@@ -75,11 +92,11 @@ public class UserDataServiceImpl implements UserDataService {
     @Transactional
     public UserDto editUserProfile(UUID userId, EditUserProfileRequest request) {
         var user = userRepository.findById(userId)
-                .orElseThrow(() -> new RuntimeException("User not found"));
+                .orElseThrow(() -> new UserNotFoundException("User not found with id: " + userId));
 
         var sameEmailUser = userRepository.findByEmail(request.email());
         if (sameEmailUser.isPresent() && !sameEmailUser.get().getId().equals(userId)) {
-            throw new RuntimeException("Email already exists");
+            throw new EmailAlreadyExistsException("Email already exists: " + request.email());
         }
 
         user.setEmail(request.email());
@@ -98,7 +115,7 @@ public class UserDataServiceImpl implements UserDataService {
         }
 
         var target = userRepository.findById(targetUserId)
-                .orElseThrow(() -> new RuntimeException("User not found"));
+                .orElseThrow(() -> new UserNotFoundException("User not found with id: " + targetUserId));
 
         Role previousRole = target.getRole();
         target.setRole(newRole);
@@ -130,7 +147,6 @@ public class UserDataServiceImpl implements UserDataService {
                     .createdAt(LocalDateTime.now())
                     .sent(false)
                     .build());
-            log.info("Outbox event saved: userId={}, status={}", userId, event.status());
         } catch (JsonProcessingException e) {
             throw new RuntimeException("Failed to serialize UserStatusEvent", e);
         }

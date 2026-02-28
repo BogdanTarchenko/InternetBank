@@ -15,7 +15,6 @@ services:
 
 gateway:
   routes:
-    # ─── userService (8081) ──────────────────────────────────────────────────
     - path: /auth/**
       target: ${services.user-service}
       requires-auth: false
@@ -24,27 +23,21 @@ gateway:
       target: ${services.user-service}
       requires-auth: true
 
-    # ─── coreService (8082) ──────────────────────────────────────────────────
-    # /core/client/** → http://localhost:8082/client/**
     - path: /core/client/**
       target: ${services.core-service}
       requires-auth: true
       strip-prefix: /core
 
-    # /core/employee/** → http://localhost:8082/employee/**
     - path: /core/employee/**
       target: ${services.core-service}
       requires-auth: true
       strip-prefix: /core
 
-    # ─── creditService (8083) ────────────────────────────────────────────────
-    # /credit/client/** → http://localhost:8083/client/**
     - path: /credit/client/**
       target: ${services.credit-service}
       requires-auth: true
       strip-prefix: /credit
 
-    # /credit/employee/** → http://localhost:8083/employee/**
     - path: /credit/employee/**
       target: ${services.credit-service}
       requires-auth: true

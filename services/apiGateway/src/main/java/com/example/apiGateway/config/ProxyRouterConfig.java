@@ -1,7 +1,6 @@
 package com.example.apiGateway.config;
 
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.buffer.DataBuffer;
@@ -18,7 +17,6 @@ import reactor.core.publisher.Mono;
 import java.net.URI;
 import java.util.Set;
 
-@Slf4j
 @Configuration
 @RequiredArgsConstructor
 public class ProxyRouterConfig {
@@ -59,8 +57,6 @@ public class ProxyRouterConfig {
         String rawQuery = request.uri().getRawQuery();
         String targetUrl = route.getTarget() + rawPath + (rawQuery != null ? "?" + rawQuery : "");
         URI targetUri = URI.create(targetUrl);
-
-        log.debug("Proxying {} {} → {}", request.method(), request.uri().getRawPath(), targetUri);
 
         return webClient
                 .method(request.method())
