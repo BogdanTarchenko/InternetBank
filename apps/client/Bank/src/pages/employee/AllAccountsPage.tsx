@@ -1,0 +1,77 @@
+import { useState } from 'react'
+import { useQuery } from '@tanstack/react-query'
+import { AccountApi } from '@/entities/account'
+import { TransactionList } from '@/widgets/TransactionList/TransactionList'
+import { AppLayout } from '@/widgets/Layout/AppLayout'
+import { Modal } from '@/shared/ui/Modal'
+import { Table } from '@/shared/ui/Table'
+import { Button } from '@/shared/ui/Button'
+import { formatCurrency, formatShortDate } from '@/shared/lib/format'
+import type { Account } from '@/entities/account'
+import { clsx } from 'clsx'
+
+export function EmployeeAllAccountsPage() {
+  const [selectedAccount, setSelectedAccount] = useState<Account | null>(null)
+
+  const { data: accounts = [], isLoading } = useQuery({
+    queryKey: ['accounts', 'all'],
+    queryFn: AccountApi.getAllAccounts,
+  })
+
+  return (
+    <AppLayout>
+      <div className="max-w-5xl">
+        <div className="mb-6">
+          <h1 className="text-2xl font-bold text-slate-900">Все счета</h1>
+          <p className="text-sm text-slate-500 mt-1">
+            {accounts.length} счётов в системе
+          </p>
+        </div>
+
+        {isLoading ? (
+          <div className="h-48 animate-pulse rounded-xl bg-slate-100" />
+        ) : (
+          <Table
+            columns={[
+              { key: 'accountNumber', header: 'Номер счёта', render: (a) => (
+                <span className="font-mono text-sm">{a.accountNumber}</span>
+              )},
+              { key: 'clientId', header: 'Клиент ID', render: (a) => (
+                <span className="font-mono text-xs text-slate-500">{a.clientId}</span>
+              )},
+              { key: 'balance', header: 'Баланс', render: (a) => (
+                <span className="font-semibold">{formatCurrency(a.balance, a.currency)}</span>
+              )},
+              { key: 'status', header: 'Статус', render: (a) => (
+                <span className={clsx(
+                  'rounded-full px-2 py-0.5 text-xs font-medium',
+                  a.status === 'ACTIVE' ? 'bg-green-100 text-green-700' : 'bg-slate-100 text-slate-500'
+                )}>
+                  {a.status === 'ACTIVE' ? 'Активен' : 'Закрыт'}
+                </span>
+              )},
+              { key: 'createdAt', header: 'Открыт', render: (a) => formatShortDate(a.createdAt) },
+              { key: 'id', header: '', render: (a) => (
+                <Button size="sm" variant="ghost" onClick={() => setSelectedAccount(a)}>
+                  История
+                </Button>
+              )},
+            ]}
+            data={accounts}
+            keyExtractor={(a) => a.id}
+            emptyMessage="Счёта не найдено"
+          />
+        )}
+      </div>
+
+      <Modal
+        open={!!selectedAccount}
+        onClose={() => setSelectedAccount(null)}
+        title={`История: ${selectedAccount?.accountNumber ?? ''}`}
+        size="lg"
+      >
+        {selectedAccount && <TransactionList accountId={selectedAccount.id} />}
+      </Modal>
+    </AppLayout>
+  )
+}
