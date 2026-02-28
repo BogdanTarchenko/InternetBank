@@ -20,7 +20,6 @@ class RoleAccessInterceptor(
         when {
             path.startsWith("/client") -> roleAccessService.requireClient(roleHeader)
             path.startsWith("/employee") -> roleAccessService.requirePrivileged(roleHeader)
-            // /internal — без проверки роли
         }
         return true
     }
