@@ -1,5 +1,6 @@
 package com.example.credit.service.credit
 
+import com.example.credit.client.core.CoreClient
 import com.example.credit.controller.apimodels.CreditDetailResponse
 import com.example.credit.controller.apimodels.toResponse
 import com.example.credit.domain.credit.Credit
@@ -7,16 +8,20 @@ import com.example.credit.domain.credit.CreditPayment
 import com.example.credit.domain.credit.CreditStatus
 import com.example.credit.repository.credit.CreditPaymentRepository
 import com.example.credit.repository.credit.CreditRepository
+import org.springframework.http.HttpStatus
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
+import org.springframework.web.server.ResponseStatusException
 import java.math.BigDecimal
 import java.time.OffsetDateTime
+import java.util.UUID
 
 @Service
 class CreditService(
     private val creditRepository: CreditRepository,
     private val creditPaymentRepository: CreditPaymentRepository,
-    private val creditTariffService: CreditTariffService
+    private val creditTariffService: CreditTariffService,
+    private val coreClient: CoreClient
 ) {
 
     @Transactional
@@ -36,7 +41,7 @@ class CreditService(
     }
 
     @Transactional
-    fun repay(creditId: Long, userId: String, amount: BigDecimal): Credit {
+    fun repay(creditId: Long, userId: String, amount: BigDecimal, accountId: UUID): Credit {
         val credit = creditRepository.findById(creditId).orElseThrow { NoSuchElementException("Credit not found: id=$creditId") }
         if (credit.userId != userId) {
             throw IllegalArgumentException("Credit $creditId does not belong to user $userId")
@@ -48,6 +53,13 @@ class CreditService(
             throw IllegalArgumentException("Repayment amount must be positive")
         }
         val toDeduct = amount.min(credit.remainingAmount)
+
+        val account = coreClient.getAccount(accountId)
+        if (account.balance < toDeduct) {
+            throw ResponseStatusException(HttpStatus.BAD_REQUEST, "Insufficient funds on account ${account.id}")
+        }
+        coreClient.debit(accountId, toDeduct)
+
         credit.remainingAmount = credit.remainingAmount.subtract(toDeduct)
         creditPaymentRepository.save(
             CreditPayment(credit = credit, amount = toDeduct)

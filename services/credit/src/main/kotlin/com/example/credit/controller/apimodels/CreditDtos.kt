@@ -50,6 +50,9 @@ data class TakeCreditRequest(
 )
 
 data class RepayRequest(
+    @field:NotNull(message = "Account id is required")
+    val accountId: java.util.UUID,
+
     @field:NotNull
     @field:DecimalMin("0", inclusive = false, message = "Amount must be positive")
     val amount: BigDecimal
