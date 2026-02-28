@@ -11,6 +11,7 @@ settingGroups:
     SWIFT_VERSION: "5.0"
     TARGETED_DEVICE_FAMILY: "1,2"
     DEVELOPMENT_TEAM: BUF892U9LY
+    GENERATE_INFOPLIST_FILE: YES
 targets:
   BankClient:
     type: application
@@ -23,6 +24,7 @@ targets:
       base:
         PRODUCT_BUNDLE_IDENTIFIER: tarchenko.BankClient
         INFOPLIST_KEY_CFBundleDisplayName: "Банк — Клиент"
+        INFOPLIST_KEY_UILaunchStoryboardName: LaunchScreen
   BankEmployee:
     type: application
     platform: iOS
