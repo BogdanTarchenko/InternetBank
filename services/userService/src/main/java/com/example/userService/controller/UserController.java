@@ -9,6 +9,7 @@ import com.example.userService.service.UserDataService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
@@ -62,7 +63,7 @@ public class UserController {
 
     @PatchMapping("/{id}")
     @Operation(summary = "Редактировать профиль пользователя", security = @SecurityRequirement(name = "bearerAuth"))
-    public UserDto editProfile(@PathVariable UUID id, @RequestBody EditUserProfileRequest request) {
+    public UserDto editProfile(@PathVariable UUID id, @Valid @RequestBody EditUserProfileRequest request) {
         return userDataService.editUserProfile(id, request);
     }
 
@@ -70,7 +71,7 @@ public class UserController {
     @Operation(summary = "Изменить роль пользователя (только для сотрудников)", security = @SecurityRequirement(name = "bearerAuth"))
     public UserDto changeRole(
             @PathVariable UUID id,
-            @RequestBody ChangeUserRoleRequest request,
+            @Valid @RequestBody ChangeUserRoleRequest request,
             @RequestHeader("X-USER-ID") UUID requesterId,
             @RequestHeader("X-USER-ROLE") Role requesterRole
     ) {

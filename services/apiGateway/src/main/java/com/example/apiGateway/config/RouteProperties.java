@@ -22,8 +22,6 @@ public class RouteProperties {
         private String path;
         private String target;
         private boolean requiresAuth;
-        /** Префикс, который обрезается из пути перед отправкой в сервис.
-         *  Например: stripPrefix="/core" превратит /core/client/accounts → /client/accounts */
         private String stripPrefix;
     }
 }
