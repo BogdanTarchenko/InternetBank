@@ -9,7 +9,6 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.LocalDateTime;
 import java.util.List;
 
 @Slf4j
@@ -23,7 +22,7 @@ public class OutboxEventProcessor {
     @Scheduled(fixedDelayString = "${outbox.processor.fixed-delay-ms:5000}")
     @Transactional
     public void processOutbox() {
-        List<OutboxEvent> pending = outboxEventRepository.findBySentFalseOrderByCreatedAtAsc();
+        List<OutboxEvent> pending = outboxEventRepository.findAllByOrderByCreatedAtAsc();
 
         if (pending.isEmpty()) {
             return;
@@ -34,9 +33,8 @@ public class OutboxEventProcessor {
         for (OutboxEvent event : pending) {
             try {
                 kafkaTemplate.send(event.getTopic(), event.getPayload()).get();
-                event.setSent(true);
-                event.setSentAt(LocalDateTime.now());
-                log.info("Outbox event sent: topic={}, payload={}", event.getTopic(), event.getPayload());
+                outboxEventRepository.delete(event);
+                log.info("Outbox event sent and deleted: topic={}, payload={}", event.getTopic(), event.getPayload());
             } catch (Exception e) {
                 log.error("Failed to send outbox event id={}: {}", event.getId(), e.getMessage());
             }

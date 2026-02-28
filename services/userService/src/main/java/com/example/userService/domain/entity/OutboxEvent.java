@@ -1,9 +1,6 @@
 package com.example.userService.domain.entity;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -23,6 +20,7 @@ import java.util.UUID;
 public class OutboxEvent {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
 
     @Column(nullable = false)
@@ -33,9 +31,4 @@ public class OutboxEvent {
 
     @Column(nullable = false)
     private LocalDateTime createdAt;
-
-    @Column(nullable = false)
-    private boolean sent;
-
-    private LocalDateTime sentAt;
 }

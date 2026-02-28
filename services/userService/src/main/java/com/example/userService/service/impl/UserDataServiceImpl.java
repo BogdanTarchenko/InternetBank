@@ -43,13 +43,14 @@ public class UserDataServiceImpl implements UserDataService {
 
     @Override
     @Transactional
-    public void createUser(User user) {
+    public UserDto createUser(User user) {
         if (userRepository.existsByEmail(user.getEmail())) {
             throw new EmailAlreadyExistsException("Email already exists: " + user.getEmail());
         }
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         userRepository.save(user);
         publishRegisteredEvent(user.getId());
+        return toDto(user);
     }
 
     private void publishRegisteredEvent(UUID userId) {
@@ -57,11 +58,9 @@ public class UserDataServiceImpl implements UserDataService {
         try {
             String payload = objectMapper.writeValueAsString(event);
             outboxEventRepository.save(OutboxEvent.builder()
-                    .id(UUID.randomUUID())
                     .topic(userStatusTopic)
                     .payload(payload)
                     .createdAt(LocalDateTime.now())
-                    .sent(false)
                     .build());
         } catch (JsonProcessingException e) {
             throw new RuntimeException("Failed to serialize UserStatusEvent", e);
@@ -141,11 +140,9 @@ public class UserDataServiceImpl implements UserDataService {
         try {
             String payload = objectMapper.writeValueAsString(event);
             outboxEventRepository.save(OutboxEvent.builder()
-                    .id(UUID.randomUUID())
                     .topic(userStatusTopic)
                     .payload(payload)
                     .createdAt(LocalDateTime.now())
-                    .sent(false)
                     .build());
         } catch (JsonProcessingException e) {
             throw new RuntimeException("Failed to serialize UserStatusEvent", e);
