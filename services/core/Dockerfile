@@ -1,8 +1,11 @@
 FROM gradle:8-jdk21 AS builder
 WORKDIR /app
 
-COPY . .
-RUN gradle bootJar --no-daemon
+ENV GRADLE_OPTS="-Xmx2g -XX:MaxMetaspaceSize=512m -XX:+UseParallelGC"
+
+COPY build.gradle.kts .
+COPY src src
+RUN gradle bootJar --no-daemon --parallel --max-workers=4 -x test
 
 FROM eclipse-temurin:21-jre
 WORKDIR /app
