@@ -9,6 +9,15 @@ apps/
 services/                  # микросервисы бэкенда (Java, Node/TS)
 ```
 
+## Бэкенд
+
+Из папки `services` бэкенд запускается через Docker:
+
+```bash
+cd services
+docker-compose up --build -d
+```
+
 ## iOS (Swift)
 
 Два приложения в одном Xcode-проекте:

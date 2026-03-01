@@ -1,5 +1,6 @@
 package com.example.core.service.account
 
+import com.example.core.domain.account.AccountStatus
 import com.example.core.domain.account.BankAccount
 import com.example.core.domain.operation.AccountOperation
 import com.example.core.domain.operation.OperationType
@@ -53,7 +54,7 @@ class AccountService(
 
     @Transactional(readOnly = true)
     fun getUserAccounts(userId: String): List<BankAccount> =
-        bankAccountRepository.findAllByUserId(userId)
+        bankAccountRepository.findAllByUserId(userId).filter { it.status == AccountStatus.ACTIVE }
 
     @Transactional(readOnly = true)
     fun getUserAccountOperations(userId: String, accountId: UUID): List<AccountOperation> {
