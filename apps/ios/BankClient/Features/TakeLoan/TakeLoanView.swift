@@ -7,39 +7,37 @@ struct TakeLoanView: View {
         NavigationStack {
             ScrollView {
                 VStack(alignment: .leading, spacing: Layout.formSpacing) {
-                    Text(Strings.amountLabel)
-                        .font(.subheadline)
-                        .fontWeight(.medium)
-                        .foregroundStyle(.secondary)
-                        .padding(.leading, Layout.fieldLabelLeading)
-                    TextField(Strings.amountPlaceholder, text: $viewModel.amount)
-                        .keyboardType(.decimalPad)
-                        .padding(.horizontal, Layout.fieldInnerHorizontal)
-                        .padding(.vertical, Layout.fieldInnerVertical)
-                        .background(Color(uiColor: .secondarySystemGroupedBackground))
-                        .clipShape(RoundedRectangle(cornerRadius: Layout.fieldCornerRadius))
-
+                    if viewModel.isLoading {
+                        ProgressView()
+                            .frame(maxWidth: .infinity)
+                            .padding()
+                    } else {
+                        tariffSection
+                        accountSection
+                        amountSection
+                    }
                     if let message = viewModel.errorMessage {
                         errorBlock(message: message)
                     }
-
-                    Button(action: { Task { await viewModel.submit() } }) {
-                        HStack {
-                            if viewModel.isSubmitting {
-                                ProgressView()
-                                    .tint(.white)
-                            } else {
-                                Text(Strings.submitButtonTitle)
-                                    .fontWeight(.semibold)
+                    if !viewModel.isLoading {
+                        Button(action: { Task { await viewModel.submit() } }) {
+                            HStack {
+                                if viewModel.isSubmitting {
+                                    ProgressView()
+                                        .tint(.white)
+                                } else {
+                                    Text(Strings.submitButtonTitle)
+                                        .fontWeight(.semibold)
+                                }
                             }
+                            .frame(maxWidth: .infinity)
+                            .padding(.vertical, Layout.buttonVerticalPadding)
+                            .background(LinearGradient.appAccent)
+                            .foregroundStyle(.white)
+                            .clipShape(RoundedRectangle(cornerRadius: Layout.buttonCornerRadius))
                         }
-                        .frame(maxWidth: .infinity)
-                        .padding(.vertical, Layout.buttonVerticalPadding)
-                        .background(LinearGradient.appAccent)
-                        .foregroundStyle(.white)
-                        .clipShape(RoundedRectangle(cornerRadius: Layout.buttonCornerRadius))
+                        .disabled(viewModel.isSubmitting || viewModel.accounts.isEmpty || viewModel.tariffs.isEmpty)
                     }
-                    .disabled(viewModel.isSubmitting)
                 }
                 .padding(Layout.cardPadding)
                 .background(Color(uiColor: .systemBackground))
@@ -52,7 +50,99 @@ struct TakeLoanView: View {
             .background(Color(uiColor: .systemGroupedBackground))
             .navigationTitle(Strings.title)
             .navigationBarTitleDisplayMode(.inline)
+            .task { await viewModel.load() }
         }
+    }
+
+    private var tariffSection: some View {
+        VStack(alignment: .leading, spacing: Layout.fieldLabelSpacing) {
+            Text(Strings.tariffLabel)
+                .font(.subheadline)
+                .fontWeight(.medium)
+                .foregroundStyle(.secondary)
+            if viewModel.tariffs.isEmpty {
+                Text(Strings.noTariffs)
+                    .font(.subheadline)
+                    .foregroundStyle(.secondary)
+                    .padding(.vertical, Layout.fieldInnerVertical)
+                    .padding(.horizontal, Layout.fieldInnerHorizontal)
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                    .background(Color(uiColor: .secondarySystemGroupedBackground))
+                    .clipShape(RoundedRectangle(cornerRadius: Layout.fieldCornerRadius))
+            } else {
+                Picker("", selection: Binding(
+                    get: { viewModel.selectedTariffId },
+                    set: { viewModel.selectedTariffId = $0 }
+                )) {
+                    ForEach(viewModel.tariffs) { t in
+                        Text("\(t.name) (\(t.interestRate)% годовых)").tag(Optional(t.id))
+                    }
+                }
+                .pickerStyle(.menu)
+                .padding(.horizontal, Layout.fieldInnerHorizontal)
+                .padding(.vertical, Layout.fieldInnerVertical)
+                .background(Color(uiColor: .secondarySystemGroupedBackground))
+                .clipShape(RoundedRectangle(cornerRadius: Layout.fieldCornerRadius))
+            }
+        }
+    }
+
+    private var accountSection: some View {
+        VStack(alignment: .leading, spacing: Layout.fieldLabelSpacing) {
+            Text(Strings.accountLabel)
+                .font(.subheadline)
+                .fontWeight(.medium)
+                .foregroundStyle(.secondary)
+            if viewModel.accounts.isEmpty {
+                Text(Strings.noAccounts)
+                    .font(.subheadline)
+                    .foregroundStyle(.secondary)
+                    .padding(.vertical, Layout.fieldInnerVertical)
+                    .padding(.horizontal, Layout.fieldInnerHorizontal)
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                    .background(Color(uiColor: .secondarySystemGroupedBackground))
+                    .clipShape(RoundedRectangle(cornerRadius: Layout.fieldCornerRadius))
+            } else {
+                Picker("", selection: Binding(
+                    get: { viewModel.selectedAccountId },
+                    set: { viewModel.selectedAccountId = $0 }
+                )) {
+                    ForEach(viewModel.accounts) { a in
+                        Text(formatAccount(a)).tag(Optional(a.id))
+                    }
+                }
+                .pickerStyle(.menu)
+                .padding(.horizontal, Layout.fieldInnerHorizontal)
+                .padding(.vertical, Layout.fieldInnerVertical)
+                .background(Color(uiColor: .secondarySystemGroupedBackground))
+                .clipShape(RoundedRectangle(cornerRadius: Layout.fieldCornerRadius))
+            }
+        }
+    }
+
+    private var amountSection: some View {
+        VStack(alignment: .leading, spacing: Layout.fieldLabelSpacing) {
+            Text(Strings.amountLabel)
+                .font(.subheadline)
+                .fontWeight(.medium)
+                .foregroundStyle(.secondary)
+                .padding(.leading, Layout.fieldLabelLeading)
+            TextField(Strings.amountPlaceholder, text: $viewModel.amount)
+                .keyboardType(.decimalPad)
+                .padding(.horizontal, Layout.fieldInnerHorizontal)
+                .padding(.vertical, Layout.fieldInnerVertical)
+                .background(Color(uiColor: .secondarySystemGroupedBackground))
+                .clipShape(RoundedRectangle(cornerRadius: Layout.fieldCornerRadius))
+        }
+    }
+
+    private func formatAccount(_ a: BankAccount) -> String {
+        let formatter = NumberFormatter()
+        formatter.numberStyle = .decimal
+        formatter.minimumFractionDigits = 2
+        formatter.maximumFractionDigits = 2
+        let balance = formatter.string(from: NSDecimalNumber(decimal: a.balance)) ?? "\(a.balance)"
+        return "\(a.currency) \(balance)"
     }
 
     private func errorBlock(message: String) -> some View {
@@ -82,6 +172,7 @@ private extension TakeLoanView {
         static let cardPadding: CGFloat = 16
         static let formSpacing: CGFloat = 16
         static let fieldLabelLeading: CGFloat = 8
+        static let fieldLabelSpacing: CGFloat = 6
         static let fieldInnerHorizontal: CGFloat = 8
         static let fieldInnerVertical: CGFloat = 12
         static let fieldCornerRadius: CGFloat = 12
@@ -105,9 +196,13 @@ private extension TakeLoanView {
     }
     enum Strings {
         static let title = "Взять кредит"
+        static let tariffLabel = "Тариф"
+        static let accountLabel = "Счёт для зачисления"
         static let amountLabel = "Сумма"
         static let amountPlaceholder = "0"
         static let submitButtonTitle = "Оформить"
         static let errorIconName = "exclamationmark.triangle.fill"
+        static let noTariffs = "Нет доступных тарифов"
+        static let noAccounts = "Откройте счёт для оформления кредита"
     }
 }

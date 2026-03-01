@@ -101,6 +101,14 @@ struct LoginView: View {
                 .clipShape(RoundedRectangle(cornerRadius: Layout.buttonCornerRadius))
             }
             .disabled(viewModel.isLoading)
+
+            Button(action: { viewModel.presentRegister() }) {
+                Text(Strings.registerButtonTitle)
+                    .font(.subheadline)
+                    .foregroundStyle(Color.appAccent)
+            }
+            .frame(maxWidth: .infinity)
+            .padding(.top, 12)
         }
         .padding(.horizontal, Layout.cardHorizontalPadding)
         .padding(.vertical, Layout.cardVerticalPadding)
@@ -153,5 +161,6 @@ private extension LoginView {
         static let passwordPlaceholder = "Пароль"
         static let errorIconName = "exclamationmark.triangle.fill"
         static let submitButtonTitle = "Войти"
+        static let registerButtonTitle = "Зарегистрироваться"
     }
 }

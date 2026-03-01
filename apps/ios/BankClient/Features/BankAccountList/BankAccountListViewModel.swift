@@ -7,8 +7,6 @@ final class BankAccountListViewModel {
     var isLoading = false
     var isOpeningAccount = false
     var isClosingAccountId: UUID?
-    var isTakingLoan = false
-    var isRepayingLoanId: UUID?
     var errorMessage: String?
 
     private let bankAccountService: IBankAccountService
@@ -69,32 +67,11 @@ final class BankAccountListViewModel {
         coordinator.presentTransactionHistory(bankAccount: bankAccount)
     }
 
-    func takeLoan() async {
-        isTakingLoan = true
-        errorMessage = nil
-        defer { isTakingLoan = false }
-        do {
-            _ = try await bankAccountService.takeLoan(amount: LoanDefaults.amount, currency: LoanDefaults.currency)
-            await load()
-        } catch {
-            errorMessage = error.localizedDescription
-        }
+    func takeLoanTapped() {
+        coordinator.presentTakeLoan()
     }
 
-    func repayLoan(loan: Loan) async {
-        isRepayingLoanId = loan.id
-        errorMessage = nil
-        defer { isRepayingLoanId = nil }
-        do {
-            try await bankAccountService.repayLoan(loanId: loan.id, amount: loan.remainingAmount)
-            await load()
-        } catch {
-            errorMessage = error.localizedDescription
-        }
+    func repayTapped(loan: Loan) {
+        coordinator.presentRepayLoan(loan: loan)
     }
-}
-
-private enum LoanDefaults {
-    static let amount: Decimal = 100_000
-    static let currency = "RUB"
 }

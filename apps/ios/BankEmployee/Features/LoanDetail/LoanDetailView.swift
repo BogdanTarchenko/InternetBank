@@ -6,7 +6,7 @@ struct LoanDetailView: View {
     var body: some View {
         NavigationStack {
             Group {
-                if viewModel.isLoading && viewModel.tariffName == nil && viewModel.loan.tariffId != nil {
+                if viewModel.isLoading && viewModel.loadedLoan == nil && viewModel.loan.apiCreditId != nil {
                     ProgressView()
                         .frame(maxWidth: .infinity, maxHeight: .infinity)
                 } else if let message = viewModel.errorMessage {
@@ -27,13 +27,13 @@ struct LoanDetailView: View {
     private var detailContent: some View {
         ScrollView {
             VStack(alignment: .leading, spacing: Layout.cardSpacing) {
-                row(Strings.totalLabel, formatAmount(viewModel.loan.totalAmount) + " \(viewModel.loan.currency)")
-                row(Strings.remainingLabel, formatAmount(viewModel.loan.remainingAmount) + " \(viewModel.loan.currency)")
-                row(Strings.currencyLabel, viewModel.loan.currency)
+                row(Strings.totalLabel, formatAmount(viewModel.displayLoan.totalAmount) + " \(viewModel.displayLoan.currency)")
+                row(Strings.remainingLabel, formatAmount(viewModel.displayLoan.remainingAmount) + " \(viewModel.displayLoan.currency)")
+                row(Strings.currencyLabel, viewModel.displayLoan.currency)
                 if let name = viewModel.tariffName {
                     row(Strings.tariffLabel, name)
                 }
-                row(Strings.dateLabel, formatDate(viewModel.loan.createdAt))
+                row(Strings.dateLabel, formatDate(viewModel.displayLoan.createdAt))
             }
             .padding(Layout.screenHorizontalPadding)
             .padding(.vertical, Layout.screenVerticalPadding)

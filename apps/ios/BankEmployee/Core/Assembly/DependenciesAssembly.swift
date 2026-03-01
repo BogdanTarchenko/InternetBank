@@ -2,14 +2,33 @@ import SwiftUI
 
 final class DependenciesAssembly {
     private let coordinator: EmployeeCoordinator = EmployeeCoordinator()
-    private let employeeService: IEmployeeService = MockEmployeeService()
-    private let authService: IAuthService = MockAuthService()
+    private let tokenStorage: ITokenStorage = TokenStorage()
+    private let currentUserStorage: ICurrentUserStorage = CurrentUserStorage()
+    private lazy var apiClient: ApiClient = {
+        let c = ApiClient(tokenStorage: tokenStorage)
+        c.onUnauthorized = { [weak self] in try await self?.authApi.refresh() ?? () }
+        return c
+    }()
+    private lazy var authApi = AuthApi(client: apiClient, tokenStorage: tokenStorage)
+    private lazy var usersApi = UsersApi(client: apiClient)
+    private lazy var authService: IAuthService = ApiAuthService(
+        authApi: authApi,
+        usersApi: usersApi,
+        currentUserStorage: currentUserStorage
+    )
+    private lazy var employeeService: IEmployeeService = ApiEmployeeService(client: apiClient)
 
     private lazy var loginAssembly = LoginAssembly(
         authService: authService,
         coordinator: coordinator
     )
     private lazy var loginViewModel = loginAssembly.makeViewModel()
+
+    private lazy var registerAssembly = RegisterAssembly(
+        authService: authService,
+        coordinator: coordinator
+    )
+    private lazy var registerViewModel = registerAssembly.makeViewModel()
 
     private lazy var mainListAssembly = MainListAssembly(
         employeeService: employeeService,
@@ -57,6 +76,7 @@ final class DependenciesAssembly {
         RootView(
             coordinator: coordinator,
             loginViewModel: loginViewModel,
+            registerViewModel: registerViewModel,
             mainListViewModel: mainListViewModel,
             transactionHistoryViewModelFactory: transactionHistoryViewModelFactory,
             createTariffViewModelFactory: createTariffViewModelFactory,

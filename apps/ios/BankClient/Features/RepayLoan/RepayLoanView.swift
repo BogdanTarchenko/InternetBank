@@ -17,6 +17,7 @@ struct RepayLoanView: View {
             .background(Color(uiColor: .systemGroupedBackground))
             .navigationTitle(Strings.title)
             .navigationBarTitleDisplayMode(.inline)
+            .task { await viewModel.load() }
         }
     }
 
@@ -37,6 +38,13 @@ struct RepayLoanView: View {
 
     private var formCard: some View {
         VStack(alignment: .leading, spacing: Layout.formSpacing) {
+            if viewModel.isLoading {
+                ProgressView()
+                    .frame(maxWidth: .infinity)
+                    .padding(.vertical, Layout.fieldInnerVertical)
+            } else {
+                accountSection
+            }
             Text(Strings.amountLabel)
                 .font(.subheadline)
                 .fontWeight(.medium)
@@ -69,12 +77,54 @@ struct RepayLoanView: View {
                 .foregroundStyle(.white)
                 .clipShape(RoundedRectangle(cornerRadius: Layout.buttonCornerRadius))
             }
-            .disabled(viewModel.isSubmitting)
+            .disabled(viewModel.isSubmitting || viewModel.accounts.isEmpty)
         }
         .padding(Layout.cardPadding)
         .background(Color(uiColor: .systemBackground))
         .clipShape(RoundedRectangle(cornerRadius: Layout.cardCornerRadius))
         .shadow(color: .black.opacity(Layout.cardShadowOpacity), radius: Layout.cardShadowRadius, x: 0, y: Layout.cardShadowY)
+    }
+
+    private var accountSection: some View {
+        VStack(alignment: .leading, spacing: Layout.fieldLabelSpacing) {
+            Text(Strings.accountLabel)
+                .font(.subheadline)
+                .fontWeight(.medium)
+                .foregroundStyle(.secondary)
+            if viewModel.accounts.isEmpty {
+                Text(Strings.noAccounts)
+                    .font(.subheadline)
+                    .foregroundStyle(.secondary)
+                    .padding(.vertical, Layout.fieldInnerVertical)
+                    .padding(.horizontal, Layout.fieldInnerHorizontal)
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                    .background(Color(uiColor: .secondarySystemGroupedBackground))
+                    .clipShape(RoundedRectangle(cornerRadius: Layout.fieldCornerRadius))
+            } else {
+                Picker("", selection: Binding(
+                    get: { viewModel.selectedAccountId },
+                    set: { viewModel.selectedAccountId = $0 }
+                )) {
+                    ForEach(viewModel.accounts) { a in
+                        Text(formatAccount(a)).tag(Optional(a.id))
+                    }
+                }
+                .pickerStyle(.menu)
+                .padding(.horizontal, Layout.fieldInnerHorizontal)
+                .padding(.vertical, Layout.fieldInnerVertical)
+                .background(Color(uiColor: .secondarySystemGroupedBackground))
+                .clipShape(RoundedRectangle(cornerRadius: Layout.fieldCornerRadius))
+            }
+        }
+    }
+
+    private func formatAccount(_ a: BankAccount) -> String {
+        let formatter = NumberFormatter()
+        formatter.numberStyle = .decimal
+        formatter.minimumFractionDigits = 2
+        formatter.maximumFractionDigits = 2
+        let balance = formatter.string(from: NSDecimalNumber(decimal: a.balance)) ?? "\(a.balance)"
+        return "\(a.currency) \(balance)"
     }
 
     private func errorBlock(message: String) -> some View {
@@ -118,6 +168,7 @@ private extension RepayLoanView {
         static let cardShadowRadius: CGFloat = 8
         static let cardShadowY: CGFloat = 2
         static let formSpacing: CGFloat = 16
+        static let fieldLabelSpacing: CGFloat = 6
         static let fieldLabelLeading: CGFloat = 8
         static let fieldInnerHorizontal: CGFloat = 8
         static let fieldInnerVertical: CGFloat = 12
@@ -143,5 +194,7 @@ private extension RepayLoanView {
         static let amountPlaceholder = "0"
         static let submitButtonTitle = "Погасить"
         static let errorIconName = "exclamationmark.triangle.fill"
+        static let accountLabel = "Счёт для списания"
+        static let noAccounts = "Нет открытых счетов"
     }
 }

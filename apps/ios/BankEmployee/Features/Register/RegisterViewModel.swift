@@ -1,9 +1,10 @@
 import Foundation
 
 @Observable
-final class LoginViewModel {
+final class RegisterViewModel {
     var login = ""
     var password = ""
+    var name = ""
     var isLoading = false
     var errorMessage: String?
 
@@ -15,8 +16,8 @@ final class LoginViewModel {
         self.coordinator = coordinator
     }
 
-    func presentRegister() {
-        coordinator.presentRegister()
+    func dismiss() {
+        coordinator.dismissRegisterSheet()
     }
 
     func submit() async {
@@ -25,11 +26,17 @@ final class LoginViewModel {
             errorMessage = errors.first?.message
             return
         }
+        let nameTrimmed = name.trimmingCharacters(in: .whitespacesAndNewlines)
+        if nameTrimmed.count < 2 {
+            errorMessage = "Введите имя (от 2 символов)"
+            return
+        }
         isLoading = true
         errorMessage = nil
         defer { isLoading = false }
         do {
-            try await authService.login(login: login, password: password)
+            try await authService.register(login: login, password: password, name: nameTrimmed)
+            coordinator.dismissRegisterSheet()
             coordinator.didLogin()
         } catch {
             errorMessage = error.localizedDescription
