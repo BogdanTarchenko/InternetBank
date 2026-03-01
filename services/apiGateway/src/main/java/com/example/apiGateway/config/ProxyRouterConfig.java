@@ -60,7 +60,12 @@ public class ProxyRouterConfig {
         String targetUrl = route.getTarget() + rawPath + (rawQuery != null ? "?" + rawQuery : "");
         URI targetUri = URI.create(targetUrl);
 
-        log.debug("Proxying {} {} → {}", request.method(), request.uri().getRawPath(), targetUri);
+        String clientId = route.getClientId();
+        String apiToken = route.getApiToken();
+        boolean addServiceAuth = clientId != null && !clientId.isBlank()
+                && apiToken != null && !apiToken.isBlank();
+        log.info("Proxying {} {} → {} (serviceAuth: {}, clientId: {})",
+                request.method(), request.uri().getRawPath(), targetUri, addServiceAuth, addServiceAuth ? clientId : "n/a");
 
         return webClient
                 .method(request.method())
@@ -68,6 +73,11 @@ public class ProxyRouterConfig {
                 .headers(headers -> {
                     headers.addAll(request.headers().asHttpHeaders());
                     headers.remove(HttpHeaders.HOST);
+                    if (addServiceAuth) {
+                        headers.set("X-CLIENT-ID", clientId);
+                        headers.set("client-id", clientId);
+                        headers.set("X-API-TOKEN", apiToken);
+                    }
                 })
                 .body(request.bodyToFlux(DataBuffer.class), DataBuffer.class)
                 .exchangeToMono(clientResponse ->

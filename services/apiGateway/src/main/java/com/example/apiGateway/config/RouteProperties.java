@@ -25,5 +25,9 @@ public class RouteProperties {
         /** Префикс, который обрезается из пути перед отправкой в сервис.
          *  Например: stripPrefix="/core" превратит /core/client/accounts → /client/accounts */
         private String stripPrefix;
+        /** Идентификатор клиента для запросов к core/credit (X-CLIENT-ID). Если задан — добавляется при проксировании. */
+        private String clientId;
+        /** API-токен для запросов к core/credit (X-API-TOKEN). Если задан — добавляется при проксировании. */
+        private String apiToken;
     }
 }

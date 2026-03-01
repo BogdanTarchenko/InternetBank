@@ -1,6 +1,9 @@
 spring:
   application:
     name: core
+  http:
+    converters:
+      preferred-json-mapper: jackson2
 
   datasource:
     url: jdbc:h2:mem:core;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE
@@ -39,7 +42,8 @@ server:
 
 security:
   clients:
-    credit-client: client-client-api-token
+    credit-client: client-client-api-token   # вызовы от сервиса credit (internal API)
+    api-gateway: gateway-api-token          # вызовы от apiGateway (прокси пользователей)
 
 user-status:
   topic: user-status

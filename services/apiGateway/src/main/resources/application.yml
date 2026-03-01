@@ -24,28 +24,36 @@ gateway:
       target: ${services.user-service}
       requires-auth: true
 
-    # ─── coreService (8082) ──────────────────────────────────────────────────
-    # /core/client/** → http://localhost:8082/client/**
+    # coreService (8082) ──────────────────────────────────────────────────
+    # Client: POST/GET/DELETE /client/accounts, deposit/withdraw, operations
+    # Employee: GET /employee/accounts, /employee/accounts/{id}/operations
     - path: /core/client/**
       target: ${services.core-service}
       requires-auth: true
       strip-prefix: /core
+      client-id: api-gateway
+      api-token: gateway-api-token
 
-    # /core/employee/** → http://localhost:8082/employee/**
     - path: /core/employee/**
       target: ${services.core-service}
       requires-auth: true
       strip-prefix: /core
+      client-id: api-gateway
+      api-token: gateway-api-token
 
-    # ─── creditService (8083) ────────────────────────────────────────────────
-    # /credit/client/** → http://localhost:8083/client/**
+    # creditService (8083) ────────────────────────────────────────────────
+    # Client: POST /client/credits, POST /client/credits/{id}/repay
+    # Employee: POST /employee/tariffs, GET /employee/clients/{userId}/credits, GET /employee/credits/{creditId}
     - path: /credit/client/**
       target: ${services.credit-service}
       requires-auth: true
       strip-prefix: /credit
+      client-id: api-gateway
+      api-token: gateway-api-token
 
-    # /credit/employee/** → http://localhost:8083/employee/**
     - path: /credit/employee/**
       target: ${services.credit-service}
       requires-auth: true
       strip-prefix: /credit
+      client-id: api-gateway
+      api-token: gateway-api-token

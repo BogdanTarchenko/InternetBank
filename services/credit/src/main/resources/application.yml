@@ -40,6 +40,7 @@ server:
 security:
   clients:
     demo-client: demo-token
+    api-gateway: gateway-api-token          # вызовы от apiGateway (прокси пользователей)
 
 user-status:
   topic: user-status
