@@ -1,30 +1,24 @@
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
-import { ApplyCreditSchema, type ApplyCreditInput, CreditApi } from '@/entities/credit'
-import { TariffApi } from '@/entities/tariff'
+import { RepaySchema, type RepayInput } from '@/entities/credit/model/schema'
+import { CreditApi } from '@/entities/credit/api/credit.api'
 import { AccountApi } from '@/entities/account'
 import { useAuthStore } from '@/app/store/auth.store'
 import { EventBus, BusEvents } from '@/shared/lib/event-bus'
 import { Button } from '@/shared/ui/Button'
 import { Input } from '@/shared/ui/Input'
 import { Modal } from '@/shared/ui/Modal'
-import { formatPercent } from '@/shared/lib/format'
 
-interface ApplyCreditModalProps {
+interface RepayCreditModalProps {
   open: boolean
   onClose: () => void
+  creditId: number
 }
 
-export function ApplyCreditModal({ open, onClose }: ApplyCreditModalProps) {
+export function RepayCreditModal({ open, onClose, creditId }: RepayCreditModalProps) {
   const userId = useAuthStore((s) => s.user?.id ?? '')
   const queryClient = useQueryClient()
-
-  const { data: tariffs = [] } = useQuery({
-    queryKey: ['tariffs', 'client'],
-    queryFn: TariffApi.getForClient,
-    enabled: open,
-  })
 
   const { data: accounts = [] } = useQuery({
     queryKey: ['accounts', 'my', userId],
@@ -37,14 +31,14 @@ export function ApplyCreditModal({ open, onClose }: ApplyCreditModalProps) {
     handleSubmit,
     reset,
     formState: { errors },
-  } = useForm<ApplyCreditInput>({ resolver: zodResolver(ApplyCreditSchema) })
+  } = useForm<RepayInput>({ resolver: zodResolver(RepaySchema) })
 
   const { mutate, isPending, error } = useMutation({
-    mutationFn: (data: ApplyCreditInput) => CreditApi.apply({ ...data, userId }),
+    mutationFn: (data: RepayInput) => CreditApi.repay(creditId, userId, data),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['credits', 'my', userId] })
       queryClient.invalidateQueries({ queryKey: ['accounts', 'my', userId] })
-      EventBus.emit(BusEvents.CREDIT_APPLIED)
+      EventBus.emit(BusEvents.CREDIT_PAID, { creditId })
       reset()
       onClose()
     },
@@ -53,26 +47,10 @@ export function ApplyCreditModal({ open, onClose }: ApplyCreditModalProps) {
   const activeAccounts = accounts.filter((a) => a.status === 'ACTIVE')
 
   return (
-    <Modal open={open} onClose={onClose} title="Взять кредит">
+    <Modal open={open} onClose={onClose} title="Погасить кредит">
       <form onSubmit={handleSubmit((data) => mutate(data))} className="space-y-4">
         <div>
-          <label className="text-sm font-medium text-slate-700">Тариф</label>
-          <select
-            className="mt-1 w-full rounded-lg border border-slate-300 px-3 py-2 text-sm focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-200"
-            {...register('tariffId', { valueAsNumber: true })}
-          >
-            <option value="">Выберите тариф</option>
-            {tariffs.map((t) => (
-              <option key={t.id} value={t.id}>
-                {t.name} — {formatPercent(t.interestRate)} / каждые {t.paymentIntervalMinutes} мин.
-              </option>
-            ))}
-          </select>
-          {errors.tariffId && <span className="text-xs text-red-600">{errors.tariffId.message}</span>}
-        </div>
-
-        <div>
-          <label className="text-sm font-medium text-slate-700">Счёт для зачисления</label>
+          <label className="text-sm font-medium text-slate-700">Счёт для списания</label>
           <select
             className="mt-1 w-full rounded-lg border border-slate-300 px-3 py-2 text-sm focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-200"
             {...register('accountId')}
@@ -88,16 +66,18 @@ export function ApplyCreditModal({ open, onClose }: ApplyCreditModalProps) {
         </div>
 
         <Input
-          label="Сумма кредита"
+          label="Сумма погашения"
           type="number"
           step="0.01"
-          placeholder="10000"
+          placeholder="1000.00"
           error={errors.amount?.message}
           {...register('amount', { valueAsNumber: true })}
         />
 
         {error && (
-          <p className="text-sm text-red-600 bg-red-50 px-3 py-2 rounded-lg">Не удалось оформить кредит</p>
+          <p className="text-sm text-red-600 bg-red-50 px-3 py-2 rounded-lg">
+            Не удалось погасить кредит. Проверьте баланс.
+          </p>
         )}
 
         <div className="flex gap-3 justify-end">
@@ -105,7 +85,7 @@ export function ApplyCreditModal({ open, onClose }: ApplyCreditModalProps) {
             Отмена
           </Button>
           <Button type="submit" loading={isPending}>
-            Оформить кредит
+            Погасить
           </Button>
         </div>
       </form>

@@ -1,16 +1,16 @@
 import { Navigate, Outlet } from 'react-router-dom'
 import { useAuthStore } from '@/app/store/auth.store'
-import type { UserRole } from '@/shared/lib/permissions'
+import type { AppRole } from '@/shared/lib/permissions'
 
 interface RoleGuardProps {
-  role: UserRole
+  role: AppRole
 }
 
 export function RoleGuard({ role }: RoleGuardProps) {
-  const userRole = useAuthStore((s) => s.role)
+  const appRole = useAuthStore((s) => s.appRole)
 
-  if (userRole !== role) {
-    const fallback = userRole === 'EMPLOYEE' ? '/employee/dashboard' : '/client/dashboard'
+  if (appRole !== role) {
+    const fallback = appRole === 'EMPLOYEE' ? '/employee/dashboard' : '/client/dashboard'
     return <Navigate to={fallback} replace />
   }
 

@@ -28,7 +28,7 @@ export function CreateUserModal({ open, onClose, role }: CreateUserModalProps) {
   const { mutate, isPending, error } = useMutation({
     mutationFn: UserApi.create,
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['users', role.toLowerCase() + 's'] })
+      queryClient.invalidateQueries({ queryKey: ['users'] })
       EventBus.emit(BusEvents.USER_CREATED, { role })
       reset()
       onClose()
@@ -40,20 +40,12 @@ export function CreateUserModal({ open, onClose, role }: CreateUserModalProps) {
   return (
     <Modal open={open} onClose={onClose} title={title}>
       <form onSubmit={handleSubmit((data) => mutate(data))} className="space-y-4">
-        <div className="grid grid-cols-2 gap-3">
-          <Input
-            label="Имя"
-            placeholder="Иван"
-            error={errors.firstName?.message}
-            {...register('firstName')}
-          />
-          <Input
-            label="Фамилия"
-            placeholder="Иванов"
-            error={errors.lastName?.message}
-            {...register('lastName')}
-          />
-        </div>
+        <Input
+          label="Имя и фамилия"
+          placeholder="Иван Иванов"
+          error={errors.name?.message}
+          {...register('name')}
+        />
         <Input
           label="Email"
           type="email"

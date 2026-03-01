@@ -1,4 +1,6 @@
-export type UserRole = 'CLIENT' | 'EMPLOYEE'
+export type UserRole = 'CLIENT' | 'EMPLOYEE' | 'ADMIN' | 'BANNED'
+
+export type AppRole = 'CLIENT' | 'EMPLOYEE'
 
 export type Permission =
   | 'view:own-accounts'
@@ -16,7 +18,7 @@ export type Permission =
   | 'manage:clients'
   | 'manage:employees'
 
-const ROLE_PERMISSIONS: Record<UserRole, Permission[]> = {
+const ROLE_PERMISSIONS: Partial<Record<UserRole, Permission[]>> = {
   CLIENT: [
     'view:own-accounts',
     'open:account',
@@ -38,12 +40,24 @@ const ROLE_PERMISSIONS: Record<UserRole, Permission[]> = {
     'manage:clients',
     'manage:employees',
   ],
+  ADMIN: [
+    'view:all-accounts',
+    'view:own-accounts',
+    'view:all-credits',
+    'view:own-credits',
+    'view:transactions',
+    'create:tariff',
+    'manage:clients',
+    'manage:employees',
+  ],
 }
 
 export function hasPermission(role: UserRole, permission: Permission): boolean {
   return ROLE_PERMISSIONS[role]?.includes(permission) ?? false
 }
 
-export function getPermissions(role: UserRole): Permission[] {
-  return ROLE_PERMISSIONS[role] ?? []
+export function getAppRole(role: UserRole): AppRole | null {
+  if (role === 'CLIENT') return 'CLIENT'
+  if (role === 'EMPLOYEE' || role === 'ADMIN') return 'EMPLOYEE'
+  return null 
 }

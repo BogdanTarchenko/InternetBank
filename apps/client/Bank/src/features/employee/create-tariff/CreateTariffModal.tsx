@@ -49,11 +49,11 @@ export function CreateTariffModal({ open, onClose }: CreateTariffModalProps) {
           {...register('interestRate', { valueAsNumber: true })}
         />
         <Input
-          label="Срок (дней)"
+          label="Интервал платежа (минуты)"
           type="number"
-          placeholder="30"
-          error={errors.durationDays?.message}
-          {...register('durationDays', { valueAsNumber: true })}
+          placeholder="1440"
+          error={errors.paymentIntervalMinutes?.message}
+          {...register('paymentIntervalMinutes', { valueAsNumber: true })}
         />
         {error && (
           <p className="text-sm text-red-600 bg-red-50 px-3 py-2 rounded-lg">Не удалось создать тариф</p>
@@ -63,7 +63,7 @@ export function CreateTariffModal({ open, onClose }: CreateTariffModalProps) {
             Отмена
           </Button>
           <Button type="submit" loading={isPending}>
-            Создать тариф
+            Создать
           </Button>
         </div>
       </form>

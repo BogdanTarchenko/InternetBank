@@ -29,11 +29,11 @@ export function AccountCard({ account }: AccountCardProps) {
       >
         <div className="flex items-start justify-between">
           <div>
-            <p className="text-xs font-medium uppercase tracking-wide text-slate-400">{account.currency}</p>
+            <p className="text-xs font-medium uppercase tracking-wide text-slate-400">Счёт RUB</p>
             <p className="mt-1 text-2xl font-bold text-slate-900">
-              {formatCurrency(account.balance, account.currency)}
+              {formatCurrency(account.balance)}
             </p>
-            <p className="mt-1 font-mono text-sm text-slate-500">{account.accountNumber}</p>
+            <p className="mt-1 font-mono text-xs text-slate-400">{account.id.slice(0, 16)}…</p>
           </div>
           <span
             className={clsx(
@@ -76,7 +76,6 @@ export function AccountCard({ account }: AccountCardProps) {
         open={closeOpen}
         onClose={() => setCloseOpen(false)}
         accountId={account.id}
-        accountNumber={account.accountNumber}
       />
     </>
   )

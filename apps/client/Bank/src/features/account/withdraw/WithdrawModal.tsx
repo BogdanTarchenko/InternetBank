@@ -3,6 +3,7 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { z } from 'zod'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { AccountApi } from '@/entities/account'
+import { useAuthStore } from '@/app/store/auth.store'
 import { EventBus, BusEvents } from '@/shared/lib/event-bus'
 import { Button } from '@/shared/ui/Button'
 import { Input } from '@/shared/ui/Input'
@@ -11,7 +12,7 @@ import { Modal } from '@/shared/ui/Modal'
 const WithdrawSchema = z.object({
   amount: z
     .number({ error: 'Введите сумму' })
-    .min(1, 'Минимум 1'),
+    .min(0.01, 'Минимум 0.01'),
 })
 type WithdrawInput = z.infer<typeof WithdrawSchema>
 
@@ -23,6 +24,7 @@ interface WithdrawModalProps {
 }
 
 export function WithdrawModal({ open, onClose, accountId, maxAmount }: WithdrawModalProps) {
+  const userId = useAuthStore((s) => s.user?.id ?? '')
   const queryClient = useQueryClient()
   const {
     register,
@@ -39,11 +41,10 @@ export function WithdrawModal({ open, onClose, accountId, maxAmount }: WithdrawM
   })
 
   const { mutate, isPending, error } = useMutation({
-    mutationFn: ({ amount }: WithdrawInput) => AccountApi.withdraw(accountId, amount),
+    mutationFn: ({ amount }: WithdrawInput) => AccountApi.withdraw(accountId, userId, amount),
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['accounts', 'my'] })
-      queryClient.invalidateQueries({ queryKey: ['account', accountId] })
-      queryClient.invalidateQueries({ queryKey: ['transactions', accountId] })
+      queryClient.invalidateQueries({ queryKey: ['accounts', 'my', userId] })
+      queryClient.invalidateQueries({ queryKey: ['operations', accountId] })
       EventBus.emit(BusEvents.WITHDRAW_MADE, { accountId })
       reset()
       onClose()

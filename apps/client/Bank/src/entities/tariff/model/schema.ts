@@ -6,10 +6,10 @@ export const CreateTariffSchema = z.object({
     .number({ error: 'Введите число' })
     .min(0.01, 'Ставка должна быть больше 0')
     .max(100, 'Ставка не может превышать 100%'),
-  durationDays: z
+  paymentIntervalMinutes: z
     .number({ error: 'Введите число' })
     .int()
-    .min(1, 'Минимум 1 день'),
+    .min(1, 'Минимум 1 минута'),
 })
 
 export type CreateTariffInput = z.infer<typeof CreateTariffSchema>

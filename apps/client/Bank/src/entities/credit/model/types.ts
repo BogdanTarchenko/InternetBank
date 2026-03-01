@@ -1,15 +1,24 @@
 export type CreditStatus = 'ACTIVE' | 'PAID' | 'OVERDUE'
 
 export interface Credit {
-  id: string
-  clientId: string
-  accountId: string
-  tariffId: string
+  id: number
+  userId: string
+  tariffId: number
   tariffName: string
-  amount: number
+  totalAmount: number
   remainingAmount: number
-  interestRate: number
   status: CreditStatus
+  startedAt: string
   nextPaymentAt: string
-  createdAt: string
+}
+
+export interface CreditPayment {
+  id: number
+  paidAt: string
+  amount: number
+}
+
+export interface CreditDetail {
+  credit: Credit
+  payments: CreditPayment[]
 }

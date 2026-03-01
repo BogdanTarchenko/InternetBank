@@ -10,9 +10,9 @@ import { Table } from '@/shared/ui/Table'
 import { Button } from '@/shared/ui/Button'
 import { Modal } from '@/shared/ui/Modal'
 import { EventBus, BusEvents } from '@/shared/lib/event-bus'
-import { formatShortDate } from '@/shared/lib/format'
 import type { User } from '@/entities/user'
 import { clsx } from 'clsx'
+import { formatCurrency } from '@/shared/lib/format'
 
 export function EmployeeClientsPage() {
   const queryClient = useQueryClient()
@@ -20,10 +20,12 @@ export function EmployeeClientsPage() {
   const [selectedClient, setSelectedClient] = useState<User | null>(null)
   const [creditsTab, setCreditsTab] = useState(false)
 
-  const { data: clients = [], isLoading } = useQuery({
+  const { data: page, isLoading } = useQuery({
     queryKey: ['users', 'clients'],
-    queryFn: UserApi.getClients,
+    queryFn: () => UserApi.getAll({ size: 100 }),
   })
+
+  const clients = (page?.content ?? []).filter((u) => u.role === 'CLIENT' || u.role === 'BANNED')
 
   const { data: clientAccounts = [] } = useQuery({
     queryKey: ['accounts', 'client', selectedClient?.id],
@@ -37,8 +39,9 @@ export function EmployeeClientsPage() {
     enabled: !!selectedClient && creditsTab,
   })
 
-  const { mutate: toggleBlock, isPending: isBlocking } = useMutation({
-    mutationFn: (u: User) => (u.status === 'ACTIVE' ? UserApi.block(u.id) : UserApi.unblock(u.id)),
+  const { mutate: toggleBan, isPending: isBanning } = useMutation({
+    mutationFn: (u: User) =>
+      u.role === 'BANNED' ? UserApi.unban(u.id, 'CLIENT') : UserApi.ban(u.id),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['users', 'clients'] })
       EventBus.emit(BusEvents.USER_BLOCKED)
@@ -61,35 +64,58 @@ export function EmployeeClientsPage() {
         ) : (
           <Table
             columns={[
-              { key: 'name', header: 'Имя', render: (u) => `${u.firstName} ${u.lastName}` },
+              { key: 'name', header: 'Имя' },
               { key: 'email', header: 'Email' },
-              { key: 'status', header: 'Статус', render: (u) => (
-                <span className={clsx(
-                  'rounded-full px-2 py-0.5 text-xs font-medium',
-                  u.status === 'ACTIVE' ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700'
-                )}>
-                  {u.status === 'ACTIVE' ? 'Активен' : 'Заблокирован'}
-                </span>
-              )},
-              { key: 'createdAt', header: 'Дата регистрации', render: (u) => formatShortDate(u.createdAt) },
-              { key: 'id', header: '', render: (u) => (
-                <div className="flex gap-2">
-                  <Button size="sm" variant="ghost" onClick={() => { setSelectedClient(u); setCreditsTab(false) }}>
-                    Счета
-                  </Button>
-                  <Button size="sm" variant="ghost" onClick={() => { setSelectedClient(u); setCreditsTab(true) }}>
-                    Кредиты
-                  </Button>
-                  <Button
-                    size="sm"
-                    variant={u.status === 'ACTIVE' ? 'danger' : 'secondary'}
-                    loading={isBlocking}
-                    onClick={() => toggleBlock(u)}
+              {
+                key: 'role',
+                header: 'Статус',
+                render: (u) => (
+                  <span
+                    className={clsx(
+                      'rounded-full px-2 py-0.5 text-xs font-medium',
+                      u.role === 'BANNED' ? 'bg-red-100 text-red-700' : 'bg-green-100 text-green-700',
+                    )}
                   >
-                    {u.status === 'ACTIVE' ? 'Блок' : 'Разблок'}
-                  </Button>
-                </div>
-              )},
+                    {u.role === 'BANNED' ? 'Заблокирован' : 'Активен'}
+                  </span>
+                ),
+              },
+              {
+                key: 'id',
+                header: '',
+                render: (u) => (
+                  <div className="flex gap-2">
+                    <Button
+                      size="sm"
+                      variant="ghost"
+                      onClick={() => {
+                        setSelectedClient(u)
+                        setCreditsTab(false)
+                      }}
+                    >
+                      Счета
+                    </Button>
+                    <Button
+                      size="sm"
+                      variant="ghost"
+                      onClick={() => {
+                        setSelectedClient(u)
+                        setCreditsTab(true)
+                      }}
+                    >
+                      Кредиты
+                    </Button>
+                    <Button
+                      size="sm"
+                      variant={u.role === 'BANNED' ? 'secondary' : 'danger'}
+                      loading={isBanning}
+                      onClick={() => toggleBan(u)}
+                    >
+                      {u.role === 'BANNED' ? 'Разблок' : 'Блок'}
+                    </Button>
+                  </div>
+                ),
+              },
             ]}
             data={clients}
             keyExtractor={(u) => u.id}
@@ -103,20 +129,26 @@ export function EmployeeClientsPage() {
       <Modal
         open={!!selectedClient}
         onClose={() => setSelectedClient(null)}
-        title={selectedClient ? `${selectedClient.firstName} ${selectedClient.lastName}` : ''}
+        title={selectedClient ? selectedClient.name : ''}
         size="lg"
       >
         {selectedClient && (
           <div>
             <div className="flex gap-2 mb-4 border-b pb-3">
               <button
-                className={clsx('px-3 py-1.5 text-sm font-medium rounded-lg', !creditsTab ? 'bg-blue-50 text-blue-700' : 'text-slate-600 hover:bg-slate-100')}
+                className={clsx(
+                  'px-3 py-1.5 text-sm font-medium rounded-lg',
+                  !creditsTab ? 'bg-blue-50 text-blue-700' : 'text-slate-600 hover:bg-slate-100',
+                )}
                 onClick={() => setCreditsTab(false)}
               >
                 Счета
               </button>
               <button
-                className={clsx('px-3 py-1.5 text-sm font-medium rounded-lg', creditsTab ? 'bg-blue-50 text-blue-700' : 'text-slate-600 hover:bg-slate-100')}
+                className={clsx(
+                  'px-3 py-1.5 text-sm font-medium rounded-lg',
+                  creditsTab ? 'bg-blue-50 text-blue-700' : 'text-slate-600 hover:bg-slate-100',
+                )}
                 onClick={() => setCreditsTab(true)}
               >
                 Кредиты
@@ -129,22 +161,28 @@ export function EmployeeClientsPage() {
                 <div className="space-y-2">
                   {clientAccounts.map((a) => (
                     <div key={a.id} className="flex justify-between items-center rounded-lg border px-4 py-2">
-                      <span className="font-mono text-sm">{a.accountNumber}</span>
-                      <span className="font-semibold">{a.balance} {a.currency}</span>
+                      <span className="font-mono text-xs text-slate-500">{a.id.slice(0, 16)}…</span>
+                      <span
+                        className={clsx(
+                          'text-xs rounded-full px-2 py-0.5',
+                          a.status === 'ACTIVE' ? 'bg-green-100 text-green-700' : 'bg-slate-100 text-slate-500',
+                        )}
+                      >
+                        {a.status}
+                      </span>
+                      <span className="font-semibold">{formatCurrency(a.balance)}</span>
                     </div>
                   ))}
                 </div>
               )
+            ) : clientCredits.length === 0 ? (
+              <p className="text-sm text-slate-400 text-center py-4">Нет кредитов</p>
             ) : (
-              clientCredits.length === 0 ? (
-                <p className="text-sm text-slate-400 text-center py-4">Нет кредитов</p>
-              ) : (
-                <div className="space-y-3">
-                  {clientCredits.map((c) => (
-                    <CreditCard key={c.id} credit={c} showActions={false} />
-                  ))}
-                </div>
-              )
+              <div className="space-y-3">
+                {clientCredits.map((c) => (
+                  <CreditCard key={c.id} credit={c} showActions={false} />
+                ))}
+              </div>
             )}
           </div>
         )}

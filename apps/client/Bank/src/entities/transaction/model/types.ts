@@ -1,11 +1,13 @@
-export type TransactionType = 'DEPOSIT' | 'WITHDRAW' | 'CREDIT_ISSUE' | 'CREDIT_PAYMENT' | 'TRANSFER'
+export type OperationType = 'OPEN_ACCOUNT' | 'CLOSE_ACCOUNT' | 'DEPOSIT' | 'WITHDRAW'
 
-export interface Transaction {
+export interface Operation {
   id: string
   accountId: string
-  type: TransactionType
+  type: OperationType
   amount: number
   balanceAfter: number
-  description?: string
   createdAt: string
 }
+
+export type Transaction = Operation
+export type TransactionType = OperationType

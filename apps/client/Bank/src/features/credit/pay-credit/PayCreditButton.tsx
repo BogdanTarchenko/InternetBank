@@ -1,27 +1,20 @@
-import { useMutation, useQueryClient } from '@tanstack/react-query'
-import { CreditApi } from '@/entities/credit'
-import { EventBus, BusEvents } from '@/shared/lib/event-bus'
+import { useState } from 'react'
 import { Button } from '@/shared/ui/Button'
+import { RepayCreditModal } from './RepayCreditModal'
 
 interface PayCreditButtonProps {
-  creditId: string
+  creditId: number
 }
 
 export function PayCreditButton({ creditId }: PayCreditButtonProps) {
-  const queryClient = useQueryClient()
-
-  const { mutate, isPending } = useMutation({
-    mutationFn: () => CreditApi.pay(creditId),
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['credits', 'my'] })
-      queryClient.invalidateQueries({ queryKey: ['accounts', 'my'] })
-      EventBus.emit(BusEvents.CREDIT_PAID, { creditId })
-    },
-  })
+  const [open, setOpen] = useState(false)
 
   return (
-    <Button size="sm" onClick={() => mutate()} loading={isPending}>
-      Погасить
-    </Button>
+    <>
+      <Button size="sm" onClick={() => setOpen(true)}>
+        Погасить кредит
+      </Button>
+      <RepayCreditModal open={open} onClose={() => setOpen(false)} creditId={creditId} />
+    </>
   )
 }
