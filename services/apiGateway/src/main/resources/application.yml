@@ -23,10 +23,14 @@ gateway:
     - path: /auth/**
       target: ${services.user-service}
       requires-auth: false
+      client-id: api-gateway
+      api-token: gateway-api-token
 
     - path: /users/**
       target: ${services.user-service}
       requires-auth: true
+      client-id: api-gateway
+      api-token: gateway-api-token
 
     # coreService (8082) ──────────────────────────────────────────────────
     # Client: POST/GET/DELETE /client/accounts, deposit/withdraw, operations
