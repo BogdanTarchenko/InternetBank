@@ -1,0 +1,5 @@
+# Docker network: use service names as hosts
+services:
+  user-service: http://userService:8081
+  core-service: http://core:8082
+  credit-service: http://credit:8083

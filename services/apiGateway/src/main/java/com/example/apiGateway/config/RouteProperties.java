@@ -23,5 +23,9 @@ public class RouteProperties {
         private String target;
         private boolean requiresAuth;
         private String stripPrefix;
+        /** Идентификатор клиента для запросов к core/credit (X-CLIENT-ID). Если задан — добавляется при проксировании. */
+        private String clientId;
+        /** API-токен для запросов к core/credit (X-API-TOKEN). Если задан — добавляется при проксировании. */
+        private String apiToken;
     }
 }

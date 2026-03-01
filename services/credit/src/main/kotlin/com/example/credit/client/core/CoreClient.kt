@@ -5,11 +5,13 @@ import org.springframework.http.HttpHeaders
 import org.springframework.http.HttpMethod
 import org.springframework.http.HttpStatus
 import org.springframework.http.MediaType
+import org.springframework.http.ResponseEntity
 import org.springframework.stereotype.Component
 import org.springframework.web.client.HttpStatusCodeException
 import org.springframework.web.client.RestTemplate
 import org.springframework.web.server.ResponseStatusException
 import java.math.BigDecimal
+import java.net.URI
 import java.util.UUID
 
 @Component
@@ -37,7 +39,7 @@ class CoreClient(
         )
     }
 
-    private fun <T> execute(
+    private fun <T : Any> execute(
         method: HttpMethod,
         url: String,
         body: Any?,
@@ -50,7 +52,8 @@ class CoreClient(
         }
         val entity = HttpEntity(body, headers)
         return try {
-            restTemplate.exchange(url, method, entity, responseType).body!!
+            val response: ResponseEntity<T> = restTemplate.exchange(URI.create(url), method, entity, responseType)
+            response.body!!
         } catch (ex: HttpStatusCodeException) {
             val statusCode = ex.statusCode
             val errorMessage = try {
