@@ -21,10 +21,13 @@ class UserAccountStatusService(
         userAccountStatusRepository.save(entity)
     }
 
-    @Transactional(readOnly = true)
+    @Transactional
     fun assertUserActive(userId: String) {
         val status = userAccountStatusRepository.findById(userId)
-            .orElseThrow { IllegalStateException("User status not found for userId=$userId") }
+            .orElseGet {
+                UserAccountStatus(userId = userId, status = UserStatus.ACTIVE)
+                    .also { userAccountStatusRepository.save(it) }
+            }
         if (status.status != UserStatus.ACTIVE) {
             throw IllegalStateException("User is not active: userId=$userId")
         }
