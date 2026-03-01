@@ -2,11 +2,9 @@ export type AccountStatus = 'ACTIVE' | 'CLOSED'
 
 export interface Account {
   id: string
-  clientId: string
-  accountNumber: string
+  userId: string
   balance: number
-  currency: string
   status: AccountStatus
   createdAt: string
-  closedAt?: string
+  updatedAt: string
 }

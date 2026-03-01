@@ -1,6 +1,7 @@
 import { useParams, useNavigate } from 'react-router-dom'
 import { useQuery } from '@tanstack/react-query'
 import { AccountApi } from '@/entities/account'
+import { useAuthStore } from '@/app/store/auth.store'
 import { TransactionList } from '@/widgets/TransactionList/TransactionList'
 import { AppLayout } from '@/widgets/Layout/AppLayout'
 import { Button } from '@/shared/ui/Button'
@@ -10,12 +11,15 @@ import { Skeleton } from '@/shared/ui/Skeleton'
 export function ClientAccountDetailPage() {
   const { accountId } = useParams<{ accountId: string }>()
   const navigate = useNavigate()
+  const userId = useAuthStore((s) => s.user?.id ?? '')
 
-  const { data: account, isLoading } = useQuery({
-    queryKey: ['account', accountId],
-    queryFn: () => AccountApi.getById(accountId!),
-    enabled: !!accountId,
+  const { data: accounts, isLoading } = useQuery({
+    queryKey: ['accounts', 'my', userId],
+    queryFn: () => AccountApi.getMyAccounts(userId),
+    enabled: !!userId,
   })
+
+  const account = accounts?.find((a) => a.id === accountId)
 
   return (
     <AppLayout>
@@ -35,15 +39,17 @@ export function ClientAccountDetailPage() {
         ) : account ? (
           <>
             <div className="mb-6 rounded-xl bg-gradient-to-r from-blue-700 to-blue-900 p-6 text-white">
-              <p className="text-sm font-medium text-blue-200">{account.currency} счёт</p>
-              <p className="mt-1 text-3xl font-bold">{formatCurrency(account.balance, account.currency)}</p>
-              <p className="mt-2 font-mono text-sm text-blue-200">{account.accountNumber}</p>
+              <p className="text-sm font-medium text-blue-200">Счёт</p>
+              <p className="mt-1 text-3xl font-bold">{formatCurrency(account.balance)}</p>
+              <p className="mt-2 font-mono text-sm text-blue-200">{account.id}</p>
               <p className="mt-1 text-xs text-blue-300">Открыт {formatShortDate(account.createdAt)}</p>
             </div>
             <h2 className="mb-3 text-lg font-semibold text-slate-900">Операции</h2>
             <TransactionList accountId={account.id} />
           </>
-        ) : null}
+        ) : (
+          <p className="text-slate-500 text-center py-10">Счёт не найден</p>
+        )}
       </div>
     </AppLayout>
   )

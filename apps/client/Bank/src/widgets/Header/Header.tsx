@@ -1,46 +1,29 @@
-import { useMutation } from '@tanstack/react-query'
-import { useNavigate } from 'react-router-dom'
-import { UserApi } from '@/entities/user'
 import { useAuthStore } from '@/app/store/auth.store'
 import { Button } from '@/shared/ui/Button'
 
 export function Header() {
-  const navigate = useNavigate()
-  const { user, clearAuth } = useAuthStore()
+  const user = useAuthStore((s) => s.user)
+  const appRole = useAuthStore((s) => s.appRole)
+  const clearAuth = useAuthStore((s) => s.clearAuth)
 
-  const { mutate: logout, isPending } = useMutation({
-    mutationFn: UserApi.logout,
-    onSettled: () => {
-      clearAuth()
-      navigate('/login', { replace: true })
-    },
-  })
+  const roleLabel = appRole === 'EMPLOYEE' ? 'Сотрудник' : 'Клиент'
 
   return (
-    <header className="sticky top-0 z-40 border-b border-slate-200 bg-white px-6 py-3">
-      <div className="flex items-center justify-between">
-        <div className="flex items-center gap-3">
-          <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-blue-700 text-white text-sm font-bold">
-            B
-          </div>
-          <span className="font-semibold text-slate-900">InternetBank</span>
-        </div>
+    <header className="flex h-14 items-center justify-between border-b bg-white px-6 shadow-sm">
+      <div className="flex items-center gap-3">
+        <span className="text-lg font-bold text-blue-700">💳 InternetBank</span>
+        <span className="rounded-full bg-blue-50 px-2 py-0.5 text-xs font-medium text-blue-600">
+          {roleLabel}
+        </span>
+      </div>
+      {user && (
         <div className="flex items-center gap-4">
-          {user && (
-            <div className="text-right">
-              <p className="text-sm font-medium text-slate-900">
-                {user.firstName} {user.lastName}
-              </p>
-              <p className="text-xs text-slate-500">
-                {user.role === 'EMPLOYEE' ? 'Сотрудник' : 'Клиент'}
-              </p>
-            </div>
-          )}
-          <Button variant="ghost" size="sm" onClick={() => logout()} loading={isPending}>
+          <span className="text-sm text-slate-600">{user.name}</span>
+          <Button size="sm" variant="ghost" onClick={clearAuth}>
             Выйти
           </Button>
         </div>
-      </div>
+      )}
     </header>
   )
 }

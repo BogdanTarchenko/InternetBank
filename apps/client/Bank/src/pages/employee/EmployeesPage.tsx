@@ -6,7 +6,6 @@ import { CreateUserModal } from '@/features/employee/manage-users/CreateUserModa
 import { Table } from '@/shared/ui/Table'
 import { Button } from '@/shared/ui/Button'
 import { EventBus, BusEvents } from '@/shared/lib/event-bus'
-import { formatShortDate } from '@/shared/lib/format'
 import type { User } from '@/entities/user'
 import { clsx } from 'clsx'
 
@@ -14,13 +13,18 @@ export function EmployeeEmployeesPage() {
   const queryClient = useQueryClient()
   const [createOpen, setCreateOpen] = useState(false)
 
-  const { data: employees = [], isLoading } = useQuery({
+  const { data: page, isLoading } = useQuery({
     queryKey: ['users', 'employees'],
-    queryFn: UserApi.getEmployees,
+    queryFn: () => UserApi.getAll({ size: 100 }),
   })
 
-  const { mutate: toggleBlock, isPending: isBlocking } = useMutation({
-    mutationFn: (u: User) => (u.status === 'ACTIVE' ? UserApi.block(u.id) : UserApi.unblock(u.id)),
+  const employees = (page?.content ?? []).filter(
+    (u) => u.role === 'EMPLOYEE' || u.role === 'ADMIN',
+  )
+
+  const { mutate: toggleBan, isPending: isBanning } = useMutation({
+    mutationFn: (u: User) =>
+      u.role === 'BANNED' ? UserApi.unban(u.id, 'EMPLOYEE') : UserApi.ban(u.id),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['users', 'employees'] })
       EventBus.emit(BusEvents.USER_BLOCKED)
@@ -43,27 +47,31 @@ export function EmployeeEmployeesPage() {
         ) : (
           <Table
             columns={[
-              { key: 'name', header: 'Имя', render: (u) => `${u.firstName} ${u.lastName}` },
+              { key: 'name', header: 'Имя' },
               { key: 'email', header: 'Email' },
-              { key: 'status', header: 'Статус', render: (u) => (
-                <span className={clsx(
-                  'rounded-full px-2 py-0.5 text-xs font-medium',
-                  u.status === 'ACTIVE' ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700'
-                )}>
-                  {u.status === 'ACTIVE' ? 'Активен' : 'Заблокирован'}
-                </span>
-              )},
-              { key: 'createdAt', header: 'Дата регистрации', render: (u) => formatShortDate(u.createdAt) },
-              { key: 'id', header: '', render: (u) => (
-                <Button
-                  size="sm"
-                  variant={u.status === 'ACTIVE' ? 'danger' : 'secondary'}
-                  loading={isBlocking}
-                  onClick={() => toggleBlock(u)}
-                >
-                  {u.status === 'ACTIVE' ? 'Заблокировать' : 'Разблокировать'}
-                </Button>
-              )},
+              {
+                key: 'role',
+                header: 'Роль',
+                render: (u) => (
+                  <span className="rounded-full px-2 py-0.5 text-xs font-medium bg-purple-100 text-purple-700">
+                    {u.role}
+                  </span>
+                ),
+              },
+              {
+                key: 'id',
+                header: '',
+                render: (u) => (
+                  <Button
+                    size="sm"
+                    variant={u.role === 'BANNED' ? 'secondary' : 'danger'}
+                    loading={isBanning}
+                    onClick={() => toggleBan(u)}
+                  >
+                    {u.role === 'BANNED' ? 'Разблок' : 'Блок'}
+                  </Button>
+                ),
+              },
             ]}
             data={employees}
             keyExtractor={(u) => u.id}

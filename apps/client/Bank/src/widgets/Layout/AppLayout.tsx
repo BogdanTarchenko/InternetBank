@@ -9,14 +9,14 @@ interface AppLayoutProps {
 }
 
 export function AppLayout({ children }: AppLayoutProps) {
-  const role = useAuthStore((s) => s.role)
+  const appRole = useAuthStore((s) => s.appRole)
 
   return (
     <div className="flex h-screen flex-col">
       <Header />
       <div className="flex flex-1 overflow-hidden">
-        {role === 'CLIENT' && <ClientSidebar />}
-        {role === 'EMPLOYEE' && <EmployeeSidebar />}
+        {appRole === 'CLIENT' && <ClientSidebar />}
+        {appRole === 'EMPLOYEE' && <EmployeeSidebar />}
         <main className="flex-1 overflow-y-auto p-6">{children}</main>
       </div>
     </div>

@@ -1,36 +1,38 @@
-import { coreHttp } from '@/shared/api/http.client'
+import { http } from '@/shared/api/http.client'
 import type { Account } from '../model/types'
 
 export const AccountApi = {
-  getMyAccounts(): Promise<Account[]> {
-    return coreHttp.get<Account[]>('/accounts/my').then((r) => r.data)
+  open(userId: string): Promise<Account> {
+    return http.post<Account>('/core/client/accounts', { userId }).then((r) => r.data)
   },
 
-  getClientAccounts(clientId: string): Promise<Account[]> {
-    return coreHttp.get<Account[]>(`/accounts/client/${clientId}`).then((r) => r.data)
+  getMyAccounts(userId: string): Promise<Account[]> {
+    return http.get<Account[]>('/core/client/accounts', { params: { userId } }).then((r) => r.data)
+  },
+
+  close(accountId: string, userId: string): Promise<Account> {
+    return http
+      .delete<Account>(`/core/client/accounts/${accountId}`, { params: { userId } })
+      .then((r) => r.data)
+  },
+
+  deposit(accountId: string, userId: string, amount: number): Promise<Account> {
+    return http
+      .post<Account>(`/core/client/accounts/${accountId}/deposit`, { amount }, { params: { userId } })
+      .then((r) => r.data)
+  },
+
+  withdraw(accountId: string, userId: string, amount: number): Promise<Account> {
+    return http
+      .post<Account>(`/core/client/accounts/${accountId}/withdraw`, { amount }, { params: { userId } })
+      .then((r) => r.data)
   },
 
   getAllAccounts(): Promise<Account[]> {
-    return coreHttp.get<Account[]>('/accounts').then((r) => r.data)
+    return http.get<Account[]>('/core/employee/accounts').then((r) => r.data)
   },
 
-  getById(accountId: string): Promise<Account> {
-    return coreHttp.get<Account>(`/accounts/${accountId}`).then((r) => r.data)
-  },
-
-  open(currency = 'RUB'): Promise<Account> {
-    return coreHttp.post<Account>('/accounts', { currency }).then((r) => r.data)
-  },
-
-  close(accountId: string): Promise<Account> {
-    return coreHttp.delete<Account>(`/accounts/${accountId}`).then((r) => r.data)
-  },
-
-  deposit(accountId: string, amount: number): Promise<Account> {
-    return coreHttp.post<Account>(`/accounts/${accountId}/deposit`, { amount }).then((r) => r.data)
-  },
-
-  withdraw(accountId: string, amount: number): Promise<Account> {
-    return coreHttp.post<Account>(`/accounts/${accountId}/withdraw`, { amount }).then((r) => r.data)
+  getClientAccounts(userId: string): Promise<Account[]> {
+    return http.get<Account[]>('/core/client/accounts', { params: { userId } }).then((r) => r.data)
   },
 }

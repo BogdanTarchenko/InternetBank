@@ -1,59 +1,55 @@
 import { useState } from 'react'
 import { useQuery } from '@tanstack/react-query'
 import { AccountApi } from '@/entities/account'
+import { useAuthStore } from '@/app/store/auth.store'
 import { AccountCard } from '@/widgets/AccountCard/AccountCard'
 import { AppLayout } from '@/widgets/Layout/AppLayout'
 import { OpenAccountModal } from '@/features/account/open-account/OpenAccountModal'
 import { Button } from '@/shared/ui/Button'
-import { SkeletonCard } from '@/shared/ui/Skeleton'
+import { Skeleton } from '@/shared/ui/Skeleton'
 
 export function ClientDashboardPage() {
-  const [openModalVisible, setOpenModalVisible] = useState(false)
+  const user = useAuthStore((s) => s.user)
+  const userId = user?.id ?? ''
+  const [openModal, setOpenModal] = useState(false)
 
   const { data: accounts = [], isLoading } = useQuery({
-    queryKey: ['accounts', 'my'],
-    queryFn: AccountApi.getMyAccounts,
+    queryKey: ['accounts', 'my', userId],
+    queryFn: () => AccountApi.getMyAccounts(userId),
+    enabled: !!userId,
   })
 
   return (
     <AppLayout>
-      <div className="max-w-4xl">
+      <div className="max-w-3xl">
         <div className="flex items-center justify-between mb-6">
           <div>
             <h1 className="text-2xl font-bold text-slate-900">Мои счета</h1>
-            <p className="text-sm text-slate-500 mt-1">
-              {accounts.filter((a) => a.status === 'ACTIVE').length} активных счётов
-            </p>
+            <p className="text-sm text-slate-500 mt-1">Добро пожаловать, {user?.name}</p>
           </div>
-          <Button onClick={() => setOpenModalVisible(true)}>
-            + Открыть счёт
-          </Button>
+          <Button onClick={() => setOpenModal(true)}>+ Открыть счёт</Button>
         </div>
 
         {isLoading ? (
           <div className="grid gap-4 sm:grid-cols-2">
-            {Array.from({ length: 3 }).map((_, i) => <SkeletonCard key={i} />)}
+            {Array.from({ length: 2 }).map((_, i) => (
+              <Skeleton key={i} className="h-44 rounded-xl" />
+            ))}
           </div>
         ) : accounts.length === 0 ? (
           <div className="rounded-xl border-2 border-dashed border-slate-200 p-12 text-center">
-            <p className="text-slate-400 text-sm">У вас пока нет счетов</p>
-            <Button className="mt-4" onClick={() => setOpenModalVisible(true)}>
-              Открыть первый счёт
-            </Button>
+            <p className="text-slate-500 mb-4">У вас ещё нет счетов</p>
+            <Button onClick={() => setOpenModal(true)}>Открыть первый счёт</Button>
           </div>
         ) : (
           <div className="grid gap-4 sm:grid-cols-2">
-            {accounts.map((account) => (
-              <AccountCard key={account.id} account={account} />
+            {accounts.map((a) => (
+              <AccountCard key={a.id} account={a} />
             ))}
           </div>
         )}
       </div>
-
-      <OpenAccountModal
-        open={openModalVisible}
-        onClose={() => setOpenModalVisible(false)}
-      />
+      <OpenAccountModal open={openModal} onClose={() => setOpenModal(false)} />
     </AppLayout>
   )
 }

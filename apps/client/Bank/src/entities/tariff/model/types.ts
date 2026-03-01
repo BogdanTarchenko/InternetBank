@@ -1,7 +1,6 @@
 export interface Tariff {
-  id: string
+  id: number
   name: string
-  interestRate: number  
-  durationDays: number
-  createdAt: string
+  interestRate: number
+  paymentIntervalMinutes: number
 }

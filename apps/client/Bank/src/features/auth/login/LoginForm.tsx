@@ -4,6 +4,7 @@ import { useMutation } from '@tanstack/react-query'
 import { useNavigate } from 'react-router-dom'
 import { LoginSchema, type LoginInput, UserApi } from '@/entities/user'
 import { useAuthStore } from '@/app/store/auth.store'
+import { getAppRole } from '@/shared/lib/permissions'
 import { Button } from '@/shared/ui/Button'
 import { Input } from '@/shared/ui/Input'
 
@@ -19,10 +20,17 @@ export function LoginForm() {
   } = useForm<LoginInput>({ resolver: zodResolver(LoginSchema) })
 
   const { mutate, isPending } = useMutation({
-    mutationFn: UserApi.login,
-    onSuccess: ({ user, accessToken }) => {
-      setAuth(user, accessToken)
-      navigate(user.role === 'EMPLOYEE' ? '/employee/dashboard' : '/client/dashboard', { replace: true })
+    mutationFn: async (data: LoginInput) => {
+      const tokens = await UserApi.login(data)
+      const { setTokens } = await import('@/shared/api/http.client')
+      setTokens(tokens.accessToken, tokens.refreshToken)
+      const user = await UserApi.getMe()
+      return { tokens, user }
+    },
+    onSuccess: ({ tokens, user }) => {
+      setAuth(user, tokens.accessToken, tokens.refreshToken)
+      const appRole = getAppRole(user.role)
+      navigate(appRole === 'EMPLOYEE' ? '/employee/dashboard' : '/client/dashboard', { replace: true })
     },
     onError: () => {
       setError('root', { message: 'Неверный email или пароль' })
