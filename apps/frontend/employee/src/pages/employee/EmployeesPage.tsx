@@ -3,6 +3,7 @@ import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
 import { UserApi } from '@/entities/user'
 import { AppLayout } from '@/widgets/Layout/AppLayout'
 import { CreateUserModal } from '@/features/employee/manage-users/CreateUserModal'
+import { ChangeRoleModal } from '@/features/employee/manage-users/ChangeRoleModal'
 import { Table } from '@/shared/ui/Table'
 import { Button } from '@/shared/ui/Button'
 import { EventBus, BusEvents } from '@/shared/lib/event-bus'
@@ -12,6 +13,7 @@ import { clsx } from 'clsx'
 export function EmployeeEmployeesPage() {
   const queryClient = useQueryClient()
   const [createOpen, setCreateOpen] = useState(false)
+  const [roleUser, setRoleUser] = useState<User | null>(null)
 
   const { data: page, isLoading } = useQuery({
     queryKey: ['users', 'employees'],
@@ -52,24 +54,47 @@ export function EmployeeEmployeesPage() {
               {
                 key: 'role',
                 header: 'Роль',
-                render: (u) => (
-                  <span className="rounded-full px-2 py-0.5 text-xs font-medium bg-purple-100 text-purple-700">
-                    {u.role}
-                  </span>
-                ),
+                render: (u) => {
+                  const styles: Record<string, string> = {
+                    CLIENT:   'bg-green-100 text-green-700',
+                    EMPLOYEE: 'bg-blue-100 text-blue-700',
+                    ADMIN:    'bg-purple-100 text-purple-700',
+                    BANNED:   'bg-red-100 text-red-700',
+                  }
+                  const labels: Record<string, string> = {
+                    CLIENT:   'Клиент',
+                    EMPLOYEE: 'Сотрудник',
+                    ADMIN:    'Администратор',
+                    BANNED:   'Заблокирован',
+                  }
+                  return (
+                    <span className={clsx('rounded-full px-2 py-0.5 text-xs font-medium', styles[u.role] ?? 'bg-slate-100 text-slate-600')}>
+                      {labels[u.role] ?? u.role}
+                    </span>
+                  )
+                },
               },
               {
                 key: 'id',
                 header: '',
                 render: (u) => (
-                  <Button
-                    size="sm"
-                    variant={u.role === 'BANNED' ? 'secondary' : 'danger'}
-                    loading={isBanning}
-                    onClick={() => toggleBan(u)}
-                  >
-                    {u.role === 'BANNED' ? 'Разблок' : 'Блок'}
-                  </Button>
+                  <div className="flex gap-2">
+                    <Button
+                      size="sm"
+                      variant="secondary"
+                      onClick={() => setRoleUser(u)}
+                    >
+                      Роль
+                    </Button>
+                    <Button
+                      size="sm"
+                      variant={u.role === 'BANNED' ? 'secondary' : 'danger'}
+                      loading={isBanning}
+                      onClick={() => toggleBan(u)}
+                    >
+                      {u.role === 'BANNED' ? 'Разблок' : 'Блок'}
+                    </Button>
+                  </div>
                 ),
               },
             ]}
@@ -81,6 +106,13 @@ export function EmployeeEmployeesPage() {
       </div>
 
       <CreateUserModal open={createOpen} onClose={() => setCreateOpen(false)} role="EMPLOYEE" />
+
+      <ChangeRoleModal
+        user={roleUser}
+        open={!!roleUser}
+        onClose={() => setRoleUser(null)}
+        invalidateKey={['users', 'employees']}
+      />
     </AppLayout>
   )
 }

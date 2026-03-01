@@ -124,7 +124,7 @@ public class UserDataServiceImpl implements UserDataService {
         var target = userRepository.findById(targetUserId)
                 .orElseThrow(() -> new UserNotFoundException("User not found with id: " + targetUserId));
 
-        if (target.getRole() == Role.ADMIN) {
+        if (target.getRole() == Role.ADMIN && requesterRole != Role.ADMIN) {
             throw new AccessDeniedException("Cannot change role of an admin");
         }
 
