@@ -8,6 +8,11 @@ spring:
 jwt:
   secret: b9b53b57953b23858fb6e4340673eee9066336281dc2b7ae3550a9759cef4ded
 
+cors:
+  allowed-origins:
+    - http://localhost:3000
+    - http://localhost:5173
+
 services:
   user-service: http://localhost:8081
   core-service: http://localhost:8082
