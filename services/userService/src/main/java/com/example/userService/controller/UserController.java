@@ -1,7 +1,9 @@
 package com.example.userService.controller;
 
+import com.example.userService.domain.entity.User;
 import com.example.userService.domain.enumeration.Role;
 import com.example.userService.dto.ChangeUserRoleRequest;
+import com.example.userService.dto.CreateUserRequest;
 import com.example.userService.dto.EditUserProfileRequest;
 import com.example.userService.dto.UserDto;
 import com.example.userService.service.JwtService;
@@ -9,6 +11,7 @@ import com.example.userService.service.UserDataService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
@@ -16,10 +19,12 @@ import org.springframework.security.access.AccessDeniedException;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
@@ -33,6 +38,25 @@ public class UserController {
 
     private final UserDataService userDataService;
     private final JwtService jwtService;
+
+    @PostMapping
+    @ResponseStatus(HttpStatus.CREATED)
+    @Operation(summary = "Создать пользователя (только для сотрудников)", security = @SecurityRequirement(name = "bearerAuth"))
+    public UserDto createUser(
+            @Valid @RequestBody CreateUserRequest request,
+            @RequestHeader("X-USER-ROLE") Role requesterRole
+    ) {
+        if (!requesterRole.isPrivileged()) {
+            throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Only employees and admins can create users");
+        }
+        User user = User.builder()
+                .email(request.email())
+                .password(request.password())
+                .name(request.name())
+                .role(request.role())
+                .build();
+        return userDataService.createUser(user);
+    }
 
     @GetMapping
     @Operation(summary = "Список пользователей с пагинацией и поиском (только для сотрудников)", security = @SecurityRequirement(name = "bearerAuth"))
@@ -62,7 +86,7 @@ public class UserController {
 
     @PatchMapping("/{id}")
     @Operation(summary = "Редактировать профиль пользователя", security = @SecurityRequirement(name = "bearerAuth"))
-    public UserDto editProfile(@PathVariable UUID id, @RequestBody EditUserProfileRequest request) {
+    public UserDto editProfile(@PathVariable UUID id, @Valid @RequestBody EditUserProfileRequest request) {
         return userDataService.editUserProfile(id, request);
     }
 
@@ -70,7 +94,7 @@ public class UserController {
     @Operation(summary = "Изменить роль пользователя (только для сотрудников)", security = @SecurityRequirement(name = "bearerAuth"))
     public UserDto changeRole(
             @PathVariable UUID id,
-            @RequestBody ChangeUserRoleRequest request,
+            @Valid @RequestBody ChangeUserRoleRequest request,
             @RequestHeader("X-USER-ID") UUID requesterId,
             @RequestHeader("X-USER-ROLE") Role requesterRole
     ) {

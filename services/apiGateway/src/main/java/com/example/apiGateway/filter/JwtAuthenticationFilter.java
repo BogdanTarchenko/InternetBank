@@ -3,7 +3,6 @@ package com.example.apiGateway.filter;
 import com.example.apiGateway.config.RouteProperties;
 import com.example.apiGateway.service.JwtService;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.annotation.Order;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -18,7 +17,6 @@ import reactor.core.publisher.Mono;
 import java.nio.charset.StandardCharsets;
 import java.util.UUID;
 
-@Slf4j
 @Component
 @Order(-1)
 @RequiredArgsConstructor
@@ -48,7 +46,6 @@ public class JwtAuthenticationFilter implements WebFilter {
 
         String authHeader = exchange.getRequest().getHeaders().getFirst(HttpHeaders.AUTHORIZATION);
         if (authHeader == null || !authHeader.startsWith(BEARER_PREFIX)) {
-            log.warn("Missing or malformed Authorization header for path: {}", path);
             return respondUnauthorized(exchange, "Missing or invalid Authorization header");
         }
 
@@ -60,8 +57,6 @@ public class JwtAuthenticationFilter implements WebFilter {
             UUID userId = jwtService.extractUserId(token);
             String role = jwtService.extractRole(token);
 
-            log.debug("Authenticated request: userId={}, role={}, path={}", userId, role, path);
-
             ServerWebExchange mutatedExchange = exchange.mutate()
                     .request(req -> req
                             .header(HEADER_USER_ID, userId.toString())
@@ -71,7 +66,6 @@ public class JwtAuthenticationFilter implements WebFilter {
             return chain.filter(mutatedExchange);
 
         } catch (Exception e) {
-            log.warn("JWT validation failed for path {}: {}", path, e.getMessage());
             return respondUnauthorized(exchange, "Invalid or expired token");
         }
     }

@@ -9,7 +9,7 @@ import org.springframework.data.domain.Page;
 import java.util.UUID;
 
 public interface UserDataService {
-    void createUser(User user);
+    UserDto createUser(User user);
     User findUserByEmail(String email);
     boolean comparePassword(User user, String password);
     UserDto findUserById(UUID id);

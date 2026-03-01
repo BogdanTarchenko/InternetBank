@@ -1,4 +1,4 @@
-package com.example.userService.kafka;
+package com.example.userService.integration.kafka;
 
 public record UserStatusEvent(
         String userId,

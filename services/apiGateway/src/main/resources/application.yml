@@ -15,7 +15,6 @@ services:
 
 gateway:
   routes:
-    # ─── userService (8081) ──────────────────────────────────────────────────
     - path: /auth/**
       target: ${services.user-service}
       requires-auth: false

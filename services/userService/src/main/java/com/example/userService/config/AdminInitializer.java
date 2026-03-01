@@ -4,7 +4,6 @@ import com.example.userService.domain.entity.User;
 import com.example.userService.domain.enumeration.Role;
 import com.example.userService.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
@@ -13,7 +12,6 @@ import org.springframework.stereotype.Component;
 
 import java.util.UUID;
 
-@Slf4j
 @Component
 @RequiredArgsConstructor
 public class AdminInitializer implements ApplicationRunner {
@@ -30,7 +28,6 @@ public class AdminInitializer implements ApplicationRunner {
     @Override
     public void run(ApplicationArguments args) {
         if (userRepository.existsByEmail(adminEmail)) {
-            log.info("Admin user already exists: {}", adminEmail);
             return;
         }
 
@@ -42,6 +39,5 @@ public class AdminInitializer implements ApplicationRunner {
                 .build();
 
         userRepository.save(admin);
-        log.info("Admin user created: {}", adminEmail);
     }
 }
