@@ -1,5 +1,9 @@
 @import "tailwindcss";
 
+
+@source "../../client/src/shared";
+@source "../../client/src/entities";
+
 :root {
   --color-primary: #1d4ed8;
   --color-primary-dark: #1e40af;
