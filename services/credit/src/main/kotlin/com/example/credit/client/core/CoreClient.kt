@@ -39,6 +39,15 @@ class CoreClient(
         )
     }
 
+    fun credit(accountId: UUID, amount: BigDecimal): CoreAccountResponse {
+        return execute(
+            method = HttpMethod.POST,
+            url = "${coreProperties.baseUrl}/internal/accounts/$accountId/credit",
+            body = mapOf("amount" to amount),
+            responseType = CoreAccountResponse::class.java
+        )
+    }
+
     private fun <T : Any> execute(
         method: HttpMethod,
         url: String,
