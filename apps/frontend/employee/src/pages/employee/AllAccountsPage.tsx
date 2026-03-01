@@ -13,7 +13,7 @@ import { clsx } from 'clsx'
 export function EmployeeAllAccountsPage() {
   const [selectedAccount, setSelectedAccount] = useState<Account | null>(null)
 
-  const { data: accounts = [], isLoading } = useQuery({
+  const { data: accounts = [], isLoading, isError, error } = useQuery({
     queryKey: ['accounts', 'all'],
     queryFn: AccountApi.getAllAccounts,
   })
@@ -28,6 +28,11 @@ export function EmployeeAllAccountsPage() {
 
         {isLoading ? (
           <div className="h-48 animate-pulse rounded-xl bg-slate-100" />
+        ) : isError ? (
+          <div className="rounded-xl border border-red-200 bg-red-50 px-6 py-4 text-sm text-red-700">
+            <p className="font-semibold mb-1">Ошибка загрузки счетов</p>
+            <p className="font-mono text-xs">{(error as Error)?.message ?? 'Неизвестная ошибка'}</p>
+          </div>
         ) : (
           <Table
             columns={[
