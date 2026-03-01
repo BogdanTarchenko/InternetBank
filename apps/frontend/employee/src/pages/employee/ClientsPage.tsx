@@ -6,6 +6,7 @@ import { AccountApi } from '@/entities/account'
 import { AppLayout } from '@/widgets/Layout/AppLayout'
 import { CreditCard } from '@/widgets/CreditCard/CreditCard'
 import { CreateUserModal } from '@/features/employee/manage-users/CreateUserModal'
+import { ChangeRoleModal } from '@/features/employee/manage-users/ChangeRoleModal'
 import { Table } from '@/shared/ui/Table'
 import { Button } from '@/shared/ui/Button'
 import { Modal } from '@/shared/ui/Modal'
@@ -19,6 +20,7 @@ export function EmployeeClientsPage() {
   const [createOpen, setCreateOpen] = useState(false)
   const [selectedClient, setSelectedClient] = useState<User | null>(null)
   const [creditsTab, setCreditsTab] = useState(false)
+  const [roleUser, setRoleUser] = useState<User | null>(null)
 
   const { data: page, isLoading } = useQuery({
     queryKey: ['users', 'clients'],
@@ -68,17 +70,26 @@ export function EmployeeClientsPage() {
               { key: 'email', header: 'Email' },
               {
                 key: 'role',
-                header: 'Статус',
-                render: (u) => (
-                  <span
-                    className={clsx(
-                      'rounded-full px-2 py-0.5 text-xs font-medium',
-                      u.role === 'BANNED' ? 'bg-red-100 text-red-700' : 'bg-green-100 text-green-700',
-                    )}
-                  >
-                    {u.role === 'BANNED' ? 'Заблокирован' : 'Активен'}
-                  </span>
-                ),
+                header: 'Роль',
+                render: (u) => {
+                  const styles: Record<string, string> = {
+                    CLIENT:   'bg-green-100 text-green-700',
+                    EMPLOYEE: 'bg-blue-100 text-blue-700',
+                    ADMIN:    'bg-purple-100 text-purple-700',
+                    BANNED:   'bg-red-100 text-red-700',
+                  }
+                  const labels: Record<string, string> = {
+                    CLIENT:   'Клиент',
+                    EMPLOYEE: 'Сотрудник',
+                    ADMIN:    'Администратор',
+                    BANNED:   'Заблокирован',
+                  }
+                  return (
+                    <span className={clsx('rounded-full px-2 py-0.5 text-xs font-medium', styles[u.role] ?? 'bg-slate-100 text-slate-600')}>
+                      {labels[u.role] ?? u.role}
+                    </span>
+                  )
+                },
               },
               {
                 key: 'id',
@@ -101,6 +112,13 @@ export function EmployeeClientsPage() {
                     </Button>
                     <Button
                       size="sm"
+                      variant="secondary"
+                      onClick={() => setRoleUser(u)}
+                    >
+                      Роль
+                    </Button>
+                    <Button
+                      size="sm"
                       variant={u.role === 'BANNED' ? 'secondary' : 'danger'}
                       loading={isBanning}
                       onClick={() => toggleBan(u)}
@@ -119,6 +137,13 @@ export function EmployeeClientsPage() {
       </div>
 
       <CreateUserModal open={createOpen} onClose={() => setCreateOpen(false)} role="CLIENT" />
+
+      <ChangeRoleModal
+        user={roleUser}
+        open={!!roleUser}
+        onClose={() => setRoleUser(null)}
+        invalidateKey={['users', 'clients']}
+      />
 
       <Modal
         open={!!selectedClient}

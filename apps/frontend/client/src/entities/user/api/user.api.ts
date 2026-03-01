@@ -1,5 +1,5 @@
 import { http } from '@/shared/api/http.client'
-import type { User, AuthTokens, UserPage } from '../model/types'
+import type { User, AuthTokens, UserPage, UserRole } from '../model/types'
 import type { LoginInput, RegisterInput, CreateUserInput, EditUserInput } from '../model/schema'
 
 export const UserApi = {
@@ -37,5 +37,9 @@ export const UserApi = {
 
   unban(userId: string, restoreRole: 'CLIENT' | 'EMPLOYEE' = 'CLIENT'): Promise<User> {
     return http.patch<User>(`/users/${userId}/role`, { userId, role: restoreRole }).then((r) => r.data)
+  },
+
+  changeRole(userId: string, role: UserRole): Promise<User> {
+    return http.patch<User>(`/users/${userId}/role`, { userId, role }).then((r) => r.data)
   },
 }
