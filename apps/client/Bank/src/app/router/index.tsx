@@ -5,6 +5,7 @@ import { RoleGuard } from './guards/RoleGuard'
 import { Skeleton } from '@/shared/ui'
 
 const LoginPage = lazy(() => import('@/pages/auth/LoginPage').then((m) => ({ default: m.LoginPage })))
+const RegisterPage = lazy(() => import('@/pages/auth/RegisterPage').then((m) => ({ default: m.RegisterPage })))
 
 const ClientDashboardPage = lazy(() =>
   import('@/pages/client/DashboardPage').then((m) => ({ default: m.ClientDashboardPage })),
@@ -45,6 +46,7 @@ export function AppRouter() {
       <Routes>
         {/* Public */}
         <Route path="/login" element={<LoginPage />} />
+        <Route path="/register" element={<RegisterPage />} />
         <Route path="/" element={<Navigate to="/login" replace />} />
 
         {/* Protected */}
