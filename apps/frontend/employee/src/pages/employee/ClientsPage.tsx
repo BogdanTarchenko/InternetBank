@@ -29,7 +29,7 @@ export function EmployeeClientsPage() {
 
   const { data: clientAccounts = [] } = useQuery({
     queryKey: ['accounts', 'client', selectedClient?.id],
-    queryFn: () => AccountApi.getClientAccounts(selectedClient!.id),
+    queryFn: () => AccountApi.getClientAccountsEmployee(selectedClient!.id),
     enabled: !!selectedClient && !creditsTab,
   })
 

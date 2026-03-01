@@ -30,11 +30,10 @@ export function CloseAccountModal({ open, onClose, accountId }: CloseAccountModa
         <p className="text-sm text-slate-600">
           Вы уверены, что хотите закрыть этот счёт? Это действие нельзя отменить.
           <br />
-          <span className="text-red-600 font-medium">Баланс должен быть равен нулю.</span>
         </p>
         {error && (
           <p className="text-sm text-red-600 bg-red-50 px-3 py-2 rounded-lg">
-            Не удалось закрыть счёт. Убедитесь, что баланс равен нулю.
+            Не удалось закрыть счёт.
           </p>
         )}
         <div className="flex gap-3 justify-end">
