@@ -19,7 +19,7 @@ class ClientCreditController(
     @PostMapping("/credits")
     fun takeCredit(@RequestBody @Valid request: TakeCreditRequest): CreditResponse {
         userAccountStatusService.assertUserActive(request.userId)
-        val credit = creditService.takeCredit(request.userId, request.tariffId, request.amount)
+        val credit = creditService.takeCredit(request.userId, request.tariffId, request.amount, request.accountId)
         return credit.toResponse()
     }
 

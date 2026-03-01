@@ -25,8 +25,9 @@ class CreditService(
 ) {
 
     @Transactional
-    fun takeCredit(userId: String, tariffId: Long, amount: BigDecimal): Credit {
+    fun takeCredit(userId: String, tariffId: Long, amount: BigDecimal, accountId: UUID): Credit {
         val tariff = creditTariffService.getTariffById(tariffId)
+        coreClient.getAccount(accountId)
         val now = OffsetDateTime.now()
         val nextPaymentAt = now.plusMinutes(tariff.paymentIntervalMinutes.toLong())
         val credit = Credit(
@@ -37,7 +38,9 @@ class CreditService(
             status = CreditStatus.ACTIVE,
             nextPaymentAt = nextPaymentAt
         )
-        return creditRepository.save(credit)
+        val saved = creditRepository.save(credit)
+        coreClient.credit(accountId, amount)
+        return saved
     }
 
     @Transactional

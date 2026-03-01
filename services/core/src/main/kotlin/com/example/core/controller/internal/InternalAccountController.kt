@@ -28,4 +28,13 @@ class InternalAccountController(
         val account = accountService.debit(accountId, request.amount)
         return account.toResponse()
     }
+
+    @PostMapping("/accounts/{accountId}/credit")
+    fun credit(
+        @PathVariable accountId: UUID,
+        @RequestBody @Valid request: MoneyRequest
+    ): AccountResponse {
+        val account = accountService.credit(accountId, request.amount)
+        return account.toResponse()
+    }
 }

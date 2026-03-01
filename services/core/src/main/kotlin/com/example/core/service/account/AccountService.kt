@@ -88,6 +88,15 @@ class AccountService(
         return saved
     }
 
+    @Transactional
+    fun credit(accountId: UUID, amount: BigDecimal): BankAccount {
+        val account = getAccountById(accountId)
+        account.deposit(amount)
+        val saved = bankAccountRepository.save(account)
+        createOperation(saved, OperationType.DEPOSIT, amount)
+        return saved
+    }
+
     private fun getUserAccount(userId: String, accountId: UUID): BankAccount {
         val account = bankAccountRepository.findById(accountId)
             .orElseThrow { IllegalArgumentException("Account not found: $accountId") }
