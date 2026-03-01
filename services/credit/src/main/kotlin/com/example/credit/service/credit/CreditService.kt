@@ -99,4 +99,17 @@ class CreditService(
             payments = payments.map { it.toResponse() }
         )
     }
+
+    @Transactional(readOnly = true)
+    fun getCreditDetailForUser(creditId: Long, userId: String): CreditDetailResponse {
+        val credit = getCreditById(creditId)
+        if (credit.userId != userId) {
+            throw IllegalArgumentException("Credit $creditId does not belong to user $userId")
+        }
+        val payments = getPaymentsByCreditId(creditId)
+        return CreditDetailResponse(
+            credit = credit.toResponse(),
+            payments = payments.map { it.toResponse() }
+        )
+    }
 }

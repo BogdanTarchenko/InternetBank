@@ -17,6 +17,10 @@ class EmployeeCreditController(
     private val creditService: CreditService
 ) {
 
+    @GetMapping("/tariffs")
+    fun getAllTariffs(): List<TariffResponse> =
+        creditTariffService.getAllTariffs().map { it.toResponse() }
+
     @PostMapping("/tariffs")
     fun createTariff(@RequestBody @Valid request: CreateTariffRequest): TariffResponse {
         val tariff = creditTariffService.createTariff(
