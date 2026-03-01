@@ -8,6 +8,7 @@ protocol IBankAccountService {
     func withdraw(accountId: UUID, amount: Decimal) async throws
     func fetchTransactionHistory(accountId: UUID) async throws -> [Transaction]
     func fetchLoans() async throws -> [Loan]
-    func takeLoan(amount: Decimal, currency: String) async throws -> Loan
-    func repayLoan(loanId: UUID, amount: Decimal) async throws
+    func fetchTariffs() async throws -> [LoanTariff]
+    func takeLoan(amount: Decimal, accountId: UUID, tariffId: Int64) async throws -> Loan
+    func repayLoan(loan: Loan, amount: Decimal, accountId: UUID) async throws
 }

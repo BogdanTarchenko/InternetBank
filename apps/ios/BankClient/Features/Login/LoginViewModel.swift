@@ -15,6 +15,10 @@ final class LoginViewModel {
         self.coordinator = coordinator
     }
 
+    func presentRegister() {
+        coordinator.presentRegister()
+    }
+
     func submit() async {
         let errors = LoginValidator.validate(login: login, password: password)
         if !errors.isEmpty {

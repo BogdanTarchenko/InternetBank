@@ -16,7 +16,7 @@ targets:
   BankClient:
     type: application
     platform: iOS
-    sources: [BankClient]
+    sources: [BankClient, Shared]
     scheme:
       shared: true
     settings:
@@ -25,10 +25,11 @@ targets:
         PRODUCT_BUNDLE_IDENTIFIER: tarchenko.BankClient
         INFOPLIST_KEY_CFBundleDisplayName: "Банк — Клиент"
         INFOPLIST_KEY_UILaunchStoryboardName: LaunchScreen
+        INFOPLIST_KEY_NSAppTransportSecurity_AllowsLocalNetworking: YES
   BankEmployee:
     type: application
     platform: iOS
-    sources: [BankEmployee]
+    sources: [BankEmployee, Shared]
     scheme:
       shared: true
     settings:
@@ -37,3 +38,4 @@ targets:
         PRODUCT_BUNDLE_IDENTIFIER: tarchenko.BankEmployee
         INFOPLIST_KEY_CFBundleDisplayName: "Банк — Сотрудник"
         INFOPLIST_KEY_UILaunchStoryboardName: LaunchScreen
+        INFOPLIST_KEY_NSAppTransportSecurity_AllowsLocalNetworking: YES

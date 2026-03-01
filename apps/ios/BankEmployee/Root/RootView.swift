@@ -3,6 +3,7 @@ import SwiftUI
 struct RootView: View {
     let coordinator: EmployeeCoordinator
     let loginViewModel: LoginViewModel
+    let registerViewModel: RegisterViewModel
     let mainListViewModel: MainListViewModel
     let transactionHistoryViewModelFactory: ParameterizedFactory<BankAccount, TransactionHistoryViewModel>
     let createTariffViewModelFactory: Factory<CreateTariffViewModel>
@@ -16,6 +17,8 @@ struct RootView: View {
         Group {
             if coordinator.isAuthenticated {
                 mainContent
+            } else if coordinator.showRegisterSheet {
+                RegisterView(viewModel: registerViewModel)
             } else {
                 LoginView(viewModel: loginViewModel)
             }

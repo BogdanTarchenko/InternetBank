@@ -24,10 +24,19 @@ enum EmployeeCoordinatorSheet: Identifiable, Equatable {
 final class EmployeeCoordinator: IEmployeeCoordinator {
     var isAuthenticated = false
     var sheet: EmployeeCoordinatorSheet?
+    var showRegisterSheet = false
     var navigationPath = NavigationPath()
 
     func didLogin() {
         isAuthenticated = true
+    }
+
+    func presentRegister() {
+        showRegisterSheet = true
+    }
+
+    func dismissRegisterSheet() {
+        showRegisterSheet = false
     }
 
     func presentTransactionHistory(account: BankAccount) {

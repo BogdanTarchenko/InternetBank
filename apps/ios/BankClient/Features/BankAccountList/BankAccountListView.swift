@@ -2,6 +2,7 @@ import SwiftUI
 
 struct BankAccountListView: View {
     @Bindable var viewModel: BankAccountListViewModel
+    @Bindable var profileViewModel: ProfileViewModel
     @State private var selectedTab = 0
 
     var body: some View {
@@ -16,6 +17,11 @@ struct BankAccountListView: View {
                     Label(Strings.loansTabTitle, systemImage: Strings.loansTabIconName)
                 }
                 .tag(1)
+            profileTab
+                .tabItem {
+                    Label(Strings.profileTabTitle, systemImage: Strings.profileTabIconName)
+                }
+                .tag(2)
         }
         .tabViewStyle(.automatic)
         .tint(Color.appAccent)
@@ -66,6 +72,10 @@ struct BankAccountListView: View {
             actionButton: { takeLoanButton },
             actionButtonPadding: Layout.buttonBottomPadding
         )
+    }
+
+    private var profileTab: some View {
+        ProfileView(viewModel: profileViewModel)
     }
 
     private func tabContent<Content: View, Action: View>(
@@ -262,37 +272,37 @@ struct BankAccountListView: View {
     private func loanCard(_ loan: Loan) -> some View {
         VStack(alignment: .leading, spacing: Layout.accountCardInnerSpacing) {
             VStack(alignment: .leading, spacing: Layout.cardContentSpacing) {
-                Text(Strings.loanRemainingLabel)
+                Text(loan.tariffName)
+                    .font(.subheadline)
+                    .fontWeight(.medium)
+                Text(Strings.loanRateLabel(formatRate(loan.interestRate)))
+                    .font(.caption)
+                    .foregroundStyle(.secondary)
+                Text(loan.isClosed ? Strings.loanClosedLabel : Strings.loanRemainingLabel)
                     .font(.subheadline)
                     .foregroundStyle(.secondary)
-                Text(formatBalance(loan.remainingAmount, currency: loan.currency))
+                Text(loan.isClosed ? Strings.loanPaidOff : formatBalance(loan.remainingAmount, currency: loan.currency))
                     .font(.system(size: Layout.balanceFontSize, weight: .semibold))
             }
             .frame(maxWidth: .infinity, alignment: .leading)
-            HStack(spacing: Layout.actionButtonSpacing) {
-                Button(action: { Task { await viewModel.repayLoan(loan: loan) } }) {
-                    Group {
-                        if viewModel.isRepayingLoanId == loan.id {
-                            ProgressView()
-                                .scaleEffect(0.8)
-                        } else {
-                            HStack(spacing: 6) {
-                                Image(systemName: Strings.repayLoanButtonIconName)
-                                Text(Strings.repayLoanButtonTitle)
-                            }
-                            .font(.subheadline)
+            if !loan.isClosed {
+                HStack(spacing: Layout.actionButtonSpacing) {
+                    Button(action: { viewModel.repayTapped(loan: loan) }) {
+                        HStack(spacing: 6) {
+                            Image(systemName: Strings.repayLoanButtonIconName)
+                            Text(Strings.repayLoanButtonTitle)
                         }
+                        .font(.subheadline)
+                        .padding(.horizontal, Layout.actionButtonHorizontalPadding)
+                        .padding(.vertical, Layout.actionButtonVerticalPadding)
+                        .background(Color(uiColor: .secondarySystemGroupedBackground))
+                        .clipShape(RoundedRectangle(cornerRadius: Layout.actionButtonCornerRadius))
                     }
-                    .padding(.horizontal, Layout.actionButtonHorizontalPadding)
-                    .padding(.vertical, Layout.actionButtonVerticalPadding)
-                    .background(Color(uiColor: .secondarySystemGroupedBackground))
-                    .clipShape(RoundedRectangle(cornerRadius: Layout.actionButtonCornerRadius))
+                    .buttonStyle(.plain)
                 }
-                .buttonStyle(.plain)
-                .disabled(viewModel.isRepayingLoanId == loan.id)
+                .frame(maxWidth: .infinity, alignment: .leading)
+                .padding(.leading, Layout.actionButtonLeadingCompensation)
             }
-            .frame(maxWidth: .infinity, alignment: .leading)
-            .padding(.leading, Layout.actionButtonLeadingCompensation)
         }
         .padding(Layout.cardPadding)
         .background(Color(uiColor: .systemBackground))
@@ -322,16 +332,11 @@ struct BankAccountListView: View {
     }
 
     private var takeLoanButton: some View {
-        Button(action: { Task { await viewModel.takeLoan() } }) {
+        Button(action: { viewModel.takeLoanTapped() }) {
             HStack {
-                if viewModel.isTakingLoan {
-                    ProgressView()
-                        .tint(.white)
-                } else {
-                    Image(systemName: Strings.takeLoanButtonIconName)
-                    Text(Strings.takeLoanButtonTitle)
-                        .fontWeight(.semibold)
-                }
+                Image(systemName: Strings.takeLoanButtonIconName)
+                Text(Strings.takeLoanButtonTitle)
+                    .fontWeight(.semibold)
             }
             .frame(maxWidth: .infinity)
             .padding(.vertical, Layout.buttonVerticalPadding)
@@ -339,7 +344,6 @@ struct BankAccountListView: View {
             .foregroundStyle(.white)
             .clipShape(RoundedRectangle(cornerRadius: Layout.buttonCornerRadius))
         }
-        .disabled(viewModel.isTakingLoan)
     }
 
     private func formatBalance(_ balance: Decimal, currency: String) -> String {
@@ -350,6 +354,14 @@ struct BankAccountListView: View {
         let value = NSDecimalNumber(decimal: balance)
         let string = formatter.string(from: value) ?? "\(balance)"
         return "\(string) \(currency)"
+    }
+
+    private func formatRate(_ rate: Decimal) -> String {
+        let formatter = NumberFormatter()
+        formatter.numberStyle = .decimal
+        formatter.minimumFractionDigits = 1
+        formatter.maximumFractionDigits = 2
+        return formatter.string(from: NSDecimalNumber(decimal: rate)) ?? "\(rate)"
     }
 }
 
@@ -419,9 +431,14 @@ private extension BankAccountListView {
         static let loansEmptyTitle = "Нет активных кредитов.\nНажмите кнопку ниже, чтобы взять кредит"
         static let loansEmptyStateIconName = "banknote"
         static let loanRemainingLabel = "Остаток"
+        static let loanClosedLabel = "Статус"
+        static let loanPaidOff = "Погашен"
+        static func loanRateLabel(_ rate: String) -> String { "\(rate)% годовых" }
         static let repayLoanButtonTitle = "Погасить"
         static let repayLoanButtonIconName = "checkmark.circle"
         static let takeLoanButtonTitle = "Взять кредит"
         static let takeLoanButtonIconName = "banknote"
+        static let profileTabTitle = "Профиль"
+        static let profileTabIconName = "person.fill"
     }
 }
