@@ -93,13 +93,18 @@ public class UserDataServiceImpl implements UserDataService {
         var user = userRepository.findById(userId)
                 .orElseThrow(() -> new UserNotFoundException("User not found with id: " + userId));
 
-        var sameEmailUser = userRepository.findByEmail(request.email());
-        if (sameEmailUser.isPresent() && !sameEmailUser.get().getId().equals(userId)) {
-            throw new EmailAlreadyExistsException("Email already exists: " + request.email());
+        if (request.email() != null && !request.email().isBlank()) {
+            var sameEmailUser = userRepository.findByEmail(request.email());
+            if (sameEmailUser.isPresent() && !sameEmailUser.get().getId().equals(userId)) {
+                throw new EmailAlreadyExistsException("Email already exists: " + request.email());
+            }
+            user.setEmail(request.email());
         }
 
-        user.setEmail(request.email());
-        user.setName(request.name());
+        if (request.name() != null && !request.name().isBlank()) {
+            user.setName(request.name());
+        }
+
         return toDto(user);
     }
 
@@ -115,6 +120,10 @@ public class UserDataServiceImpl implements UserDataService {
 
         var target = userRepository.findById(targetUserId)
                 .orElseThrow(() -> new UserNotFoundException("User not found with id: " + targetUserId));
+
+        if (target.getRole() == Role.ADMIN) {
+            throw new AccessDeniedException("Cannot change role of an admin");
+        }
 
         Role previousRole = target.getRole();
         target.setRole(newRole);

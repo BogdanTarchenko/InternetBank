@@ -86,7 +86,16 @@ public class UserController {
 
     @PatchMapping("/{id}")
     @Operation(summary = "Редактировать профиль пользователя", security = @SecurityRequirement(name = "bearerAuth"))
-    public UserDto editProfile(@PathVariable UUID id, @Valid @RequestBody EditUserProfileRequest request) {
+    public UserDto editProfile(
+            @PathVariable UUID id,
+            @Valid @RequestBody EditUserProfileRequest request,
+            @RequestHeader("X-USER-ID") UUID requesterId,
+            @RequestHeader("X-USER-ROLE") Role requesterRole
+    ) {
+        boolean isSelf = requesterId.equals(id);
+        if (!isSelf && !requesterRole.isPrivileged()) {
+            throw new ResponseStatusException(HttpStatus.FORBIDDEN, "You can only edit your own profile");
+        }
         return userDataService.editUserProfile(id, request);
     }
 
@@ -98,10 +107,6 @@ public class UserController {
             @RequestHeader("X-USER-ID") UUID requesterId,
             @RequestHeader("X-USER-ROLE") Role requesterRole
     ) {
-        try {
-            return userDataService.changeUserRole(requesterId, requesterRole, id, request.role());
-        } catch (AccessDeniedException e) {
-            throw new ResponseStatusException(HttpStatus.FORBIDDEN, e.getMessage());
-        }
+        return userDataService.changeUserRole(requesterId, requesterRole, id, request.role());
     }
 }
