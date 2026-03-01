@@ -48,3 +48,6 @@ user-status:
 retry:
   processor:
     fixed-delay-ms: 5000
+
+interest-accrual:
+  fixed-delay-ms: 60000
